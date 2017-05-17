@@ -1,5 +1,6 @@
 import React from "react"
 import ReactDOM from "react-dom"
+import {defaultPalette, getPalette} from "./color.js"
 
 class NetworkChart extends React.Component {
   constructor(props) {
@@ -19,25 +20,50 @@ class NetworkChart extends React.Component {
 
   render() {
     let positions = this.getRandomPoints()
-    console.log(positions)
 
     let points = []
     let labels = []
+    let groupColor = {}
+
+    if (this.props.groupKey) {
+      let groups = new Set()
+      for (let node of this.props.nodes) {
+        groupColor[node[this.props.groupKey]] = null
+      }
+    }
+
+    let palette = getPalette(
+      this.props.pointColor, Object.keys(groupColor).length
+    )
 
     for (let node of this.props.nodes) {
       let nodeID = node[this.props.IDKey]
+
+      let color
+      if (this.props.groupKey) {
+        if (groupColor[node[this.props.groupKey]]) {
+          color = groupColor[node[this.props.groupKey]]
+        } else {
+          color = palette.shift()
+          groupColor[node[this.props.groupKey]] = color
+        }
+      } else {
+        color = this.props.pointColor[0]
+      }
+
       points.push(
         <circle key={nodeID}
           cx={positions[nodeID][0]} cy={positions[nodeID][1]}
-          r={this.props.pointRadius} fill={this.props.pointColor} />
+          r={this.props.pointRadius} fill={color} />
       )
 
       if (this.props.labelKey) {
         labels.push(
           <text
+            key={nodeID}
             x={positions[nodeID][0]+8} y={positions[nodeID][1]}
             alignmentBaseline="middle" textAnchor="start"
-            fill={this.props.lineColor} >
+            fill={this.props.labelColor} >
               {node[this.props.labelKey]}
           </text>
         )
@@ -53,6 +79,7 @@ class NetworkChart extends React.Component {
           x2={childPos[0]} y2={childPos[1]}
           strokeWidth={this.props.lineWidth} stroke={this.props.lineColor}
           opacity={this.props.lineOpacity}
+          key={[link[this.props.parentKey], link[this.props.childKey]]}
         />
       )
     }
@@ -74,10 +101,11 @@ NetworkChart.defaultProps = {
   parentKey: "parent",
   childKey: "child",
   pointRadius: 6,
-  pointColor: "red",
+  pointColor: defaultPalette,
   lineWidth: 1,
   lineColor: "#1b1b1b",
   lineOpacity: 0.6,
+  labelColor: "#1b1b1b",
 }
 
 export default NetworkChart
