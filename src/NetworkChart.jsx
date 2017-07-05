@@ -161,6 +161,8 @@ NetworkChart.defaultProps = {
   IDKey: "id",
   parentKey: "parent",
   childKey: "child",
+  groupKey: "group",
+  labelKey: "label",
   pointRadius: 5.5,
   pointColor: defaultPalette,
   lineWidth: 1,
