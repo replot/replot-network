@@ -2,6 +2,7 @@ module.exports = function () {
   return {
     entry: {
       example: "./example.jsx",
+      large_example: "./large_example.jsx"
     },
     output: {
       path: __dirname + "/static",
