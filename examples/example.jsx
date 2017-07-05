@@ -8,53 +8,6 @@ class ExampleApp extends React.Component {
     super(props)
     this.state = {
       nodes1: [
-        {id: 1, name: "One", age: 10, group: "India"},
-        {id: 2, name: "Two", age: 30, group: "India"},
-        {id: 3, name: "Three", age: 20, group: "India"},
-        {id: 4, name: "Four", age: 50, group: "United States"},
-        {id: 5, name: "Five", age: 40, group: "United States"},
-        {id: 6, name: "Six", age: 20, group: "China"},
-        {id: 7, name: "Seven", age: 10, group: "China"},
-        {id: 8, name: "Eight", age: 15, group: "Japan"},
-        {id: 9, name: "Nine", age: 16, group: "Japan"},
-        {id: 10, name: "Ten", age: 20, group: "Italy"},
-        {id: 11, name: "Eleven", age: 18, group: "Italy"},
-        {id: 12, name: "Twelve", age: 30, group: "Italy"},
-        {id: 13, name: "Thirteen", age: 25, group: "Greece"},
-        {id: 14, name: "Fourteen", age: 10, group: "Greece"},
-      ],
-      links1: [
-        {parent: 1, child: 3},
-        {parent: 2, child: 1},
-        {parent: 2, child: 3},
-        {parent: 2, child: 4},
-        {parent: 2, child: 5},
-        {parent: 2, child: 6},
-        {parent: 2, child: 7},
-        {parent: 2, child: 10},
-        {parent: 2, child: 11},
-        {parent: 2, child: 12},
-        {parent: 4, child: 3},
-        {parent: 4, child: 2},
-        {parent: 5, child: 3},
-        {parent: 5, child: 6},
-        {parent: 6, child: 2},
-        {parent: 7, child: 4},
-        {parent: 7, child: 12},
-        {parent: 8, child: 6},
-        {parent: 8, child: 14},
-        {parent: 8, child: 9},
-        {parent: 9, child: 11},
-        {parent: 9, child: 10},
-        {parent: 10, child: 1},
-        {parent: 10, child: 3},
-        {parent: 10, child: 13},
-        {parent: 11, child: 5},
-        {parent: 12, child: 14},
-        {parent: 12, child: 10},
-        {parent: 13, child: 11},
-      ],
-      nodes2: [
         {"id": "Myriel", "group": 1},
         {"id": "Napoleon", "group": 1},
         {"id": "Mlle.Baptistine", "group": 1},
@@ -133,7 +86,7 @@ class ExampleApp extends React.Component {
         {"id": "Brujon", "group": 4},
         {"id": "Mme.Hucheloup", "group": 8}
       ],
-      links2: [
+      links1: [
         {parent: "Napoleon", child: "Myriel", "value": 1},
         {parent: "Mlle.Baptistine", child: "Myriel", "value": 8},
         {parent: "Mme.Magloire", child: "Myriel", "value": 10},
@@ -389,7 +342,7 @@ class ExampleApp extends React.Component {
         {parent: "Mme.Hucheloup", child: "Gavroche", "value": 1},
         {parent: "Mme.Hucheloup", child: "Enjolras", "value": 1}
       ],
-      nodes3: [
+      nodes2: [
         {id: "Juliet", group: "Capulet"},
         {id: "Tybalt", group: "Capulet"},
         {id: "Lady Capulet", group: "Capulet"},
@@ -410,7 +363,7 @@ class ExampleApp extends React.Component {
         {id: "Friar Lawrence", group: "Verona"},
         {id: "Friar John", group: "Verona"},
       ],
-      links3: [
+      links2: [
         {parent: "Juliet", child: "Tybalt"},
         {parent: "Juliet", child: "Lady Capulet"},
         {parent: "Juliet", child: "Capulet"},
@@ -444,7 +397,7 @@ class ExampleApp extends React.Component {
       <div className="container"
         style={{textAlign:"center",fontFamily:"Open Sans"}}>
         <h1 style={{textAlign: "center"}}>Network Chart</h1>
-        <NetworkChart nodes={this.state.nodes2} links={this.state.links2}
+        <NetworkChart nodes={this.state.nodes1} links={this.state.links1}
           labelKey="name" groupKey="group" />
       </div>
     )

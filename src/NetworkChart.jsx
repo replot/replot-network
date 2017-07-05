@@ -2,14 +2,15 @@ import React from "react"
 import {defaultPalette, getPalette} from "./color.js"
 import {spring, Motion} from "react-motion"
 import GetPointPositions from "./GetPointPositions.js"
+import PropTypes from "prop-types"
 
 const Node = (props) => {
   return (
     <Motion
       defaultStyle={{ x: props.initX, y: props.initY}}
       style={{
-        x: spring(props.x, {stiffness: 120, damping: 65, precision: 0.5}),
-        y: spring(props.y, {stiffness: 120, damping: 65, precision: 0.5}),
+        x: spring(props.x, {stiffness: 120, damping: 50}),
+        y: spring(props.y, {stiffness: 120, damping: 50}),
       }}
     >
       {
@@ -32,10 +33,10 @@ const Path = (props) => {
         y2: props.startY2,
       }}
       style={{
-        x1: spring(props.x1, {stiffness: 120, damping: 65}),
-        y1: spring(props.y1, {stiffness: 120, damping: 65}),
-        x2: spring(props.x2, {stiffness: 120, damping: 65}),
-        y2: spring(props.y2, {stiffness: 120, damping: 65}),
+        x1: spring(props.x1, {stiffness: 120, damping: 50}),
+        y1: spring(props.y1, {stiffness: 120, damping: 50}),
+        x2: spring(props.x2, {stiffness: 120, damping: 50}),
+        y2: spring(props.y2, {stiffness: 120, damping: 50}),
       }}
     >
       {
@@ -52,6 +53,7 @@ const Path = (props) => {
     </Motion>
   )
 }
+
 class NetworkChart extends React.Component {
   constructor(props) {
     super(props)
@@ -61,9 +63,9 @@ class NetworkChart extends React.Component {
     /* Use nodes and ID key to return dict of ID - point position */
     let positions = {}
     for (let node of this.props.nodes) {
-      let xPos = Math.floor(Math.random()*(this.props.width-150))+50
-      let yPos = Math.floor(Math.random()*(this.props.height-80))+20
-      positions[node[this.props.IDKey]] = [xPos, yPos]
+      let xPos = Math.floor(Math.random()*(this.props.width))
+      let yPos = Math.floor(Math.random()*(this.props.height))
+      positions[node[this.props.IDKey]] = {x: xPos, y: yPos}
     }
     return positions
   }
@@ -107,7 +109,7 @@ class NetworkChart extends React.Component {
         <Node key={nodeID}
           x={newPositions[nodeID].x} y={newPositions[nodeID].y}
           radius={this.props.pointRadius} fill={color}
-          initX={positions[nodeID][0]} initY={positions[nodeID][1]}/>
+          initX={positions[nodeID].x} initY={positions[nodeID].y}/>
       )
 
       if (this.props.labelKey) {
@@ -131,10 +133,10 @@ class NetworkChart extends React.Component {
       lines.push(
         <Path x1={parentPos.x} y1={parentPos.y}
           x2={childPos.x} y2={childPos.y}
-          startX1={parentInitPos[0]}
-          startY1={parentInitPos[1]}
-          startX2={childInitPos[0]}
-          startY2={childInitPos[1]}
+          startX1={parentInitPos.x}
+          startY1={parentInitPos.y}
+          startX2={childInitPos.x}
+          startY2={childInitPos.y}
           strokeWidth={this.props.lineWidth}
           stroke={this.props.lineColor}
           opacity={this.props.lineOpacity}
@@ -163,8 +165,21 @@ NetworkChart.defaultProps = {
   pointColor: defaultPalette,
   lineWidth: 1,
   lineColor: "#1b1b1b",
-  lineOpacity: 0.6,
+  lineOpacity: 0.25,
   labelColor: "#1b1b1b",
+}
+
+NetworkChart.propTypes = {
+  width: PropTypes.number,
+  height: PropTypes.number,
+  IDKey: PropTypes.string,
+  parentKey: PropTypes.string,
+  childKey: PropTypes.string,
+  pointRadius: PropTypes.number,
+  lineWidth: PropTypes.number,
+  lineColor: PropTypes.string,
+  lineOpacity: PropTypes.number,
+  labelColor: PropTypes.string,
 }
 
 export default NetworkChart
