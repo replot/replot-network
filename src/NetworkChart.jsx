@@ -178,6 +178,10 @@ NetworkChart.propTypes = {
   parentKey: PropTypes.string,
   childKey: PropTypes.string,
   pointRadius: PropTypes.number,
+  pointColor: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.array
+  ]),
   lineWidth: PropTypes.number,
   lineColor: PropTypes.string,
   lineOpacity: PropTypes.number,
