@@ -3,6 +3,7 @@ import {defaultPalette, getPalette} from "./color.js"
 import {spring, Motion} from "react-motion"
 import GetPointPositions from "./GetPointPositions.js"
 import PropTypes from "prop-types"
+import GetNodeSize from "./GetNodeSize.js"
 
 const Node = (props) => {
   return (
@@ -74,7 +75,7 @@ class NetworkChart extends React.Component {
     let positions = this.getRandomPoints()
 
     let p = new GetPointPositions(this.props.nodes, this.props.links, positions,
-      this.props.width, this.props.height, this.props.IDKey, this.props.pointRadius)
+      this.props.width, this.props.height, this.props.IDKey, this.props.maxRadius)
     let newPositions = p.getPoints()
 
     let points = []
@@ -91,39 +92,69 @@ class NetworkChart extends React.Component {
       this.props.pointColor, Object.keys(groupColor).length
     )
 
-    for (let node of this.props.nodes) {
-      let nodeID = node[this.props.IDKey]
 
-      let color
-      if (this.props.groupKey) {
-        if (groupColor[node[this.props.groupKey]]) {
-          color = groupColor[node[this.props.groupKey]]
+    if (this.props.nodeSize == "on") {
+      let newNodes = new GetNodeSize(JSON.parse(JSON.stringify(this.props.nodes)), this.props.nodeKey, this.props.maxRadius, this.props.pointRadius)
+      let sizedData = newNodes.nodeSizes()
+
+      for (let node of sizedData) {
+        let nodeID = node[this.props.IDKey]
+
+        let color
+        if (this.props.groupKey) {
+          if (groupColor[node[this.props.groupKey]]) {
+            color = groupColor[node[this.props.groupKey]]
+          } else {
+            color = palette.shift()
+            groupColor[node[this.props.groupKey]] = color
+          }
         } else {
-          color = palette.shift()
-          groupColor[node[this.props.groupKey]] = color
+          color = this.props.pointColor[0]
         }
-      } else {
-        color = this.props.pointColor[0]
-      }
-      points.push(
-        <Node key={nodeID}
-          x={newPositions[nodeID].x} y={newPositions[nodeID].y}
-          radius={this.props.pointRadius} fill={color}
-          initX={positions[nodeID].x} initY={positions[nodeID].y}/>
-      )
 
-      if (this.props.labelKey) {
-        labels.push(
-          <text
-            key={nodeID}
-            x={newPositions[nodeID].x+8} y={newPositions[nodeID].y}
-            alignmentBaseline="middle" textAnchor="start"
-            fill={this.props.labelColor} >
-              {node[this.props.labelKey]}
-          </text>
+        points.push(
+          <Node key={nodeID}
+            x={newPositions[nodeID].x} y={newPositions[nodeID].y}
+            radius={node.radius} fill={color}
+            initX={positions[nodeID].x} initY={positions[nodeID].y}/>
         )
       }
+    } else {
+      for (let node of this.props.nodes) {
+        let nodeID = node[this.props.IDKey]
+
+        let color
+        if (this.props.groupKey) {
+          if (groupColor[node[this.props.groupKey]]) {
+            color = groupColor[node[this.props.groupKey]]
+          } else {
+            color = palette.shift()
+            groupColor[node[this.props.groupKey]] = color
+          }
+        } else {
+          color = this.props.pointColor[0]
+        }
+        points.push(
+          <Node key={nodeID}
+            x={newPositions[nodeID].x} y={newPositions[nodeID].y}
+            radius={this.props.pointRadius} fill={color}
+            initX={positions[nodeID].x} initY={positions[nodeID].y}/>
+        )
+
+        if (this.props.labelKey) {
+          labels.push(
+            <text
+              key={nodeID}
+              x={newPositions[nodeID].x+8} y={newPositions[nodeID].y}
+              alignmentBaseline="middle" textAnchor="start"
+              fill={this.props.labelColor} >
+                {node[this.props.labelKey]}
+            </text>
+          )
+        }
+      }
     }
+
     let lines = []
     for (let link of this.props.links) {
       let parentPos = newPositions[link[this.props.parentKey]]
@@ -163,12 +194,15 @@ NetworkChart.defaultProps = {
   childKey: "child",
   groupKey: "group",
   labelKey: "label",
-  pointRadius: 5.5,
+  pointRadius: 5,
   pointColor: defaultPalette,
   lineWidth: 1,
   lineColor: "#1b1b1b",
   lineOpacity: 0.25,
   labelColor: "#1b1b1b",
+  nodeSize: "off",
+  nodeKey: "node",
+  maxRadius: 10,
 }
 
 NetworkChart.propTypes = {

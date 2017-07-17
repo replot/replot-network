@@ -17,12 +17,12 @@ class GetPointPositions {
 
   attract(d,k) {
     let force = Math.pow(d,2)/k
-    return force * 0.01
+    return force * 0.1
   }
 
   repulse(d,k) {
     let force = Math.pow(k,2)/d
-    return force * 0.01
+    return force * 0.1
   }
 
   getPoints() {
