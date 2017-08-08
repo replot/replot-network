@@ -70,7 +70,7 @@ render() {
   - specify the height of the chart
 - `pointRadius` defaults to `5.5`
   - specify the radius of the nodes in the chart
-- `pointColor` defaults to preset palette
+- `color` defaults to preset palette
   - specify an array of color hex codes, e.g. `["#F1856E", "#9AC7BF", "#C0D9A0"]`
   - specify a function
 - `lineWidth` defaults to `1`

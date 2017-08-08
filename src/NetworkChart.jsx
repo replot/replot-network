@@ -4,6 +4,7 @@ import {spring, Motion} from "react-motion"
 import GetPointPositions from "./GetPointPositions.js"
 import PropTypes from "prop-types"
 import GetNodeSize from "./GetNodeSize.js"
+import {Resize} from "replot-core"
 
 const Node = (props) => {
   return (
@@ -89,7 +90,7 @@ class NetworkChart extends React.Component {
     }
 
     let palette = getPalette(
-      this.props.pointColor, Object.keys(groupColor).length
+      this.props.color, Object.keys(groupColor).length
     )
 
 
@@ -109,7 +110,7 @@ class NetworkChart extends React.Component {
             groupColor[node[this.props.groupKey]] = color
           }
         } else {
-          color = this.props.pointColor[0]
+          color = this.props.color[0]
         }
 
         points.push(
@@ -132,7 +133,7 @@ class NetworkChart extends React.Component {
             groupColor[node[this.props.groupKey]] = color
           }
         } else {
-          color = this.props.pointColor[0]
+          color = this.props.color[0]
         }
         points.push(
           <Node key={nodeID}
@@ -186,6 +187,22 @@ class NetworkChart extends React.Component {
   }
 }
 
+class NetworkChartResponsive extends React.Component {
+
+  render() {
+    return (
+      <Resize width={this.props.width}>
+        <NetworkChart {...this.props} />
+      </Resize>
+    )
+  }
+}
+
+NetworkChartResponsive.defaultProps = {
+  width: 800
+}
+
+
 NetworkChart.defaultProps = {
   width: 800,
   height: 600,
@@ -195,7 +212,7 @@ NetworkChart.defaultProps = {
   groupKey: "group",
   labelKey: "label",
   pointRadius: 5,
-  pointColor: defaultPalette,
+  color: defaultPalette,
   lineWidth: 1,
   lineColor: "#1b1b1b",
   lineOpacity: 0.25,
@@ -206,13 +223,16 @@ NetworkChart.defaultProps = {
 }
 
 NetworkChart.propTypes = {
-  width: PropTypes.number,
+  width: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ]),
   height: PropTypes.number,
   IDKey: PropTypes.string,
   parentKey: PropTypes.string,
   childKey: PropTypes.string,
   pointRadius: PropTypes.number,
-  pointColor: PropTypes.oneOfType([
+  color: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.array
   ]),
@@ -222,4 +242,4 @@ NetworkChart.propTypes = {
   labelColor: PropTypes.string,
 }
 
-export default NetworkChart
+export default NetworkChartResponsive
