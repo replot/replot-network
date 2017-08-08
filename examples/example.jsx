@@ -397,8 +397,11 @@ class ExampleApp extends React.Component {
       <div className="container"
         style={{textAlign:"center",fontFamily:"Open Sans"}}>
         <h1 style={{textAlign: "center"}}>Network Chart</h1>
-        <NetworkChart nodes={this.state.nodes1} links={this.state.links1}
-          labelKey="name" groupKey="group" nodeSize="off" nodeKey="nodeSize"/>
+        <div style={{width: "70%"}}>
+          <NetworkChart nodes={this.state.nodes1} links={this.state.links1}
+            labelKey="name" groupKey="group" nodeSize="off" nodeKey="nodeSize"
+            width="50%"/>
+        </div>
       </div>
     )
   }
