@@ -4,7 +4,7 @@ import {spring, Motion} from "react-motion"
 import GetPointPositions from "./GetPointPositions.js"
 import PropTypes from "prop-types"
 import GetNodeSize from "./GetNodeSize.js"
-import {Resize} from "replot-core"
+import {Resize, Tooltip} from "replot-core"
 
 const Node = (props) => {
   return (
@@ -220,6 +220,7 @@ NetworkChart.defaultProps = {
   nodeSize: "off",
   nodeKey: "node",
   maxRadius: 10,
+  tooltip: true
 }
 
 NetworkChart.propTypes = {
@@ -240,6 +241,9 @@ NetworkChart.propTypes = {
   lineColor: PropTypes.string,
   lineOpacity: PropTypes.number,
   labelColor: PropTypes.string,
+  tooltip: PropTypes.bool,
+  tooltipColor: PropTypes.string,
+  tooltipContents: PropTypes.func
 }
 
 export default NetworkChartResponsive
