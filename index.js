@@ -902,6 +902,33 @@ var Path = function Path(props) {
   );
 };
 
+var Label = function Label(props) {
+  return _react2.default.createElement(
+    _reactMotion.Motion,
+    {
+      defaultStyle: {
+        x: props.initX,
+        y: props.initY
+      },
+      style: {
+        x: (0, _reactMotion.spring)(props.x, { stiffness: 120, damoing: 50 }),
+        y: (0, _reactMotion.spring)(props.y, { stiffness: 120, damping: 50 })
+      }
+    },
+    function (style) {
+      return _react2.default.createElement(
+        "text",
+        {
+          key: props.key,
+          x: style.x, y: style.y,
+          alignmentBaseline: "middle", textAnchor: "start",
+          fill: props.fill },
+        props.labelText
+      );
+    }
+  );
+};
+
 var NetworkChart = function (_React$Component) {
   _inherits(NetworkChart, _React$Component);
 
@@ -1059,15 +1086,13 @@ var NetworkChart = function (_React$Component) {
               initX: positions[_nodeID].x, initY: positions[_nodeID].y }));
 
             if (this.props.labelKey) {
-              labels.push(_react2.default.createElement(
-                "text",
-                {
-                  key: _nodeID,
-                  x: newPositions[_nodeID].x + 8, y: newPositions[_nodeID].y,
-                  alignmentBaseline: "middle", textAnchor: "start",
-                  fill: this.props.labelColor },
-                _node2[this.props.labelKey]
-              ));
+              labels.push(_react2.default.createElement(Label, {
+                key: _nodeID,
+                initX: positions[_nodeID].x,
+                initY: positions[_nodeID].y,
+                x: newPositions[_nodeID].x + 8, y: newPositions[_nodeID].y,
+                fill: this.props.labelColor,
+                labelText: _node2[this.props.labelKey] }));
             }
           }
         } catch (err) {

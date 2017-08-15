@@ -56,6 +56,32 @@ const Path = (props) => {
   )
 }
 
+const Label = (props) => {
+  return (
+    <Motion
+      defaultStyle={{
+        x: props.initX,
+        y: props.initY,
+      }}
+      style={{
+        x: spring(props.x, {stiffness: 120, damoing: 50}),
+        y: spring(props.y, {stiffness: 120, damping: 50})
+      }}
+    >
+      {
+        style =>
+        <text
+          key={props.key}
+          x={style.x} y={style.y}
+          alignmentBaseline="middle" textAnchor="start"
+          fill={props.fill}>
+            {props.labelText}
+        </text>
+      }
+    </Motion>
+  )
+}
+
 class NetworkChart extends React.Component {
   constructor(props) {
     super(props)
@@ -144,13 +170,13 @@ class NetworkChart extends React.Component {
 
         if (this.props.labelKey) {
           labels.push(
-            <text
+            <Label
               key={nodeID}
+              initX={positions[nodeID].x}
+              initY={positions[nodeID].y}
               x={newPositions[nodeID].x+8} y={newPositions[nodeID].y}
-              alignmentBaseline="middle" textAnchor="start"
-              fill={this.props.labelColor} >
-                {node[this.props.labelKey]}
-            </text>
+              fill={this.props.labelColor}
+              labelText={node[this.props.labelKey]}/>
           )
         }
       }
