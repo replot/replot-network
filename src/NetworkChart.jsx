@@ -14,12 +14,15 @@ const Node = (props) => {
         x: spring(props.x, {stiffness: 120, damping: 50}),
         y: spring(props.y, {stiffness: 120, damping: 50}),
       }}
+      onRest={props.pointsRest}
     >
       {
         style =>
         <circle
           cx={style.x} cy={style.y} r={props.radius}
-          stroke={props.color} fill={props.fill}/>
+          stroke={props.color} fill={props.fill}
+          onMouseOver={props.activateTooltip.bind(this, props.raw)}
+          onMouseOut={props.deactivateTooltip}/>
     }
     </Motion>
   )
@@ -71,7 +74,6 @@ const Label = (props) => {
       {
         style =>
         <text
-          key={props.key}
           x={style.x} y={style.y}
           alignmentBaseline="middle" textAnchor="start"
           fill={props.fill}>
@@ -83,8 +85,54 @@ const Label = (props) => {
 }
 
 class NetworkChart extends React.Component {
+
   constructor(props) {
     super(props)
+    this.positions = this.getRandomPoints()
+    this.state = {
+      tooltipContents: null,
+      mouseOver: false,
+      mouseX: null,
+      mouseY: null,
+      pointsMoving: true
+    }
+  }
+
+  activateTooltip(data) {
+    let newContents
+    if (this.props.tooltipContents){
+      newContents = this.props.tooltipContents(data)
+    }
+    else {
+      newContents = (
+        <div>
+          <span>{this.props.IDKey}: {data[this.props.IDKey]}<br/></span>
+          {this.props.groupKey &&
+          <span>{this.props.groupKey}: {data[this.props.groupKey]}</span>
+          }
+          {this.props.nodeSize === "on" &&
+          <span>{this.props.nodeKey}: {data[this.props.nodeKey]}</span>
+          }
+        </div>
+      )
+    }
+    this.setState({
+      tooltipContents: newContents,
+      mouseOver: true,
+    })
+  }
+
+  deactivateTooltip() {
+    this.setState({
+      mouseOver: false
+    })
+  }
+
+  updateMousePos(e) {
+    this.setState({
+      mouseX: e.pageX,
+      mouseY: e.pageY - 10
+    })
   }
 
   getRandomPoints() {
@@ -98,10 +146,13 @@ class NetworkChart extends React.Component {
     return positions
   }
 
-  render() {
-    let positions = this.getRandomPoints()
+  pointsRest(){
+    this.setState({pointsMoving: false})
+  }
 
-    let p = new GetPointPositions(this.props.nodes, this.props.links, positions,
+  render() {
+
+    let p = new GetPointPositions(this.props.nodes, this.props.links, this.positions,
       this.props.width, this.props.height, this.props.IDKey, this.props.maxRadius)
     let newPositions = p.getPoints()
 
@@ -140,10 +191,13 @@ class NetworkChart extends React.Component {
         }
 
         points.push(
-          <Node key={nodeID}
+          <Node key={nodeID} raw={node}
             x={newPositions[nodeID].x} y={newPositions[nodeID].y}
             radius={node.radius} fill={color}
-            initX={positions[nodeID].x} initY={positions[nodeID].y}/>
+            initX={this.positions[nodeID].x} initY={this.positions[nodeID].y}
+            activateTooltip={this.activateTooltip.bind(this)}
+            deactivateTooltip={this.deactivateTooltip.bind(this)}
+            pointsRest={this.pointsRest.bind(this)}/>
         )
       }
     } else {
@@ -162,18 +216,21 @@ class NetworkChart extends React.Component {
           color = this.props.color[0]
         }
         points.push(
-          <Node key={nodeID}
+          <Node key={nodeID} raw={node}
             x={newPositions[nodeID].x} y={newPositions[nodeID].y}
             radius={this.props.pointRadius} fill={color}
-            initX={positions[nodeID].x} initY={positions[nodeID].y}/>
+            initX={this.positions[nodeID].x} initY={this.positions[nodeID].y}
+            activateTooltip={this.activateTooltip.bind(this)}
+            deactivateTooltip={this.deactivateTooltip.bind(this)}
+            pointsRest={this.pointsRest.bind(this)}/>
         )
 
         if (this.props.labelKey) {
           labels.push(
             <Label
               key={nodeID}
-              initX={positions[nodeID].x}
-              initY={positions[nodeID].y}
+              initX={this.positions[nodeID].x}
+              initY={this.positions[nodeID].y}
               x={newPositions[nodeID].x+8} y={newPositions[nodeID].y}
               fill={this.props.labelColor}
               labelText={node[this.props.labelKey]}/>
@@ -186,8 +243,8 @@ class NetworkChart extends React.Component {
     for (let link of this.props.links) {
       let parentPos = newPositions[link[this.props.parentKey]]
       let childPos = newPositions[link[this.props.childKey]]
-      let parentInitPos = positions[link[this.props.parentKey]]
-      let childInitPos = positions[link[this.props.childKey]]
+      let parentInitPos = this.positions[link[this.props.parentKey]]
+      let childInitPos = this.positions[link[this.props.childKey]]
       lines.push(
         <Path x1={parentPos.x} y1={parentPos.y}
           x2={childPos.x} y2={childPos.y}
@@ -204,11 +261,22 @@ class NetworkChart extends React.Component {
     }
 
     return (
-      <svg width={this.props.width} height={this.props.height}>
-        {lines}
-        {points}
-        {labels}
-      </svg>
+      <div onMouseMove={this.props.tooltip && !this.state.pointsMoving ?
+        this.updateMousePos.bind(this) : null}>
+        {this.props.tooltip &&
+          <Tooltip
+            x={this.state.mouseX} y={this.state.mouseY}
+            active={this.state.mouseOver}
+            contents={this.state.tooltipContents}
+            colorScheme={this.props.tooltipColor}
+          />
+        }
+        <svg width={this.props.width} height={this.props.height}>
+          {lines}
+          {points}
+          {labels}
+        </svg>
+      </div>
     )
   }
 }

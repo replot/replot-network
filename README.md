@@ -63,6 +63,51 @@ render() {
 - `groupKey` defaults to `"group"`
 - `labelKey` defaults to `"label"`
 
+### Tooltip
+NetworkCharts are capable of utilizing a tooltip to display more specific information
+about the nodes. By default, the tooltip is on, but can be deactivated by
+passing in a `tooltip` prop with a value of false. The tooltip features two different
+color schemes, dark and light, which can be specified by a
+`tooltipColor` prop, with a value of "dark" or "light".
+
+```javascript
+render() {
+  ...
+
+  return(
+    <NetworkChart nodes={characters}
+    links={relationships} tooltipColor="light" />
+  )
+}
+```
+
+#### Customizing Tooltip contents
+By default, the tooltip will display the id of a node, the group (if one exists),
+and the weight (if one exists). The user can customize exactly what is
+displayed inside the tooltip by passing in a `tooltipContents` prop in the form
+of a Javascript function. The user can expect to receive raw data (in object form)
+for the node being hovered over in the network. The function should return JSX,
+which can utilize some or all of the provided values.
+
+```javascript
+fillTooltip(data){
+  return (
+    <div>
+      The name of this node is {data.name}
+    </div>
+  )
+}
+
+render() {
+  ...
+
+  return(
+    <NetworkChart nodes={characters}
+    links={relationships} tooltipContents={this.fillTooltip}/>
+  )
+}
+```
+
 ### Chart Customization
 - `width` defaults to `800`
   - specify the width of the chart
