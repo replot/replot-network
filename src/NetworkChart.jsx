@@ -60,6 +60,12 @@ const Path = (props) => {
 }
 
 const Label = (props) => {
+  let textAnchor = "middle"
+  if (props.x < props.width/2 && props.x - (props.labelText.length * 8) < 1) {
+    textAnchor = "start"
+  } else if (props.x > props.width/2 && props.x + (props.labelText.length * 8) > props.width) {
+    textAnchor = "end"
+  }
   return (
     <Motion
       defaultStyle={{
@@ -75,7 +81,7 @@ const Label = (props) => {
         style =>
         <text
           x={style.x} y={style.y}
-          alignmentBaseline="middle" textAnchor="start"
+          alignmentBaseline="middle" textAnchor={textAnchor}
           fill={props.fill}>
             {props.labelText}
         </text>
@@ -228,6 +234,7 @@ class NetworkChart extends React.Component {
         if (this.props.labelKey) {
           labels.push(
             <Label
+              width={this.props.width}
               key={nodeID}
               initX={this.positions[nodeID].x}
               initY={this.positions[nodeID].y}
