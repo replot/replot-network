@@ -906,6 +906,12 @@ var Path = function Path(props) {
 };
 
 var Label = function Label(props) {
+  var textAnchor = "middle";
+  if (props.x < props.width / 2 && props.x - props.labelText.length * 8 < 1) {
+    textAnchor = "start";
+  } else if (props.x > props.width / 2 && props.x + props.labelText.length * 8 > props.width) {
+    textAnchor = "end";
+  }
   return _react2.default.createElement(
     _reactMotion.Motion,
     {
@@ -923,7 +929,7 @@ var Label = function Label(props) {
         "text",
         {
           x: style.x, y: style.y,
-          alignmentBaseline: "middle", textAnchor: "start",
+          alignmentBaseline: "middle", textAnchor: textAnchor,
           fill: props.fill },
         props.labelText
       );
@@ -1163,6 +1169,7 @@ var NetworkChart = function (_React$Component) {
 
             if (this.props.labelKey) {
               labels.push(_react2.default.createElement(Label, {
+                width: this.props.width,
                 key: _nodeID,
                 initX: this.positions[_nodeID].x,
                 initY: this.positions[_nodeID].y,
