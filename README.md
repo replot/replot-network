@@ -54,7 +54,7 @@ render() {
     <NetworkChart nodes={characters}
     links={relationships}
     groupKey="group"
-    labelKey="id"
+    labelKey="id" />
   )
 }
 ```
