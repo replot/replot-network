@@ -178,7 +178,7 @@ class NetworkChart extends React.Component {
 
 
     if (this.props.nodeSize == "on") {
-      let newNodes = new GetNodeSize(JSON.parse(JSON.stringify(this.props.nodes)), this.props.nodeKey, this.props.maxRadius, this.props.pointRadius)
+      let newNodes = new GetNodeSize(JSON.parse(JSON.stringify(this.props.nodes)), this.props.nodeKey, this.props.maxRadius, this.props.graphStyle.pointRadius)
       let sizedData = newNodes.nodeSizes()
 
       for (let node of sizedData) {
@@ -224,7 +224,7 @@ class NetworkChart extends React.Component {
         points.push(
           <Node key={nodeID} raw={node}
             x={newPositions[nodeID].x} y={newPositions[nodeID].y}
-            radius={this.props.pointRadius} fill={color}
+            radius={this.props.graphStyle.pointRadius} fill={color}
             initX={this.positions[nodeID].x} initY={this.positions[nodeID].y}
             activateTooltip={this.activateTooltip.bind(this)}
             deactivateTooltip={this.deactivateTooltip.bind(this)}
@@ -239,7 +239,7 @@ class NetworkChart extends React.Component {
               initX={this.positions[nodeID].x}
               initY={this.positions[nodeID].y}
               x={newPositions[nodeID].x+8} y={newPositions[nodeID].y}
-              fill={this.props.labelColor}
+              fill={this.props.graphStyle.labelColor}
               labelText={node[this.props.labelKey]}/>
           )
         }
@@ -259,9 +259,9 @@ class NetworkChart extends React.Component {
           startY1={parentInitPos.y}
           startX2={childInitPos.x}
           startY2={childInitPos.y}
-          strokeWidth={this.props.lineWidth}
-          stroke={this.props.lineColor}
-          opacity={this.props.lineOpacity}
+          strokeWidth={this.props.graphStyle.lineWidth}
+          stroke={this.props.graphStyle.lineColor}
+          opacity={this.props.graphStyle.lineOpacity}
           key={[link[this.props.parentKey], link[this.props.childKey]]}
         />
       )
@@ -312,12 +312,14 @@ NetworkChart.defaultProps = {
   childKey: "child",
   groupKey: "group",
   labelKey: "label",
-  pointRadius: 5,
   color: defaultPalette,
-  lineWidth: 1,
-  lineColor: "#1b1b1b",
-  lineOpacity: 0.25,
-  labelColor: "#1b1b1b",
+  graphStyle: {
+    pointRadius: 5,
+    lineWidth: 1,
+    lineColor: "#1b1b1b",
+    lineOpacity: 0.25,
+    labelColor: "#1b1b1b",
+  },
   nodeSize: "off",
   nodeKey: "node",
   maxRadius: 10,
@@ -333,15 +335,11 @@ NetworkChart.propTypes = {
   IDKey: PropTypes.string,
   parentKey: PropTypes.string,
   childKey: PropTypes.string,
-  pointRadius: PropTypes.number,
   color: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.array
   ]),
-  lineWidth: PropTypes.number,
-  lineColor: PropTypes.string,
-  lineOpacity: PropTypes.number,
-  labelColor: PropTypes.string,
+  graphStyle: PropTypes.object,
   tooltip: PropTypes.bool,
   tooltipColor: PropTypes.string,
   tooltipContents: PropTypes.func
