@@ -3,7 +3,11 @@
   "version": "0.1.0",
   "description": "Network chart components for Replot",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "watch": "cd examples && webpack --watch",
+    "build-umd": "webpack src/index.js umd/replot-network.js",
+    "compile": "webpack --output-filename index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MacroConnections/replot-network.git"
