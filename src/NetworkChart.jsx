@@ -4,6 +4,7 @@ import {spring, Motion} from "react-motion"
 import GetPointPositions from "./GetPointPositions.js"
 import PropTypes from "prop-types"
 import GetNodeSize from "./GetNodeSize.js"
+import GetLinkWeight from "./GetLinkWeight.js"
 import {Resize, Tooltip} from "replot-core"
 
 const Node = (props) => {
@@ -224,7 +225,15 @@ class NetworkChart extends React.Component {
     }
 
     let lines = []
-    for (let link of this.props.links) {
+    let links
+    if (this.props.linkWeight == "on") {
+      let newLinks = new GetLinkWeight(JSON.parse(JSON.stringify(this.props.links)), this.props.linkKey, this.props.maxWidth, this.props.graphStyle.lineWidth)
+      links = newLinks.linkWeights()
+    } else {
+      links = this.props.links
+    }
+
+    for (let link of links) {
       let parentPos = newPositions[link[this.props.parentKey]]
       let childPos = newPositions[link[this.props.childKey]]
       let parentInitPos = this.positions[link[this.props.parentKey]]
@@ -236,7 +245,8 @@ class NetworkChart extends React.Component {
           startY1={parentInitPos.y}
           startX2={childInitPos.x}
           startY2={childInitPos.y}
-          strokeWidth={this.props.graphStyle.lineWidth}
+          strokeWidth={this.props.linkWeight == "on" ? link.width
+          : this.props.graphStyle.lineWidth}
           stroke={this.props.graphStyle.lineColor}
           opacity={this.props.graphStyle.lineOpacity}
           key={[link[this.props.parentKey], link[this.props.childKey]]}
@@ -298,8 +308,11 @@ NetworkChart.defaultProps = {
     labelColor: "#1b1b1b",
   },
   nodeSize: "off",
+  linkWeight: "off",
   nodeKey: "node",
+  linkKey: "link",
   maxRadius: 10,
+  maxWidth: 10,
   showLabels: true,
   tooltip: true
 }
@@ -313,6 +326,9 @@ NetworkChart.propTypes = {
   IDKey: PropTypes.string,
   parentKey: PropTypes.string,
   childKey: PropTypes.string,
+  linkKey: PropTypes.string,
+  linkWeight: PropTypes.string,
+  maxWidth: PropTypes.number,
   color: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.array
