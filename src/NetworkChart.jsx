@@ -209,7 +209,7 @@ class NetworkChart extends React.Component {
           pointsRest={this.pointsRest.bind(this)}/>
       )
 
-      if (this.props.showLabels) {
+      if (this.props.showLabels && node[this.props.labelKey]) {
         labels.push(
           <Label
             width={this.props.width}
