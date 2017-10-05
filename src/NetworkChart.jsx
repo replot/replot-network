@@ -80,7 +80,7 @@ const Label = (props) => {
       {
         style =>
         <text
-          x={style.x} y={style.y}
+          x={style.x} y={style.y} style={{pointerEvents:"none"}}
           alignmentBaseline="middle" textAnchor={textAnchor}
           fill={props.fill}>
             {props.labelText}
