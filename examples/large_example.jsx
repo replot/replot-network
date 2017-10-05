@@ -1017,7 +1017,7 @@ class ExampleApp extends React.Component {
         style={{textAlign:"center",fontFamily:"Open Sans"}}>
         <h1 style={{textAlign: "center"}}>Network Chart</h1>
         <NetworkChart nodes={this.state.nodes} links={this.state.links}
-          labelKey="name" groupKey="group" />
+          groupKey="group" />
       </div>
     )
   }

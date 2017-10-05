@@ -8,10 +8,7 @@ class GetNodeSize {
     this.smallestWeight = Infinity
     this.largestWeight = 0
 
-    this.sortedData = JSON.parse(JSON.stringify(this.data))
-    this.sortedData.sort((a, b) => a[this.weightKey] - b[this.weightKey])
-
-    for (let member of this.sortedData) {
+    for (let member of this.data) {
       if (member[this.nodeKey] < this.smallestWeight && member[this.nodeKey] !== null) {
         this.smallestWeight = member[this.nodeKey]
       }

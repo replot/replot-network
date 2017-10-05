@@ -176,73 +176,50 @@ class NetworkChart extends React.Component {
       this.props.color, Object.keys(groupColor).length
     )
 
-
+    let nodes
     if (this.props.nodeSize == "on") {
       let newNodes = new GetNodeSize(JSON.parse(JSON.stringify(this.props.nodes)), this.props.nodeKey, this.props.maxRadius, this.props.graphStyle.pointRadius)
-      let sizedData = newNodes.nodeSizes()
-
-      for (let node of sizedData) {
-        let nodeID = node[this.props.IDKey]
-
-        let color
-        if (this.props.groupKey) {
-          if (groupColor[node[this.props.groupKey]]) {
-            color = groupColor[node[this.props.groupKey]]
-          } else {
-            color = palette.shift()
-            groupColor[node[this.props.groupKey]] = color
-          }
-        } else {
-          color = this.props.color[0]
-        }
-
-        points.push(
-          <Node key={nodeID} raw={node}
-            x={newPositions[nodeID].x} y={newPositions[nodeID].y}
-            radius={node.radius} fill={color}
-            initX={this.positions[nodeID].x} initY={this.positions[nodeID].y}
-            activateTooltip={this.activateTooltip.bind(this)}
-            deactivateTooltip={this.deactivateTooltip.bind(this)}
-            pointsRest={this.pointsRest.bind(this)}/>
-        )
-      }
+      nodes = newNodes.nodeSizes()
     } else {
-      for (let node of this.props.nodes) {
-        let nodeID = node[this.props.IDKey]
+      nodes = this.props.nodes
+    }
 
-        let color
-        if (this.props.groupKey) {
-          if (groupColor[node[this.props.groupKey]]) {
-            color = groupColor[node[this.props.groupKey]]
-          } else {
-            color = palette.shift()
-            groupColor[node[this.props.groupKey]] = color
-          }
+    for (let node of nodes) {
+      let nodeID = node[this.props.IDKey]
+
+      let color
+      if (this.props.groupKey) {
+        if (groupColor[node[this.props.groupKey]]) {
+          color = groupColor[node[this.props.groupKey]]
         } else {
-          color = this.props.color[0]
+          color = palette.shift()
+          groupColor[node[this.props.groupKey]] = color
         }
-        points.push(
-          <Node key={nodeID} raw={node}
-            x={newPositions[nodeID].x} y={newPositions[nodeID].y}
-            radius={this.props.graphStyle.pointRadius} fill={color}
-            initX={this.positions[nodeID].x} initY={this.positions[nodeID].y}
-            activateTooltip={this.activateTooltip.bind(this)}
-            deactivateTooltip={this.deactivateTooltip.bind(this)}
-            pointsRest={this.pointsRest.bind(this)}/>
-        )
+      } else {
+        color = this.props.color[0]
+      }
+      points.push(
+        <Node key={nodeID} raw={node}
+          x={newPositions[nodeID].x} y={newPositions[nodeID].y}
+          radius={this.props.nodeSize == "on" ? node.radius
+          : this.props.graphStyle.pointRadius} fill={color}
+          initX={this.positions[nodeID].x} initY={this.positions[nodeID].y}
+          activateTooltip={this.activateTooltip.bind(this)}
+          deactivateTooltip={this.deactivateTooltip.bind(this)}
+          pointsRest={this.pointsRest.bind(this)}/>
+      )
 
-        if (this.props.labelKey) {
-          labels.push(
-            <Label
-              width={this.props.width}
-              key={nodeID}
-              initX={this.positions[nodeID].x}
-              initY={this.positions[nodeID].y}
-              x={newPositions[nodeID].x+8} y={newPositions[nodeID].y}
-              fill={this.props.graphStyle.labelColor}
-              labelText={node[this.props.labelKey]}/>
-          )
-        }
+      if (this.props.showLabels && node[this.props.labelKey]) {
+        labels.push(
+          <Label
+            width={this.props.width}
+            key={nodeID}
+            initX={this.positions[nodeID].x}
+            initY={this.positions[nodeID].y}
+            x={newPositions[nodeID].x+8} y={newPositions[nodeID].y}
+            fill={this.props.graphStyle.labelColor}
+            labelText={node[this.props.labelKey]}/>
+        )
       }
     }
 
@@ -323,6 +300,7 @@ NetworkChart.defaultProps = {
   nodeSize: "off",
   nodeKey: "node",
   maxRadius: 10,
+  showLabels: true,
   tooltip: true
 }
 
@@ -340,6 +318,7 @@ NetworkChart.propTypes = {
     PropTypes.array
   ]),
   graphStyle: PropTypes.object,
+  showLabels: PropTypes.bool,
   tooltip: PropTypes.bool,
   tooltipColor: PropTypes.string,
   tooltipContents: PropTypes.func
