@@ -833,11 +833,11 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _color2 = __webpack_require__(35);
+var _color = __webpack_require__(36);
 
 var _reactMotion = __webpack_require__(28);
 
-var _GetPointPositions = __webpack_require__(34);
+var _GetPointPositions = __webpack_require__(35);
 
 var _GetPointPositions2 = _interopRequireDefault(_GetPointPositions);
 
@@ -845,9 +845,13 @@ var _propTypes = __webpack_require__(3);
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _GetNodeSize = __webpack_require__(33);
+var _GetNodeSize = __webpack_require__(34);
 
 var _GetNodeSize2 = _interopRequireDefault(_GetNodeSize);
+
+var _GetLinkWeight = __webpack_require__(33);
+
+var _GetLinkWeight2 = _interopRequireDefault(_GetLinkWeight);
 
 var _replotCore = __webpack_require__(31);
 
@@ -933,7 +937,7 @@ var Label = function Label(props) {
       return _react2.default.createElement(
         "text",
         {
-          x: style.x, y: style.y,
+          x: style.x, y: style.y, style: { pointerEvents: "none" },
           alignmentBaseline: "middle", textAnchor: textAnchor,
           fill: props.fill },
         props.labelText
@@ -1092,121 +1096,87 @@ var NetworkChart = function (_React$Component) {
         }
       }
 
-      var palette = (0, _color2.getPalette)(this.props.color, Object.keys(groupColor).length);
+      var palette = (0, _color.getPalette)(this.props.color, Object.keys(groupColor).length);
 
+      var nodes = void 0;
       if (this.props.nodeSize == "on") {
         var newNodes = new _GetNodeSize2.default(JSON.parse(JSON.stringify(this.props.nodes)), this.props.nodeKey, this.props.maxRadius, this.props.graphStyle.pointRadius);
-        var sizedData = newNodes.nodeSizes();
+        nodes = newNodes.nodeSizes();
+      } else {
+        nodes = this.props.nodes;
+      }
 
-        var _iteratorNormalCompletion3 = true;
-        var _didIteratorError3 = false;
-        var _iteratorError3 = undefined;
+      var _iteratorNormalCompletion3 = true;
+      var _didIteratorError3 = false;
+      var _iteratorError3 = undefined;
 
-        try {
-          for (var _iterator3 = sizedData[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-            var _node = _step3.value;
+      try {
+        for (var _iterator3 = nodes[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+          var _node = _step3.value;
 
-            var nodeID = _node[this.props.IDKey];
+          var nodeID = _node[this.props.IDKey];
 
-            var color = void 0;
-            if (this.props.groupKey) {
-              if (groupColor[_node[this.props.groupKey]]) {
-                color = groupColor[_node[this.props.groupKey]];
-              } else {
-                color = palette.shift();
-                groupColor[_node[this.props.groupKey]] = color;
-              }
+          var color = void 0;
+          if (this.props.groupKey) {
+            if (groupColor[_node[this.props.groupKey]]) {
+              color = groupColor[_node[this.props.groupKey]];
             } else {
-              color = this.props.color[0];
+              color = palette.shift();
+              groupColor[_node[this.props.groupKey]] = color;
             }
-
-            points.push(_react2.default.createElement(Node, { key: nodeID, raw: _node,
-              x: newPositions[nodeID].x, y: newPositions[nodeID].y,
-              radius: _node.radius, fill: color,
-              initX: this.positions[nodeID].x, initY: this.positions[nodeID].y,
-              activateTooltip: this.activateTooltip.bind(this),
-              deactivateTooltip: this.deactivateTooltip.bind(this),
-              pointsRest: this.pointsRest.bind(this) }));
+          } else {
+            color = this.props.color[0];
           }
-        } catch (err) {
-          _didIteratorError3 = true;
-          _iteratorError3 = err;
-        } finally {
-          try {
-            if (!_iteratorNormalCompletion3 && _iterator3.return) {
-              _iterator3.return();
-            }
-          } finally {
-            if (_didIteratorError3) {
-              throw _iteratorError3;
-            }
+          points.push(_react2.default.createElement(Node, { key: nodeID, raw: _node,
+            x: newPositions[nodeID].x, y: newPositions[nodeID].y,
+            radius: this.props.nodeSize == "on" ? _node.radius : this.props.graphStyle.pointRadius, fill: color,
+            initX: this.positions[nodeID].x, initY: this.positions[nodeID].y,
+            activateTooltip: this.activateTooltip.bind(this),
+            deactivateTooltip: this.deactivateTooltip.bind(this),
+            pointsRest: this.pointsRest.bind(this) }));
+
+          if (this.props.showLabels && _node[this.props.labelKey]) {
+            labels.push(_react2.default.createElement(Label, {
+              width: this.props.width,
+              key: nodeID,
+              initX: this.positions[nodeID].x,
+              initY: this.positions[nodeID].y,
+              x: newPositions[nodeID].x + 8, y: newPositions[nodeID].y,
+              fill: this.props.graphStyle.labelColor,
+              labelText: _node[this.props.labelKey] }));
           }
         }
-      } else {
-        var _iteratorNormalCompletion4 = true;
-        var _didIteratorError4 = false;
-        var _iteratorError4 = undefined;
-
+      } catch (err) {
+        _didIteratorError3 = true;
+        _iteratorError3 = err;
+      } finally {
         try {
-          for (var _iterator4 = this.props.nodes[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-            var _node2 = _step4.value;
-
-            var _nodeID = _node2[this.props.IDKey];
-
-            var _color = void 0;
-            if (this.props.groupKey) {
-              if (groupColor[_node2[this.props.groupKey]]) {
-                _color = groupColor[_node2[this.props.groupKey]];
-              } else {
-                _color = palette.shift();
-                groupColor[_node2[this.props.groupKey]] = _color;
-              }
-            } else {
-              _color = this.props.color[0];
-            }
-            points.push(_react2.default.createElement(Node, { key: _nodeID, raw: _node2,
-              x: newPositions[_nodeID].x, y: newPositions[_nodeID].y,
-              radius: this.props.graphStyle.pointRadius, fill: _color,
-              initX: this.positions[_nodeID].x, initY: this.positions[_nodeID].y,
-              activateTooltip: this.activateTooltip.bind(this),
-              deactivateTooltip: this.deactivateTooltip.bind(this),
-              pointsRest: this.pointsRest.bind(this) }));
-
-            if (this.props.labelKey) {
-              labels.push(_react2.default.createElement(Label, {
-                width: this.props.width,
-                key: _nodeID,
-                initX: this.positions[_nodeID].x,
-                initY: this.positions[_nodeID].y,
-                x: newPositions[_nodeID].x + 8, y: newPositions[_nodeID].y,
-                fill: this.props.graphStyle.labelColor,
-                labelText: _node2[this.props.labelKey] }));
-            }
+          if (!_iteratorNormalCompletion3 && _iterator3.return) {
+            _iterator3.return();
           }
-        } catch (err) {
-          _didIteratorError4 = true;
-          _iteratorError4 = err;
         } finally {
-          try {
-            if (!_iteratorNormalCompletion4 && _iterator4.return) {
-              _iterator4.return();
-            }
-          } finally {
-            if (_didIteratorError4) {
-              throw _iteratorError4;
-            }
+          if (_didIteratorError3) {
+            throw _iteratorError3;
           }
         }
       }
 
       var lines = [];
-      var _iteratorNormalCompletion5 = true;
-      var _didIteratorError5 = false;
-      var _iteratorError5 = undefined;
+      var links = void 0;
+      if (this.props.linkWeight == "on") {
+        var newLinks = new _GetLinkWeight2.default(JSON.parse(JSON.stringify(this.props.links)), this.props.linkKey, this.props.maxWidth, this.props.graphStyle.lineWidth);
+        links = newLinks.linkWeights();
+      } else {
+        links = this.props.links;
+      }
+
+      var _iteratorNormalCompletion4 = true;
+      var _didIteratorError4 = false;
+      var _iteratorError4 = undefined;
 
       try {
-        for (var _iterator5 = this.props.links[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-          var link = _step5.value;
+        for (var _iterator4 = links[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+          var link = _step4.value;
 
           var parentPos = newPositions[link[this.props.parentKey]];
           var childPos = newPositions[link[this.props.childKey]];
@@ -1218,23 +1188,23 @@ var NetworkChart = function (_React$Component) {
             startY1: parentInitPos.y,
             startX2: childInitPos.x,
             startY2: childInitPos.y,
-            strokeWidth: this.props.graphStyle.lineWidth,
+            strokeWidth: this.props.linkWeight == "on" ? link.width : this.props.graphStyle.lineWidth,
             stroke: this.props.graphStyle.lineColor,
             opacity: this.props.graphStyle.lineOpacity,
             key: [link[this.props.parentKey], link[this.props.childKey]]
           }));
         }
       } catch (err) {
-        _didIteratorError5 = true;
-        _iteratorError5 = err;
+        _didIteratorError4 = true;
+        _iteratorError4 = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion5 && _iterator5.return) {
-            _iterator5.return();
+          if (!_iteratorNormalCompletion4 && _iterator4.return) {
+            _iterator4.return();
           }
         } finally {
-          if (_didIteratorError5) {
-            throw _iteratorError5;
+          if (_didIteratorError4) {
+            throw _iteratorError4;
           }
         }
       }
@@ -1297,7 +1267,7 @@ NetworkChart.defaultProps = {
   childKey: "child",
   groupKey: "group",
   labelKey: "label",
-  color: _color2.defaultPalette,
+  color: _color.defaultPalette,
   graphStyle: {
     pointRadius: 5,
     lineWidth: 1,
@@ -1306,8 +1276,12 @@ NetworkChart.defaultProps = {
     labelColor: "#1b1b1b"
   },
   nodeSize: "off",
+  linkWeight: "off",
   nodeKey: "node",
+  linkKey: "link",
   maxRadius: 10,
+  maxWidth: 10,
+  showLabels: true,
   tooltip: true
 };
 
@@ -1317,8 +1291,12 @@ NetworkChart.propTypes = {
   IDKey: _propTypes2.default.string,
   parentKey: _propTypes2.default.string,
   childKey: _propTypes2.default.string,
+  linkKey: _propTypes2.default.string,
+  linkWeight: _propTypes2.default.string,
+  maxWidth: _propTypes2.default.number,
   color: _propTypes2.default.oneOfType([_propTypes2.default.func, _propTypes2.default.array]),
   graphStyle: _propTypes2.default.object,
+  showLabels: _propTypes2.default.bool,
   tooltip: _propTypes2.default.bool,
   tooltipColor: _propTypes2.default.string,
   tooltipContents: _propTypes2.default.func
@@ -10017,6 +9995,59 @@ module.exports = g;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+class GetLinkWeight {
+  constructor(data, linkKey, maxWidth, lineWidth) {
+    this.data = data
+    this.linkKey = linkKey
+    this.lineWidth = lineWidth
+    this.maxWidth = maxWidth
+
+    this.smallestWeight = Infinity
+    this.largestWeight = 0
+
+    for (let member of this.data) {
+      if (member[this.linkKey] < this.smallestWeight && member[this.linkKey] !== null) {
+        this.smallestWeight = member[this.linkKey]
+      }
+      if (member[this.linkKey] > this.largestWeight && member[this.linkKey] !== null) {
+        this.largestWeight = member[this.linkKey]
+      }
+    }
+  }
+
+  linkWeights() {
+    let newData = []
+    let stepSize = (this.maxWidth-this.lineWidth)/(this.largestWeight-this.smallestWeight)
+
+    for (let member of this.data) {
+      if (member[this.linkKey] == this.smallestWeight) {
+        member["width"] = this.lineWidth //smallest weight has lineWidth
+      } else if (member[this.linkKey] == this.largestWeight) {
+        member["width"] = this.maxWidth //largest weight has maxWidth
+      } else {
+        let ratio = member[this.linkKey] - this.smallestWeight
+        if (ratio > 0) {
+          member["width"] = this.lineWidth + (ratio * stepSize)
+        } else {
+          member["width"] = 0 //ratio is negative = value was removed/zero
+        }
+      }
+      newData.push(member)
+    }
+    console.log(newData)
+    return newData
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (GetLinkWeight);
+
+
+/***/ }),
+/* 34 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 class GetNodeSize {
   constructor(data, nodeKey, maxRadius, pointRadius) {
     this.data = data
@@ -10027,10 +10058,7 @@ class GetNodeSize {
     this.smallestWeight = Infinity
     this.largestWeight = 0
 
-    this.sortedData = JSON.parse(JSON.stringify(this.data))
-    this.sortedData.sort((a, b) => a[this.weightKey] - b[this.weightKey])
-
-    for (let member of this.sortedData) {
+    for (let member of this.data) {
       if (member[this.nodeKey] < this.smallestWeight && member[this.nodeKey] !== null) {
         this.smallestWeight = member[this.nodeKey]
       }
@@ -10071,7 +10099,7 @@ class GetNodeSize {
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10171,7 +10199,7 @@ class GetPointPositions {
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports) {
 
 /* Default base palette */
