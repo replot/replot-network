@@ -23,8 +23,17 @@ const Node = (props) => {
           cx={style.x} cy={style.y} r={props.radius}
           stroke={props.color} fill={props.fill}
           onMouseOver={props.activateTooltip.bind(this, props.raw)}
-          onMouseOut={props.deactivateTooltip}/>
-    }
+          onMouseOut={props.deactivateTooltip}>
+          <animate begin="mouseover"
+            attributeType="xml" attributeName="r"
+            from={props.radius} to={props.radius * props.zoomScale}
+            dur="0.25s" fill="freeze" />
+          <animate begin="mouseout"
+            attributeType="xml" attributeName="r"
+            from={props.radius * props.zoomScale} to={props.radius}
+            dur="0.25s" fill="freeze" />
+        </circle>
+      }
     </Motion>
   )
 }
@@ -203,7 +212,8 @@ class NetworkChart extends React.Component {
         <Node key={nodeID} raw={node}
           x={newPositions[nodeID].x} y={newPositions[nodeID].y}
           radius={this.props.nodeSize == "on" ? node.radius
-          : this.props.graphStyle.pointRadius} fill={color}
+          : this.props.graphStyle.pointRadius}
+          zoomScale={this.props.zoomScale} fill={color}
           initX={this.positions[nodeID].x} initY={this.positions[nodeID].y}
           activateTooltip={this.activateTooltip.bind(this)}
           deactivateTooltip={this.deactivateTooltip.bind(this)}
@@ -313,6 +323,7 @@ NetworkChart.defaultProps = {
   linkKey: "link",
   maxRadius: 10,
   maxWidth: 10,
+  zoomScale: 2,
   showLabels: true,
   tooltip: true
 }
@@ -334,6 +345,7 @@ NetworkChart.propTypes = {
     PropTypes.array
   ]),
   graphStyle: PropTypes.object,
+  zoomScale: PropTypes.number,
   showLabels: PropTypes.bool,
   tooltip: PropTypes.bool,
   tooltipColor: PropTypes.string,
