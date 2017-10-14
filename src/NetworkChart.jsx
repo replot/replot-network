@@ -126,7 +126,7 @@ class NetworkChart extends React.Component {
           {this.props.groupKey &&
           <span>{this.props.groupKey}: {data[this.props.groupKey]}</span>
           }
-          {this.props.nodeSize === "on" &&
+          {this.props.nodeSize &&
           <span>{this.props.nodeKey}: {data[this.props.nodeKey]}</span>
           }
         </div>
@@ -187,7 +187,7 @@ class NetworkChart extends React.Component {
     )
 
     let nodes
-    if (this.props.nodeSize == "on") {
+    if (this.props.nodeSize) {
       let newNodes = new GetNodeSize(JSON.parse(JSON.stringify(this.props.nodes)), this.props.nodeKey, this.props.maxRadius, this.props.graphStyle.pointRadius)
       nodes = newNodes.nodeSizes()
     } else {
@@ -211,7 +211,7 @@ class NetworkChart extends React.Component {
       points.push(
         <Node key={nodeID} raw={node}
           x={newPositions[nodeID].x} y={newPositions[nodeID].y}
-          radius={this.props.nodeSize == "on" ? node.radius
+          radius={this.props.nodeSize ? node.radius
           : this.props.graphStyle.pointRadius}
           zoomScale={this.props.zoomScale} fill={color}
           initX={this.positions[nodeID].x} initY={this.positions[nodeID].y}
@@ -236,7 +236,7 @@ class NetworkChart extends React.Component {
 
     let lines = []
     let links
-    if (this.props.linkWeight == "on") {
+    if (this.props.linkWeight) {
       let newLinks = new GetLinkWeight(JSON.parse(JSON.stringify(this.props.links)), this.props.linkKey, this.props.maxWidth, this.props.graphStyle.lineWidth)
       links = newLinks.linkWeights()
     } else {
@@ -255,11 +255,11 @@ class NetworkChart extends React.Component {
           startY1={parentInitPos.y}
           startX2={childInitPos.x}
           startY2={childInitPos.y}
-          strokeWidth={this.props.linkWeight == "on" ? link.width
+          strokeWidth={this.props.linkWeight ? link.width
           : this.props.graphStyle.lineWidth}
           stroke={this.props.graphStyle.lineColor}
           opacity={this.props.graphStyle.lineOpacity}
-          key={[link[this.props.parentKey], link[this.props.childKey]]}
+          key={`${link[this.props.parentKey]}.${link[this.props.childKey]}`}
         />
       )
     }
@@ -317,8 +317,8 @@ NetworkChart.defaultProps = {
     lineOpacity: 0.25,
     labelColor: "#1b1b1b",
   },
-  nodeSize: "off",
-  linkWeight: "off",
+  nodeSize: false,
+  linkWeight: false,
   nodeKey: "node",
   linkKey: "link",
   maxRadius: 10,
@@ -338,7 +338,8 @@ NetworkChart.propTypes = {
   parentKey: PropTypes.string,
   childKey: PropTypes.string,
   linkKey: PropTypes.string,
-  linkWeight: PropTypes.string,
+  linkWeight: PropTypes.bool,
+  nodeSize: PropTypes.bool,
   maxWidth: PropTypes.number,
   color: PropTypes.oneOfType([
     PropTypes.func,

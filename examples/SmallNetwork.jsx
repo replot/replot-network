@@ -402,7 +402,7 @@ class SmallNetwork extends React.Component {
           links={this.state.links2}
           labelKey="id"
           groupKey="group"
-          nodeSize="off"
+          nodeSize={false}
           nodeKey="nodeSize"/>
       </div>
     )
