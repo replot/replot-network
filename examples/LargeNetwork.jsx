@@ -1,15 +1,14 @@
 import React from "react"
-import ReactDOM from "react-dom"
-import NetworkChart from "../src/index.jsx"
+import NetworkChart from "../index.js"
 
-class ExampleApp extends React.Component {
+class LargeNetwork extends React.Component {
 
   constructor(props) {
     super(props)
     this.state = {
       nodes: [
         {id: "Harry Potter", group: "Gryffindor", major: "Harry Potter"},
-        {id: "Albus Dumbledore", group: "Staff", major: "Albus Dumbledore"}, //founder of order of phoenix
+        {id: "Albus Dumbledore", group: "Staff", major: "Albus Dumbledore"},
         {id: "Aberforth Dumbledore", group: "Dumbledore"},
         {id: "Ariana Dumbledore", group: "Dumbledore"},
         {id: "Bathilda Bagshot", group: "Staff"},
@@ -1015,7 +1014,7 @@ class ExampleApp extends React.Component {
     return(
       <div className="container"
         style={{textAlign:"center",fontFamily:"Open Sans"}}>
-        <h1 style={{textAlign: "center"}}>Network Chart</h1>
+        <h1 style={{textAlign: "center"}}>Large Network: Harry Potter Characters</h1>
         <NetworkChart nodes={this.state.nodes} links={this.state.links}
           groupKey="group" />
       </div>
@@ -1024,7 +1023,4 @@ class ExampleApp extends React.Component {
 }
 
 
-ReactDOM.render(
-  <ExampleApp />,
-  document.getElementById("react-app")
-)
+export default LargeNetwork

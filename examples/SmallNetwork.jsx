@@ -1,8 +1,8 @@
 import React from "react"
 import ReactDOM from "react-dom"
-import NetworkChart from "../src/index.jsx"
+import NetworkChart from "../index.js"
 
-class ExampleApp extends React.Component {
+class SmallNetwork extends React.Component {
 
   constructor(props) {
     super(props)
@@ -396,23 +396,18 @@ class ExampleApp extends React.Component {
     return(
       <div className="container"
         style={{textAlign:"center",fontFamily:"Open Sans"}}>
-        <h1 style={{textAlign: "center"}}>Network Chart</h1>
-        <div style={{width: "70%"}}>
-          <NetworkChart
-            nodes={this.state.nodes2}
-            links={this.state.links2}
-            labelKey="id"
-            groupKey="group"
-            nodeSize="off"
-            nodeKey="nodeSize"/>
-        </div>
+        <h1 style={{textAlign: "center"}}>Small Network: Romeo & Juliet</h1>
+        <NetworkChart
+          nodes={this.state.nodes2}
+          links={this.state.links2}
+          labelKey="id"
+          groupKey="group"
+          nodeSize="off"
+          nodeKey="nodeSize"/>
       </div>
     )
   }
 }
 
 
-ReactDOM.render(
-  <ExampleApp />,
-  document.getElementById("react-app")
-)
+export default SmallNetwork
