@@ -24,14 +24,6 @@ const Node = (props) => {
           stroke={props.color} fill={props.fill}
           onMouseOver={props.activateTooltip.bind(this, props.raw)}
           onMouseOut={props.deactivateTooltip}>
-          <animate begin="mouseover"
-            attributeType="xml" attributeName="r"
-            from={props.radius} to={props.radius * props.zoomScale}
-            dur="0.25s" fill="freeze" />
-          <animate begin="mouseout"
-            attributeType="xml" attributeName="r"
-            from={props.radius * props.zoomScale} to={props.radius}
-            dur="0.25s" fill="freeze" />
         </circle>
       }
     </Motion>
@@ -325,7 +317,7 @@ NetworkChart.defaultProps = {
   maxWidth: 10,
   zoomScale: 2,
   showLabels: true,
-  tooltip: true
+  tooltip: false
 }
 
 NetworkChart.propTypes = {
