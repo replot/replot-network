@@ -1014,7 +1014,7 @@ class LargeNetwork extends React.Component {
         style={{textAlign:"center",fontFamily:"Open Sans"}}>
         <h1 style={{textAlign: "center"}}>Large Network: Harry Potter Characters</h1>
         <NetworkChart nodes={this.state.nodes} links={this.state.links}
-          groupKey="group" />
+          groupKey="group" attractionFactor={10} />
       </div>
     )
   }

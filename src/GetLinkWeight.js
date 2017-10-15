@@ -37,7 +37,6 @@ class GetLinkWeight {
       }
       newData.push(member)
     }
-    console.log(newData)
     return newData
   }
 }

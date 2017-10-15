@@ -161,7 +161,7 @@ class NetworkChart extends React.Component {
   render() {
 
     let p = new GetPointPositions(this.props.nodes, this.props.links, this.positions,
-      this.props.width, this.props.height, this.props.IDKey, this.props.maxRadius)
+      this.props.width, this.props.height, this.props.IDKey, this.props.maxRadius, this.props.attractionFactor)
     let newPositions = p.getPoints()
 
     let points = []
@@ -317,7 +317,8 @@ NetworkChart.defaultProps = {
   maxWidth: 10,
   zoomScale: 2,
   showLabels: true,
-  tooltip: false
+  tooltip: false,
+  attractionFactor: 1,
 }
 
 NetworkChart.propTypes = {

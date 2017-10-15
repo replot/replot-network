@@ -1,5 +1,6 @@
 class GetPointPositions {
-  constructor (nodes, links, initialPositions, width, height, IDKey, radius) {
+  constructor (nodes, links, initialPositions, width, height, IDKey, radius, attractionFactor) {
+    this.attractionFactor = attractionFactor
     this.nodes = nodes
     this.edges = links
     this.area = width * height
@@ -27,7 +28,7 @@ class GetPointPositions {
 
   getPoints() {
     let k
-    if (this.edges.length > 300) {
+    if (this.edges.length > 400) {
       k = Math.sqrt(this.area/this.nodes.length)/1.5
     }
     else {
@@ -62,7 +63,7 @@ class GetPointPositions {
         let yDiff = parentNode.pos.y - childNode.pos.y
 
         let magnitude = Math.sqrt(Math.pow(xDiff,2)+Math.pow(yDiff,2))
-        let aForce = this.attract(magnitude,k)
+        let aForce = this.attract(magnitude,k) * this.attractionFactor
         parentNode.disp.x -= xDiff/magnitude * aForce
         parentNode.disp.y -= yDiff/magnitude * aForce
 
