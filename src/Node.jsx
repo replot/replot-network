@@ -2,6 +2,11 @@ import React from "react"
 import {spring, Motion} from "react-motion"
 
 class Node extends React.PureComponent {
+
+  constructor(props) {
+    super(props)
+  }
+
   render () {
     return (
       <Motion
@@ -17,7 +22,7 @@ class Node extends React.PureComponent {
           <circle
             cx={style.x} cy={style.y} r={this.props.radius}
             stroke={this.props.color} fill={this.props.fill}
-            onMouseOver={this.props.activateTooltip.bind(this, this.props.raw)}
+            onMouseOver={this.props.activateTooltip(this.props.raw)}
             onMouseOut={this.props.deactivateTooltip}>
           </circle>
         }

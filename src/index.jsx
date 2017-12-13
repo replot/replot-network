@@ -1,3 +1,3 @@
-import NetworkChart from "./NetworkChart.jsx"
+import NetworkChart from "./NetworkChartTooltip.jsx"
 
 export default NetworkChart

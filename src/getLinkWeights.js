@@ -12,7 +12,7 @@ const getLinkWeights = (data, linkKey, maxWidth, lineWidth) => {
   }
 
   let newData = []
-  let stepSize = (maxWidth-lineWidth)/(largestWeight-smallestWeight)
+  let stepSize = (maxWidth - lineWidth)/(largestWeight - smallestWeight)
 
   for (let member of data) {
     if (member[linkKey] == smallestWeight) {
