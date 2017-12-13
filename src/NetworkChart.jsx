@@ -1,98 +1,15 @@
 import React from "react"
-import {defaultPalette, getPalette} from "./color.js"
-import {spring, Motion} from "react-motion"
-import GetPointPositions from "./GetPointPositions.js"
 import PropTypes from "prop-types"
-import GetNodeSize from "./GetNodeSize.js"
-import GetLinkWeight from "./GetLinkWeight.js"
+import {defaultPalette, getPalette} from "./color.js"
+import getFinalNodePositions from "./getFinalNodePositions.js"
+import getLinkWeights from "./getLinkWeights.js"
+import getNodeSizes from "./getNodeSizes.js"
 import {Resize, Tooltip} from "replot-core"
+import Node from "./Node.jsx"
+import Link from "./Link.jsx"
+import Label from "./Label.jsx"
 
-const Node = (props) => {
-  return (
-    <Motion
-      defaultStyle={{ x: props.initX, y: props.initY}}
-      style={{
-        x: spring(props.x, {stiffness: 120, damping: 50}),
-        y: spring(props.y, {stiffness: 120, damping: 50}),
-      }}
-      onRest={props.pointsRest}
-    >
-      {
-        style =>
-        <circle
-          cx={style.x} cy={style.y} r={props.radius}
-          stroke={props.color} fill={props.fill}
-          onMouseOver={props.activateTooltip.bind(this, props.raw)}
-          onMouseOut={props.deactivateTooltip}>
-        </circle>
-      }
-    </Motion>
-  )
-}
-
-const Path = (props) => {
-  return (
-    <Motion
-      defaultStyle={{
-        x1: props.startX1,
-        y1: props.startY1,
-        x2: props.startX2,
-        y2: props.startY2,
-      }}
-      style={{
-        x1: spring(props.x1, {stiffness: 120, damping: 50}),
-        y1: spring(props.y1, {stiffness: 120, damping: 50}),
-        x2: spring(props.x2, {stiffness: 120, damping: 50}),
-        y2: spring(props.y2, {stiffness: 120, damping: 50}),
-      }}
-    >
-      {
-        interpolatingStyles =>
-          <line
-            x1={interpolatingStyles.x1}
-            y1={interpolatingStyles.y1}
-            x2={interpolatingStyles.x2}
-            y2={interpolatingStyles.y2}
-            strokeWidth={props.strokeWidth}
-            stroke={props.stroke}
-            opacity={props.opacity} />
-      }
-    </Motion>
-  )
-}
-
-const Label = (props) => {
-  let textAnchor = "middle"
-  if (props.x < props.width/2 && props.x - (props.labelText.length * 8) < 1) {
-    textAnchor = "start"
-  } else if (props.x > props.width/2 && props.x + (props.labelText.length * 8) > props.width) {
-    textAnchor = "end"
-  }
-  return (
-    <Motion
-      defaultStyle={{
-        x: props.initX,
-        y: props.initY,
-      }}
-      style={{
-        x: spring(props.x, {stiffness: 120, damoing: 50}),
-        y: spring(props.y, {stiffness: 120, damping: 50})
-      }}
-    >
-      {
-        style =>
-        <text
-          x={style.x} y={style.y} style={{pointerEvents:"none"}}
-          alignmentBaseline="middle" textAnchor={textAnchor}
-          fill={props.fill}>
-            {props.labelText}
-        </text>
-      }
-    </Motion>
-  )
-}
-
-class NetworkChart extends React.Component {
+class NetworkChart extends React.PureComponent {
 
   constructor(props) {
     super(props)
@@ -160,9 +77,12 @@ class NetworkChart extends React.Component {
 
   render() {
 
-    let p = new GetPointPositions(this.props.nodes, this.props.links, this.positions,
-      this.props.width, this.props.height, this.props.IDKey, this.props.maxRadius, this.props.attractionFactor)
-    let newPositions = p.getPoints()
+    const newPositions = getFinalNodePositions(
+      this.props.nodes, this.props.links, this.positions,
+      this.props.width, this.props.height, this.props.IDKey,
+      this.props.maxRadius, this.props.attractionFactor,
+      this.props.parentKey, this.props.childKey
+    )
 
     let points = []
     let labels = []
@@ -178,12 +98,13 @@ class NetworkChart extends React.Component {
       this.props.color, Object.keys(groupColor).length
     )
 
-    let nodes
+    let nodes = this.props.nodes
     if (this.props.nodeSize) {
-      let newNodes = new GetNodeSize(JSON.parse(JSON.stringify(this.props.nodes)), this.props.nodeKey, this.props.maxRadius, this.props.graphStyle.pointRadius)
-      nodes = newNodes.nodeSizes()
-    } else {
-      nodes = this.props.nodes
+      nodes = getNodeSizes(
+        JSON.parse(JSON.stringify(this.props.nodes)),
+        this.props.nodeKey, this.props.maxRadius,
+        this.props.graphStyle.pointRadius
+      )
     }
 
     for (let node of nodes) {
@@ -227,12 +148,13 @@ class NetworkChart extends React.Component {
     }
 
     let lines = []
-    let links
+    let links = this.props.links
+
     if (this.props.linkWeight) {
-      let newLinks = new GetLinkWeight(JSON.parse(JSON.stringify(this.props.links)), this.props.linkKey, this.props.maxWidth, this.props.graphStyle.lineWidth)
-      links = newLinks.linkWeights()
-    } else {
-      links = this.props.links
+      links = getLinkWeights(
+        JSON.parse(JSON.stringify(this.props.links)), this.props.linkKey,
+        this.props.maxWidth, this.props.graphStyle.lineWidth
+      )
     }
 
     for (let link of links) {
@@ -241,7 +163,7 @@ class NetworkChart extends React.Component {
       let parentInitPos = this.positions[link[this.props.parentKey]]
       let childInitPos = this.positions[link[this.props.childKey]]
       lines.push(
-        <Path x1={parentPos.x} y1={parentPos.y}
+        <Link x1={parentPos.x} y1={parentPos.y}
           x2={childPos.x} y2={childPos.y}
           startX1={parentInitPos.x}
           startY1={parentInitPos.y}
