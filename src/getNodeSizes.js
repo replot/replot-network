@@ -3,26 +3,26 @@ const getNodeSizes = (data, nodeKey, maxRadius, pointRadius) => {
   let largestWeight = 0
 
   for (let member of data) {
-    if (member[nodeKey] < this.smallestWeight && member[nodeKey] !== null) {
-      this.smallestWeight = member[nodeKey]
+    if (member[nodeKey] < smallestWeight && member[nodeKey] !== null) {
+      smallestWeight = member[nodeKey]
     }
-    if (member[nodeKey] > this.largestWeight && member[nodeKey] !== null) {
-      this.largestWeight = member[nodeKey]
+    if (member[nodeKey] > largestWeight && member[nodeKey] !== null) {
+      largestWeight = member[nodeKey]
     }
   }
 
   let newData = []
   let radius
 
-  let stepSize = (maxRadius-pointRadius)/(this.largestWeight-this.smallestWeight)
+  let stepSize = (maxRadius-pointRadius)/(largestWeight-smallestWeight)
 
   for (let member of data) {
-    if (member[nodeKey] == this.smallestWeight) {
+    if (member[nodeKey] == smallestWeight) {
       radius = pointRadius //smallest weight has minRadius
-    } else if (member[nodeKey] == this.largestWeight) {
+    } else if (member[nodeKey] == largestWeight) {
       radius = maxRadius //largest weight has maxRadius
     } else {
-      let ratio = member[nodeKey] - this.smallestWeight
+      let ratio = member[nodeKey] - smallestWeight
       if (ratio > 0) {
         radius = pointRadius + (ratio * stepSize)
       } else {
