@@ -1,5 +1,5 @@
 const getFinalNodePositions = (nodes, links, initialPositions,
-  width, height, IDKey, radius, attractionFactor, parentKey, childKey) => {
+  width, height, nodeKey, radius, attractionFactor, parentKey, childKey) => {
 
   const attract = (d,k) => {
     let force = Math.pow(d,2)/k
@@ -15,7 +15,7 @@ const getFinalNodePositions = (nodes, links, initialPositions,
   let graph = {}
 
   for (let node of nodes) {
-    let nodeID = node[IDKey]
+    let nodeID = node[nodeKey]
     graph[nodeID] = ({
       pos: {x: initialPositions[nodeID].x, y: initialPositions[nodeID].y},
       disp: {x:0, y:0}
@@ -35,10 +35,10 @@ const getFinalNodePositions = (nodes, links, initialPositions,
 
   for (let i=0; i < timeSteps; i++) {
     for (let node1 of nodes) {
-      let nodeV = graph[node1[IDKey]]
+      let nodeV = graph[node1[nodeKey]]
       nodeV.disp = {x:0, y:0}
       for (let node2 of nodes) {
-        let nodeU = graph[node2[IDKey]]
+        let nodeU = graph[node2[nodeKey]]
         if (nodeV !== nodeU) {
           let xDiff = nodeV.pos.x - nodeU.pos.x
           let yDiff = nodeV.pos.y - nodeU.pos.y
@@ -67,7 +67,7 @@ const getFinalNodePositions = (nodes, links, initialPositions,
     }
 
     for (let node of nodes) {
-      let currNode = graph[node[IDKey]]
+      let currNode = graph[node[nodeKey]]
       let magnitude = Math.sqrt(Math.pow(currNode.disp.x,2) + Math.pow(currNode.disp.y,2))
       currNode.pos.x += currNode.disp.x/magnitude
       currNode.pos.y += currNode.disp.y/magnitude
@@ -75,10 +75,10 @@ const getFinalNodePositions = (nodes, links, initialPositions,
   }
 
   for (let node of nodes) {
-    let currNode = graph[node[IDKey]]
+    let currNode = graph[node[nodeKey]]
     currNode.pos.x = Math.min(width-radius, Math.max(radius, currNode.pos.x))
     currNode.pos.y = Math.min(height-radius, Math.max(radius, currNode.pos.y))
-    newPositions[node[IDKey]] = {x: currNode.pos.x, y: currNode.pos.y}
+    newPositions[node[nodeKey]] = {x: currNode.pos.x, y: currNode.pos.y}
   }
   return newPositions
 

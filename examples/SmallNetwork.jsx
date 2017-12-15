@@ -403,7 +403,7 @@ class SmallNetwork extends React.Component {
           labelKey="id"
           groupKey="group"
           nodeSize={false}
-          nodeKey="nodeSize"/>
+          nodeWeightKey="nodeSize"/>
       </div>
     )
   }

@@ -17,12 +17,12 @@ class NetworkChart extends React.PureComponent {
 
     const initPositions = getInitialNodePositions(
       this.props.nodes, this.props.width,
-      this.props.height, this.props.IDKey
+      this.props.height, this.props.nodeKey
     )
 
     const newPositions = getFinalNodePositions(
       this.props.nodes, this.props.links, initPositions,
-      this.props.width, this.props.height, this.props.IDKey,
+      this.props.width, this.props.height, this.props.nodeKey,
       this.props.maxRadius, this.props.attractionFactor,
       this.props.parentKey, this.props.childKey
     )
@@ -44,14 +44,13 @@ class NetworkChart extends React.PureComponent {
     let nodes = this.props.nodes
     if (this.props.nodeSize) {
       nodes = getNodeSizes(
-        JSON.parse(JSON.stringify(this.props.nodes)),
-        this.props.nodeKey, this.props.maxRadius,
-        this.props.graphStyle.pointRadius
+        this.props.nodes, this.props.nodeWeightKey,
+        this.props.maxRadius, this.props.graphStyle.nodeRadius
       )
     }
 
     for (let node of nodes) {
-      let nodeID = node[this.props.IDKey]
+      let nodeID = node[this.props.nodeKey]
 
       let color
       if (this.props.groupKey) {
@@ -68,7 +67,7 @@ class NetworkChart extends React.PureComponent {
         <Node key={nodeID} raw={node}
           x={newPositions[nodeID].x} y={newPositions[nodeID].y}
           radius={this.props.nodeSize ? node.radius
-          : this.props.graphStyle.pointRadius}
+          : this.props.graphStyle.nodeRadius}
           zoomScale={this.props.zoomScale} fill={color}
           initX={initPositions[nodeID].x} initY={initPositions[nodeID].y}
           activateTooltip={this.props.activateTooltip}
@@ -104,7 +103,7 @@ class NetworkChart extends React.PureComponent {
         )
       } else {
         links = getLinkWeights(
-          JSON.parse(JSON.stringify(this.props.links)), this.props.linkKey,
+          this.props.links, this.props.linkKey,
           this.props.maxWidth, this.props.graphStyle.lineWidth
         )
       }
@@ -147,14 +146,14 @@ class NetworkChart extends React.PureComponent {
 NetworkChart.defaultProps = {
   width: 800,
   height: 600,
-  IDKey: "id",
+  nodeKey: "id",
   parentKey: "parent",
   childKey: "child",
   groupKey: "group",
   labelKey: "label",
   color: defaultPalette,
   graphStyle: {
-    pointRadius: 10,
+    nodeRadius: 10,
     lineWidth: 1,
     lineColor: "#1b1b1b",
     lineOpacity: 0.25,
@@ -162,7 +161,7 @@ NetworkChart.defaultProps = {
   },
   nodeSize: false,
   weightedLinks: false,
-  nodeKey: "node",
+  nodeWeightKey: "node",
   linkKey: null,
   maxRadius: 10,
   maxWidth: 10,
@@ -178,7 +177,7 @@ NetworkChart.propTypes = {
     PropTypes.string
   ]),
   height: PropTypes.number,
-  IDKey: PropTypes.string,
+  nodeKey: PropTypes.string,
   parentKey: PropTypes.string,
   childKey: PropTypes.string,
   linkKey: PropTypes.string,

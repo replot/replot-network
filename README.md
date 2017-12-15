@@ -128,9 +128,11 @@ render() {
   - specify the color of the node labels
 
 ### Data Customization
+- `nodeKey` defaults to `"id"`
+  - specify the key that holds the unique ID of nodes in the nodes data
 - `parentKey` defaults to `"parent"`
-  - specify the source of an link
+  - specify the key that holds the ID of the source nodes in the links data
 - `childKey` defaults to `"child"`
-  - specify the target of an link
+  - specify the key that holds the ID of the target nodes in the links data
 - `labelKey` defaults to `"label"`
-  - specify what to label the nodes by
+  - specify the key that holds the text to label the nodes by

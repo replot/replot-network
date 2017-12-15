@@ -29,12 +29,12 @@ class NetworkChartTooltip extends React.PureComponent {
       else {
         newContents = (
           <div>
-            <span>{this.props.IDKey}: {data[this.props.IDKey]}<br/></span>
+            <span>{this.props.nodeKey}: {data[this.props.nodeKey]}<br/></span>
             {this.props.groupKey &&
             <span>{this.props.groupKey}: {data[this.props.groupKey]}</span>
             }
             {this.props.nodeSize &&
-            <span>{this.props.nodeKey}: {data[this.props.nodeKey]}</span>
+            <span>{this.props.nodeWeightKey}: {data[this.props.nodeWeightKey]}</span>
             }
           </div>
         )
