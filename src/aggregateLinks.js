@@ -2,7 +2,7 @@ const aggregateLinks = (links, parentKey, childKey, linkKey) => {
   let newLinks = {}
 
   for (let link of links) {
-    const linkID = link[parentKey] + "-" + link[childKey]
+    let linkID = link[parentKey] + "-" + link[childKey]
     if (linkID in newLinks) {
       newLinks[linkID][linkKey] += 1
     } else {
@@ -10,6 +10,7 @@ const aggregateLinks = (links, parentKey, childKey, linkKey) => {
       newLinks[linkID][linkKey] = 1
     }
   }
+
   return Object.values(newLinks)
 }
 
