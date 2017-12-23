@@ -1,142 +1,136 @@
 import React from "react"
 import PropTypes from "prop-types"
-import {defaultPalette, getPalette} from "./color.js"
 import getFinalNodePositions from "./getFinalNodePositions.js"
-import getInitialNodePositions from "./getInitialNodePositions.js"
-import getLinkWeights from "./getLinkWeights.js"
-import getNodeSizes from "./getNodeSizes.js"
-import aggregateLinks from "./aggregateLinks.js"
-import {Resize, Tooltip} from "replot-core"
-import Node from "./Node.jsx"
-import Link from "./Link.jsx"
-import Label from "./Label.jsx"
+import NodeCluster from "./NodeCluster.jsx"
+import LinkCluster from "./LinkCluster.jsx"
+import LabelCluster from "./LabelCluster.jsx"
+import {Set} from "immutable"
+import {defaultPalette} from "./color.js"
 
 class NetworkChart extends React.PureComponent {
 
-  render() {
+  constructor(props) {
+    super(props)
 
-    const initPositions = getInitialNodePositions(
-      this.props.nodes, this.props.width,
-      this.props.height, this.props.nodeKey
-    )
+    this.state = {
+      linksVisible: false,
+      labelsVisible: false,
+      initPositions: null,
+      finalPositions: null
+    }
 
-    const newPositions = getFinalNodePositions(
+    this.pointsRest = this.pointsRest.bind(this)
+  }
+
+  pointsRest() {
+    this.setState({linksVisible: true, labelsVisible: true})
+    this.props.pointsRest()
+  }
+
+  componentWillMount() {
+    let initPositions = {}
+    for (let node of this.props.nodes) {
+      let xPos = Math.floor(Math.random()*(this.props.width))
+      let yPos = Math.floor(Math.random()*(this.props.height))
+      initPositions[node[this.props.nodeKey]] = {x: xPos, y: yPos}
+    }
+
+    this.setState({
+      initPositions: initPositions,
+      finalPositions: getFinalNodePositions(
       this.props.nodes, this.props.links, initPositions,
       this.props.width, this.props.height, this.props.nodeKey,
       this.props.maxRadius, this.props.attractionFactor,
-      this.props.parentKey, this.props.childKey
-    )
+      this.props.parentKey, this.props.childKey)
+    })
+  }
 
-    let points = []
-    let labels = []
-    let groupColor = {}
-
-    if (this.props.groupKey) {
-      for (let node of this.props.nodes) {
-        groupColor[node[this.props.groupKey]] = null
-      }
-    }
-
-    let palette = getPalette(
-      this.props.color, Object.keys(groupColor).length
-    )
-
-    let nodes = this.props.nodes
-    if (this.props.nodeSize) {
-      nodes = getNodeSizes(
-        this.props.nodes, this.props.nodeWeightKey,
-        this.props.maxRadius, this.props.graphStyle.nodeRadius
-      )
-    }
-
-    for (let node of nodes) {
-      let nodeID = node[this.props.nodeKey]
-
-      let color
-      if (this.props.groupKey) {
-        if (groupColor[node[this.props.groupKey]]) {
-          color = groupColor[node[this.props.groupKey]]
-        } else {
-          color = palette.shift()
-          groupColor[node[this.props.groupKey]] = color
+  didDataChange(newProps, oldProps) {
+    if (newProps.nodes.length != oldProps.nodes.length) {
+      return true
+    } else if (newProps.links.length != oldProps.links.length) {
+      return true
+    } else {
+      const oldLinks = Set(oldProps.links.map(
+        (e) => {
+          return e[this.props.parentKey] + "." + e[this.props.childKey]
         }
-      } else {
-        color = this.props.color[0]
+      ))
+      const newLinks = Set(newProps.links.map(
+        (e) => {
+          return e[this.props.parentKey] + "." + e[this.props.childKey]
+        }
+      ))
+      if (!oldLinks.equals(newLinks)) {
+        return true
       }
-      points.push(
-        <Node key={nodeID} raw={node}
-          x={newPositions[nodeID].x} y={newPositions[nodeID].y}
-          radius={this.props.nodeSize ? node.radius
-          : this.props.graphStyle.nodeRadius}
-          zoomScale={this.props.zoomScale} fill={color}
-          initX={initPositions[nodeID].x} initY={initPositions[nodeID].y}
-          activateTooltip={this.props.activateTooltip}
-          deactivateTooltip={this.props.deactivateTooltip}
-          pointsRest={this.props.pointsRest} />
-      )
-
-      if (this.props.showLabels && node[this.props.labelKey]) {
-        labels.push(
-          <Label
-            width={this.props.width}
-            key={nodeID}
-            initX={initPositions[nodeID].x}
-            initY={initPositions[nodeID].y}
-            x={newPositions[nodeID].x+8} y={newPositions[nodeID].y}
-            fill={this.props.graphStyle.labelColor}
-            labelText={node[this.props.labelKey]}/>
-        )
+      const oldNodes = Set(oldProps.nodes.map(
+        (e) => {
+          return e[this.props.nodeKey]
+        }
+      ))
+      const newNodes = Set(newProps.nodes.map(
+        (e) => {
+          return e[this.props.nodeKey]
+        }
+      ))
+      if (!oldNodes.equals(newNodes)) {
+        return true
       }
     }
+    return false
+  }
 
-    let lines = []
-    let links = this.props.links
-
-    if (this.props.weightedLinks) {
-      if (!this.props.linkKey) {
-        const aggLinks = aggregateLinks(
-          this.props.links, this.parentKey, this.childKey, "_linkWeight"
-        )
-        links = getLinkWeights(
-          aggLinks, "_linkWeight",
-          this.props.maxWidth, this.props.graphStyle.lineWidth
-        )
-      } else {
-        links = getLinkWeights(
-          this.props.links, this.props.linkKey,
-          this.props.maxWidth, this.props.graphStyle.lineWidth
-        )
+  componentWillReceiveProps(nextProps) {
+    if (this.didDataChange(nextProps, this.props)) {
+      let initPositions = this.props.finalPositions
+      if (!(initPositions && initPositions.length > 0)) {
+        initPositions = {}
+        for (let node of this.props.nodes) {
+          let xPos = Math.floor(Math.random()*(this.props.width))
+          let yPos = Math.floor(Math.random()*(this.props.height))
+          initPositions[node[this.props.nodeKey]] = {x: xPos, y: yPos}
+        }
       }
+      this.setState({
+        initPositions: initPositions,
+        finalPositions: getFinalNodePositions(
+        nextProps.nodes, nextProps.links, initPositions,
+        nextProps.width, nextProps.height, nextProps.nodeKey,
+        nextProps.maxRadius, nextProps.attractionFactor,
+        nextProps.parentKey, nextProps.childKey)
+      })
     }
+  }
 
-    let linkIndex = 0
-    for (let link of links) {
-      linkIndex += 1
-      let parentPos = newPositions[link[this.props.parentKey]]
-      let childPos = newPositions[link[this.props.childKey]]
-      let parentInitPos = initPositions[link[this.props.parentKey]]
-      let childInitPos = initPositions[link[this.props.childKey]]
-      lines.push(
-        <Link x1={parentPos.x} y1={parentPos.y}
-          x2={childPos.x} y2={childPos.y}
-          startX1={parentInitPos.x}
-          startY1={parentInitPos.y}
-          startX2={childInitPos.x}
-          startY2={childInitPos.y}
-          strokeWidth={this.props.weightedLinks ? link.width
-          : this.props.graphStyle.lineWidth}
-          stroke={this.props.graphStyle.lineColor}
-          opacity={this.props.graphStyle.lineOpacity}
-          key={`${linkIndex}.${link[this.props.parentKey]}.${link[this.props.childKey]}`}
-        />
-      )
-    }
-
+  render() {
     return (
       <svg width={this.props.width} height={this.props.height}>
-        {lines}
-        {points}
-        {labels}
+        <NodeCluster nodes={this.props.nodes}
+          initPositions={this.state.initPositions}
+          finalPositions={this.state.finalPositions}
+          graphStyle={this.props.graphStyle}
+          nodeKey={this.props.nodeKey}
+          groupKey={this.props.groupKey}
+          color={this.props.color}
+          maxRadius={this.props.maxRadius}
+          activateTooltip={this.props.activateTooltip}
+          deactivateTooltip={this.props.deactivateTooltip}
+          pointsRest={this.pointsRest} />
+        <LinkCluster links={this.props.links}
+          finalPositions={this.state.finalPositions}
+          linksVisible={this.state.linksVisible}
+          weightedLinks={this.props.weightedLinks}
+          graphStyle={this.props.graphStyle}
+          parentKey={this.props.parentKey}
+          childKey={this.props.childKey} />
+        <LabelCluster nodes={this.props.nodes}
+          finalPositions={this.state.finalPositions}
+          graphStyle={this.props.graphStyle}
+          showLabels={this.props.showLabels}
+          labelKey={this.props.labelKey}
+          nodeKey={this.props.nodeKey}
+          labelsVisible={this.state.labelsVisible} />
       </svg>
     )
   }
@@ -154,7 +148,7 @@ NetworkChart.defaultProps = {
   color: defaultPalette,
   graphStyle: {
     nodeRadius: 10,
-    lineWidth: 1,
+    lineWidth: "1px",
     lineColor: "#1b1b1b",
     lineOpacity: 0.25,
     labelColor: "#1b1b1b",
