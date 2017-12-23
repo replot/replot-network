@@ -12,23 +12,21 @@ class Label extends React.PureComponent {
     }
     return (
       <Motion
-        defaultStyle={{
-          x: this.props.initX,
-          y: this.props.initY,
-        }}
+        defaultStyle={{opacity: 0}}
         style={{
-          x: spring(this.props.x, {stiffness: 120, damoing: 50}),
-          y: spring(this.props.y, {stiffness: 120, damping: 50})
+          opacity: spring(1, {stiffness: 120, damping: 50})
         }}
       >
         {
-          style =>
-          <text
-            x={style.x} y={style.y} style={{pointerEvents:"none"}}
-            alignmentBaseline="middle" textAnchor={textAnchor}
-            fill={this.props.fill}>
-              {this.props.labelText}
-          </text>
+          interpolatingStyles =>
+            <g opacity={interpolatingStyles.opacity}>
+              <text
+                x={this.props.x} y={this.props.y} style={{pointerEvents:"none"}}
+                alignmentBaseline="middle" textAnchor={textAnchor}
+                fill={this.props.fill}>
+                  {this.props.labelText}
+              </text>
+            </g>
         }
       </Motion>
     )
