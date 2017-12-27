@@ -399,7 +399,7 @@ class SmallNetwork extends React.Component {
         <h1 style={{textAlign: "center"}}>Small Network: Romeo & Juliet</h1>
         <NetworkChart
           nodes={this.state.nodes2}
-          links={this.state.links2}
+          data={this.state.links2}
           labelKey="id"
           groupKey="group"
           nodeSize={false}

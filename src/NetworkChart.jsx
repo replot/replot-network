@@ -15,13 +15,20 @@ class NetworkChart extends React.PureComponent {
 
   render() {
 
+    let nodeIDSet = new Set()
+    for (let link of this.props.data) {
+      nodeIDSet.add(link[this.props.childKey])
+      nodeIDSet.add(link[this.props.parentKey])
+    }
+    let nodeIDs = Array.from(nodeIDSet)
+
     const initPositions = getInitialNodePositions(
-      this.props.nodes, this.props.width,
+      nodeIDs, this.props.width,
       this.props.height, this.props.IDKey
     )
 
     const newPositions = getFinalNodePositions(
-      this.props.nodes, this.props.links, initPositions,
+      nodeIDs, this.props.data, initPositions,
       this.props.width, this.props.height, this.props.IDKey,
       this.props.maxRadius, this.props.attractionFactor,
       this.props.parentKey, this.props.childKey
@@ -31,7 +38,7 @@ class NetworkChart extends React.PureComponent {
     let labels = []
     let groupColor = {}
 
-    if (this.props.groupKey) {
+    if (this.props.groupKey && this.props.nodes) {
       for (let node of this.props.nodes) {
         groupColor[node[this.props.groupKey]] = null
       }
@@ -41,8 +48,8 @@ class NetworkChart extends React.PureComponent {
       this.props.color, Object.keys(groupColor).length
     )
 
-    let nodes = this.props.nodes
-    if (this.props.nodeSize) {
+    let nodes = this.props.nodes ? this.props.nodes : nodeIDs
+    if (this.props.nodeSize && this.props.nodes) {
       nodes = getNodeSizes(
         JSON.parse(JSON.stringify(this.props.nodes)),
         this.props.nodeKey, this.props.maxRadius,
@@ -51,10 +58,10 @@ class NetworkChart extends React.PureComponent {
     }
 
     for (let node of nodes) {
-      let nodeID = node[this.props.IDKey]
+      let nodeID = this.props.nodes ? node[this.props.IDKey] : node
 
       let color
-      if (this.props.groupKey) {
+      if (this.props.groupKey && this.props.nodes) {
         if (groupColor[node[this.props.groupKey]]) {
           color = groupColor[node[this.props.groupKey]]
         } else {
@@ -67,7 +74,7 @@ class NetworkChart extends React.PureComponent {
       points.push(
         <Node key={nodeID} raw={node}
           x={newPositions[nodeID].x} y={newPositions[nodeID].y}
-          radius={this.props.nodeSize ? node.radius
+          radius={this.props.nodeSize && this.props.nodes ? node.radius
           : this.props.graphStyle.pointRadius}
           zoomScale={this.props.zoomScale} fill={color}
           initX={initPositions[nodeID].x} initY={initPositions[nodeID].y}
@@ -76,7 +83,7 @@ class NetworkChart extends React.PureComponent {
           pointsRest={this.props.pointsRest} />
       )
 
-      if (this.props.showLabels && node[this.props.labelKey]) {
+      if (this.props.showLabels && this.props.nodes && node[this.props.labelKey]) {
         labels.push(
           <Label
             width={this.props.width}
@@ -91,12 +98,12 @@ class NetworkChart extends React.PureComponent {
     }
 
     let lines = []
-    let links = this.props.links
+    let links = this.props.data
 
     if (this.props.weightedLinks) {
       if (!this.props.linkKey) {
         const aggLinks = aggregateLinks(
-          this.props.links, this.parentKey, this.childKey, "_linkWeight"
+          this.props.data, this.parentKey, this.childKey, "_linkWeight"
         )
         links = getLinkWeights(
           aggLinks, "_linkWeight",
@@ -104,7 +111,7 @@ class NetworkChart extends React.PureComponent {
         )
       } else {
         links = getLinkWeights(
-          JSON.parse(JSON.stringify(this.props.links)), this.props.linkKey,
+          JSON.parse(JSON.stringify(this.props.data)), this.props.linkKey,
           this.props.maxWidth, this.props.graphStyle.lineWidth
         )
       }
@@ -150,7 +157,6 @@ NetworkChart.defaultProps = {
   IDKey: "id",
   parentKey: "parent",
   childKey: "child",
-  groupKey: "group",
   labelKey: "label",
   color: defaultPalette,
   graphStyle: {
@@ -167,12 +173,14 @@ NetworkChart.defaultProps = {
   maxRadius: 10,
   maxWidth: 10,
   zoomScale: 2,
-  showLabels: true,
+  showLabels: false,
   tooltip: false,
   attractionFactor: 1,
 }
 
 NetworkChart.propTypes = {
+  data: PropTypes.array.isRequired,
+  nodes: PropTypes.array,
   width: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string
