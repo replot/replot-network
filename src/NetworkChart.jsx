@@ -191,7 +191,7 @@ NetworkChart.defaultProps = {
   labelKey: "label",
   color: defaultPalette,
   graphStyle: {
-    pointRadius: 10,
+    pointRadius: 5,
     lineWidth: 1,
     lineColor: "#1b1b1b",
     lineOpacity: 0.25,
