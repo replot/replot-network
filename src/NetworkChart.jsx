@@ -49,10 +49,10 @@ class NetworkChart extends React.PureComponent {
     )
 
     let nodes = this.props.nodes ? this.props.nodes : nodeIDs
-    if (this.props.nodeSize && this.props.nodes) {
+    if (this.props.nodeSizeKey && this.props.nodes) {
       nodes = getNodeSizes(
         JSON.parse(JSON.stringify(this.props.nodes)),
-        this.props.nodeKey, this.props.maxRadius,
+        this.props.nodeSizeKey, this.props.maxRadius,
         this.props.graphStyle.pointRadius
       )
     }
@@ -74,7 +74,7 @@ class NetworkChart extends React.PureComponent {
       points.push(
         <Node key={nodeID} raw={node}
           x={newPositions[nodeID].x} y={newPositions[nodeID].y}
-          radius={this.props.nodeSize && this.props.nodes ? node.radius
+          radius={this.props.nodeSizeKey && this.props.nodes ? node.radius
           : this.props.graphStyle.pointRadius}
           zoomScale={this.props.zoomScale} fill={color}
           initX={initPositions[nodeID].x} initY={initPositions[nodeID].y}
@@ -167,15 +167,11 @@ NetworkChart.defaultProps = {
     lineOpacity: 0.25,
     labelColor: "#1b1b1b",
   },
-  nodeSize: false,
   weightedLinks: false,
-  nodeKey: "node",
-  linkKey: null,
   maxRadius: 10,
   maxWidth: 10,
   zoomScale: 2,
   showLabels: false,
-  tooltip: false,
   attractionFactor: 1,
 }
 
@@ -192,7 +188,7 @@ NetworkChart.propTypes = {
   childKey: PropTypes.string,
   linkKey: PropTypes.string,
   weightedLinks: PropTypes.bool,
-  nodeSize: PropTypes.bool,
+  nodeSizeKey: PropTypes.string,
   maxWidth: PropTypes.number,
   color: PropTypes.oneOfType([
     PropTypes.func,

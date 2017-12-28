@@ -89,6 +89,16 @@ class NetworkChartTooltip extends React.PureComponent {
   }
 }
 
+NetworkChartTooltip.defaultProps = {
+  tooltip: true
+}
+
+NetworkChartTooltip.propTypes = {
+  tooltip: PropTypes.bool,
+  tooltipColor: PropTypes.string,
+  tooltipContents: PropTypes.func
+}
+
 class NetworkChartResponsive extends React.Component {
 
   render() {
