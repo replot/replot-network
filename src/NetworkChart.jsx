@@ -16,9 +16,28 @@ class NetworkChart extends React.PureComponent {
   render() {
 
     let nodeIDSet = new Set()
-    for (let link of this.props.data) {
-      nodeIDSet.add(link[this.props.childKey])
-      nodeIDSet.add(link[this.props.parentKey])
+    let missingNodes = []
+    if (this.props.nodes) {
+      for (let node of this.props.nodes) {
+        nodeIDSet.add(node[this.props.IDKey])
+      }
+      for (let link of this.props.data) {
+        if (!nodeIDSet.has(link[this.props.childKey])) {
+          console.log(`${link[this.props.childKey]} was found in links, but not in nodes`)
+          nodeIDSet.add(link[this.props.childKey])
+          missingNodes.push(link[this.props.childKey])
+        }
+        if (!nodeIDSet.has(link[this.props.parentKey])) {
+          console.log(`${link[this.props.parentKey]} was found in links, but not in nodes`)
+          nodeIDSet.add(link[this.props.parentKey])
+          missingNodes.push(link[this.props.parentKey])
+        }
+      }
+    } else {
+      for (let link of this.props.data) {
+        nodeIDSet.add(link[this.props.childKey])
+        nodeIDSet.add(link[this.props.parentKey])
+      }
     }
     let nodeIDs = Array.from(nodeIDSet)
 
@@ -49,12 +68,23 @@ class NetworkChart extends React.PureComponent {
     )
 
     let nodes = this.props.nodes ? this.props.nodes : nodeIDs
-    if (this.props.nodeSizeKey && this.props.nodes) {
+    if (this.props.nodes && this.props.nodeSizeKey) {
       nodes = getNodeSizes(
         JSON.parse(JSON.stringify(this.props.nodes)),
         this.props.nodeSizeKey, this.props.maxRadius,
         this.props.graphStyle.pointRadius
       )
+    }
+    if (this.props.nodes) {
+      for (let missingNode of missingNodes) {
+        let newNode = {}
+        newNode[this.props.IDKey] = missingNode
+        newNode["radius"] = this.props.graphStyle.pointRadius
+        if (this.props.groupKey) {
+          newNode[this.props.groupKey] = null
+        }
+        nodes.push(newNode)
+      }
     }
 
     for (let node of nodes) {
