@@ -1,5 +1,5 @@
 const getFinalNodePositions = (nodes, links, initialPositions,
-  width, height, IDKey, radius, attractionFactor, parentKey, childKey) => {
+  width, height, radius, attractionFactor, parentKey, childKey) => {
 
   const attract = (d,k) => {
     let force = Math.pow(d,2)/k

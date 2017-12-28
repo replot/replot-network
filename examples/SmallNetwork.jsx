@@ -400,6 +400,7 @@ class SmallNetwork extends React.Component {
         <NetworkChart
           nodes={this.state.nodes2}
           data={this.state.links2}
+          tooltip={true}
           labelKey="id"
           groupKey="group"
           nodeSize={false}

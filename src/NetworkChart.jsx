@@ -24,12 +24,12 @@ class NetworkChart extends React.PureComponent {
 
     const initPositions = getInitialNodePositions(
       nodeIDs, this.props.width,
-      this.props.height, this.props.IDKey
+      this.props.height
     )
 
     const newPositions = getFinalNodePositions(
       nodeIDs, this.props.data, initPositions,
-      this.props.width, this.props.height, this.props.IDKey,
+      this.props.width, this.props.height,
       this.props.maxRadius, this.props.attractionFactor,
       this.props.parentKey, this.props.childKey
     )
@@ -83,7 +83,7 @@ class NetworkChart extends React.PureComponent {
           pointsRest={this.props.pointsRest} />
       )
 
-      if (this.props.showLabels && this.props.nodes && node[this.props.labelKey]) {
+      if (this.props.showLabels) {
         labels.push(
           <Label
             width={this.props.width}
@@ -92,7 +92,8 @@ class NetworkChart extends React.PureComponent {
             initY={initPositions[nodeID].y}
             x={newPositions[nodeID].x+8} y={newPositions[nodeID].y}
             fill={this.props.graphStyle.labelColor}
-            labelText={node[this.props.labelKey]}/>
+            labelText={this.props.nodes && node[this.props.labelKey] ?
+              node[this.props.labelKey] : nodeID}/>
         )
       }
     }
