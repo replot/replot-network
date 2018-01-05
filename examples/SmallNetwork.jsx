@@ -388,6 +388,7 @@ class SmallNetwork extends React.Component {
         {parent: "Nurse", child: "Sampson"},
         {parent: "Nurse", child: "Peter"},
         {parent: "Balthasar", child: "Abraham"},
+        {parent: "Rando", child: "Abraham"},
       ],
     }
   }
@@ -399,8 +400,7 @@ class SmallNetwork extends React.Component {
         <h1 style={{textAlign: "center"}}>Small Network: Romeo & Juliet</h1>
         <NetworkChart
           nodes={this.state.nodes2}
-          links={this.state.links2}
-          labelKey="id"
+          data={this.state.links2}
           groupKey="group"
           nodeSize={false}
           nodeWeightKey="nodeSize"/>
