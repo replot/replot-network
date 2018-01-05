@@ -1,10 +1,11 @@
 import React from "react"
 import PropTypes from "prop-types"
 import getFinalNodePositions from "./getFinalNodePositions.js"
+import constructNodes from "./constructNodes.js"
 import NodeCluster from "./NodeCluster.jsx"
 import LinkCluster from "./LinkCluster.jsx"
 import LabelCluster from "./LabelCluster.jsx"
-import {Set} from "immutable"
+import {Set as ImmutableSet} from "immutable"
 import {defaultPalette} from "./color.js"
 
 class NetworkChart extends React.PureComponent {
@@ -16,7 +17,8 @@ class NetworkChart extends React.PureComponent {
       linksVisible: false,
       labelsVisible: false,
       initPositions: null,
-      finalPositions: null
+      finalPositions: null,
+      nodes: null,
     }
 
     this.pointsRest = this.pointsRest.bind(this)
@@ -28,48 +30,37 @@ class NetworkChart extends React.PureComponent {
   }
 
   componentWillMount() {
+    let nodes = constructNodes(this.props.links, this.props.nodes, this.props.nodeKey,
+      this.props.childKey, this.props.parentKey, this.props.groupKey, this.props.graphStyle.nodeRadius)
+
     let initPositions = {}
-    for (let node of this.props.nodes) {
+    for (let node of nodes) {
       let xPos = Math.floor(Math.random()*(this.props.width))
       let yPos = Math.floor(Math.random()*(this.props.height))
       initPositions[node[this.props.nodeKey]] = {x: xPos, y: yPos}
     }
-
     this.setState({
       initPositions: initPositions,
       finalPositions: getFinalNodePositions(
-      this.props.nodes, this.props.links, initPositions,
+      nodes, this.props.links, initPositions,
       this.props.width, this.props.height, this.props.nodeKey,
       this.props.maxRadius, this.props.attractionFactor,
-      this.props.parentKey, this.props.childKey)
+      this.props.parentKey, this.props.childKey),
+      nodes: ImmutableSet(nodes)
     })
   }
 
   didDataChange(newProps, oldProps) {
-    if (newProps.nodes.length != oldProps.nodes.length) {
-      return true
-    } else if (newProps.links.length != oldProps.links.length) {
-      return true
-    } else {
-      const oldLinks = Set(oldProps.links.map(
-        (e) => {
-          return e[this.props.parentKey] + "." + e[this.props.childKey]
-        }
-      ))
-      const newLinks = Set(newProps.links.map(
-        (e) => {
-          return e[this.props.parentKey] + "." + e[this.props.childKey]
-        }
-      ))
-      if (!oldLinks.equals(newLinks)) {
+    if (newProps.nodes && oldProps.nodes) {
+      if (newProps.nodes.length != oldProps.nodes.length) {
         return true
       }
-      const oldNodes = Set(oldProps.nodes.map(
+      const oldNodes = ImmutableSet(oldProps.nodes.map(
         (e) => {
           return e[this.props.nodeKey]
         }
       ))
-      const newNodes = Set(newProps.nodes.map(
+      const newNodes = ImmutableSet(newProps.nodes.map(
         (e) => {
           return e[this.props.nodeKey]
         }
@@ -77,28 +68,48 @@ class NetworkChart extends React.PureComponent {
       if (!oldNodes.equals(newNodes)) {
         return true
       }
+    } else if (newProps.nodes || oldProps.nodes) {
+      return true
+    }
+
+    if (newProps.data.length != oldProps.data.length) {
+      return true
+    }
+    const oldLinks = ImmutableSet(oldProps.data.map(
+      (e) => {
+        return e[this.props.parentKey] + "." + e[this.props.childKey]
+      }
+    ))
+    const newLinks = ImmutableSet(newProps.data.map(
+      (e) => {
+        return e[this.props.parentKey] + "." + e[this.props.childKey]
+      }
+    ))
+    if (!oldLinks.equals(newLinks)) {
+      return true
     }
     return false
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.didDataChange(nextProps, this.props)) {
-      let initPositions = this.props.finalPositions
-      if (!(initPositions && initPositions.length > 0)) {
-        initPositions = {}
-        for (let node of this.props.nodes) {
-          let xPos = Math.floor(Math.random()*(this.props.width))
-          let yPos = Math.floor(Math.random()*(this.props.height))
-          initPositions[node[this.props.nodeKey]] = {x: xPos, y: yPos}
-        }
+      let nodes = constructNodes(nextProps.links, nextProps.nodes, nextProps.nodeKey,
+        nextProps.childKey, nextProps.parentKey, nextProps.groupKey, nextProps.graphStyle.nodeRadius)
+
+      let initPositions = {}
+      for (let node of nodes) {
+        let xPos = Math.floor(Math.random()*(this.props.width))
+        let yPos = Math.floor(Math.random()*(this.props.height))
+        initPositions[node[this.props.nodeKey]] = {x: xPos, y: yPos}
       }
       this.setState({
         initPositions: initPositions,
         finalPositions: getFinalNodePositions(
-        nextProps.nodes, nextProps.links, initPositions,
+        nodes, nextProps.links, initPositions,
         nextProps.width, nextProps.height, nextProps.nodeKey,
         nextProps.maxRadius, nextProps.attractionFactor,
-        nextProps.parentKey, nextProps.childKey)
+        nextProps.parentKey, nextProps.childKey),
+        nodes: ImmutableSet(nodes)
       })
     }
   }
@@ -106,7 +117,14 @@ class NetworkChart extends React.PureComponent {
   render() {
     return (
       <svg width={this.props.width} height={this.props.height}>
-        <NodeCluster nodes={this.props.nodes}
+        <LinkCluster links={this.props.links}
+          finalPositions={this.state.finalPositions}
+          linksVisible={this.state.linksVisible}
+          weightedLinks={this.props.weightedLinks}
+          graphStyle={this.props.graphStyle}
+          parentKey={this.props.parentKey}
+          childKey={this.props.childKey} />
+        <NodeCluster nodes={this.state.nodes.toList()}
           initPositions={this.state.initPositions}
           finalPositions={this.state.finalPositions}
           graphStyle={this.props.graphStyle}
@@ -117,14 +135,7 @@ class NetworkChart extends React.PureComponent {
           activateTooltip={this.props.activateTooltip}
           deactivateTooltip={this.props.deactivateTooltip}
           pointsRest={this.pointsRest} />
-        <LinkCluster links={this.props.links}
-          finalPositions={this.state.finalPositions}
-          linksVisible={this.state.linksVisible}
-          weightedLinks={this.props.weightedLinks}
-          graphStyle={this.props.graphStyle}
-          parentKey={this.props.parentKey}
-          childKey={this.props.childKey} />
-        <LabelCluster nodes={this.props.nodes}
+        <LabelCluster nodes={this.state.nodes.toList()}
           finalPositions={this.state.finalPositions}
           graphStyle={this.props.graphStyle}
           showLabels={this.props.showLabels}
@@ -143,7 +154,6 @@ NetworkChart.defaultProps = {
   nodeKey: "id",
   parentKey: "parent",
   childKey: "child",
-  groupKey: "group",
   labelKey: "label",
   color: defaultPalette,
   graphStyle: {
@@ -160,8 +170,7 @@ NetworkChart.defaultProps = {
   maxRadius: 10,
   maxWidth: 10,
   zoomScale: 2,
-  showLabels: true,
-  tooltip: false,
+  showLabels: false,
   attractionFactor: 1,
 }
 
@@ -185,9 +194,6 @@ NetworkChart.propTypes = {
   graphStyle: PropTypes.object,
   zoomScale: PropTypes.number,
   showLabels: PropTypes.bool,
-  tooltip: PropTypes.bool,
-  tooltipColor: PropTypes.string,
-  tooltipContents: PropTypes.func
 }
 
 export default NetworkChart

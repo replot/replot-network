@@ -70,6 +70,7 @@ class NetworkChartTooltip extends React.PureComponent {
       <div onMouseMove={this.updateMousePosition}>
         <NetworkChart
           {...this.props}
+          links={this.props.data}
           activateTooltip={this.activateTooltip}
           deactivateTooltip={this.deactivateTooltip}
           pointsRest={this.pointsRest}
@@ -85,6 +86,17 @@ class NetworkChartTooltip extends React.PureComponent {
       </div>
     )
   }
+}
+
+NetworkChartTooltip.defaultProps = {
+  nodeKey: "id",
+  tooltip: true,
+}
+
+NetworkChartTooltip.PropTypes = {
+  tooltip: PropTypes.bool,
+  tooltipColor: PropTypes.string,
+  tooltipContents: PropTypes.func,
 }
 
 class NetworkChartResponsive extends React.Component {
