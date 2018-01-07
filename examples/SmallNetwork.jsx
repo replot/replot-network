@@ -388,7 +388,6 @@ class SmallNetwork extends React.Component {
         {parent: "Nurse", child: "Sampson"},
         {parent: "Nurse", child: "Peter"},
         {parent: "Balthasar", child: "Abraham"},
-        {parent: "Rando", child: "Abraham"},
       ],
     }
   }
