@@ -402,8 +402,7 @@ class SmallNetwork extends React.Component {
           nodes={this.state.nodes2}
           data={this.state.links2}
           groupKey="group"
-          nodeSize={false}
-          nodeWeightKey="nodeSize"/>
+        />
       </div>
     )
   }

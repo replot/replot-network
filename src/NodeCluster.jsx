@@ -21,7 +21,7 @@ class NodeCluster extends React.PureComponent {
     )
 
     let nodes = this.props.nodes
-    if (this.props.nodeSize) {
+    if (this.props.nodeWeightKey) {
       nodes = getNodeSizes(
         this.props.nodes, this.props.nodeWeightKey,
         this.props.maxRadius, this.props.graphStyle.nodeRadius
@@ -45,7 +45,7 @@ class NodeCluster extends React.PureComponent {
       points.push(
         <Node key={nodeID} raw={node}
           x={this.props.finalPositions[nodeID].x} y={this.props.finalPositions[nodeID].y}
-          radius={this.props.nodeSize ? node.radius
+          radius={this.props.nodeWeightKey ? node.radius
           : this.props.graphStyle.nodeRadius}
           zoomScale={this.props.zoomScale} fill={color}
           initX={this.props.initPositions[nodeID].x}
