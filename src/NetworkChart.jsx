@@ -123,6 +123,8 @@ class NetworkChart extends React.PureComponent {
           finalPositions={this.state.finalPositions}
           linksVisible={this.state.linksVisible}
           weightedLinks={this.props.weightedLinks}
+          linkKey={this.props.linkKey}
+          maxWidth={this.props.maxWidth}
           graphStyle={this.props.graphStyle}
           parentKey={this.props.parentKey}
           childKey={this.props.childKey} />
@@ -133,6 +135,7 @@ class NetworkChart extends React.PureComponent {
           nodeKey={this.props.nodeKey}
           groupKey={this.props.groupKey}
           color={this.props.color}
+          nodeWeightKey={this.props.nodeWeightKey}
           maxRadius={this.props.maxRadius}
           activateTooltip={this.props.activateTooltip}
           deactivateTooltip={this.props.deactivateTooltip}
@@ -159,15 +162,13 @@ NetworkChart.defaultProps = {
   labelKey: "label",
   color: defaultPalette,
   graphStyle: {
-    nodeRadius: 10,
+    nodeRadius: 5,
     lineWidth: "1px",
     lineColor: "#1b1b1b",
     lineOpacity: 0.25,
     labelColor: "#1b1b1b",
   },
-  nodeSize: false,
   weightedLinks: false,
-  nodeWeightKey: "node",
   linkKey: null,
   maxRadius: 10,
   maxWidth: 10,
@@ -187,7 +188,7 @@ NetworkChart.propTypes = {
   childKey: PropTypes.string,
   linkKey: PropTypes.string,
   weightedLinks: PropTypes.bool,
-  nodeSize: PropTypes.bool,
+  nodeWeightKey: PropTypes.string,
   maxWidth: PropTypes.number,
   color: PropTypes.oneOfType([
     PropTypes.func,
