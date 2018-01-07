@@ -31,7 +31,8 @@ class NetworkChart extends React.PureComponent {
 
   componentWillMount() {
     let nodes = constructNodes(this.props.links, this.props.nodes, this.props.nodeKey,
-      this.props.childKey, this.props.parentKey, this.props.groupKey, this.props.graphStyle.nodeRadius)
+      this.props.childKey, this.props.parentKey, this.props.groupKey,
+      this.props.labelKey, this.props.graphStyle.nodeRadius)
 
     let initPositions = {}
     for (let node of nodes) {
@@ -94,7 +95,8 @@ class NetworkChart extends React.PureComponent {
   componentWillReceiveProps(nextProps) {
     if (this.didDataChange(nextProps, this.props)) {
       let nodes = constructNodes(nextProps.links, nextProps.nodes, nextProps.nodeKey,
-        nextProps.childKey, nextProps.parentKey, nextProps.groupKey, nextProps.graphStyle.nodeRadius)
+        nextProps.childKey, nextProps.parentKey, nextProps.groupKey,
+        nextProps.labelKey, nextProps.graphStyle.nodeRadius)
 
       let initPositions = {}
       for (let node of nodes) {
