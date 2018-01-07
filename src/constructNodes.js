@@ -1,4 +1,4 @@
-const constructNodes = (links, nodes, nodeKey, childKey, parentKey, groupKey, pointRadius) => {
+const constructNodes = (links, nodes, nodeKey, childKey, parentKey, groupKey, labelKey, pointRadius) => {
   let nodeIDs = new Set()
   let finalNodes = nodes ? nodes : []
 
@@ -16,6 +16,7 @@ const constructNodes = (links, nodes, nodeKey, childKey, parentKey, groupKey, po
         }
         let newNode = {}
         newNode[nodeKey] = linkNode
+        newNode[labelKey] = linkNode
         newNode["radius"] = pointRadius
         if (groupKey) {
           newNode[groupKey] = null
