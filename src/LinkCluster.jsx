@@ -18,12 +18,12 @@ class LinkCluster extends React.PureComponent {
         )
         links = getLinkWeights(
           aggLinks, "_linkWeight",
-          this.props.maxWidth, this.props.graphStyle.lineWidth
+          this.props.maxWidth, this.props.lineWidth
         )
       } else {
         links = getLinkWeights(
           this.props.links, this.props.linkKey,
-          this.props.maxWidth, this.props.graphStyle.lineWidth
+          this.props.maxWidth, this.props.lineWidth
         )
       }
     }
@@ -38,9 +38,9 @@ class LinkCluster extends React.PureComponent {
           <Link x1={parentPos.x} y1={parentPos.y}
             x2={childPos.x} y2={childPos.y}
             strokeWidth={this.props.weightedLinks ? link.width
-            : this.props.graphStyle.lineWidth}
-            stroke={this.props.graphStyle.lineColor}
-            opacity={this.props.graphStyle.lineOpacity}
+            : this.props.lineWidth}
+            stroke={this.props.lineColor}
+            opacity={this.props.lineOpacity}
             key={`${linkIndex}.${link[this.props.parentKey]}.${link[this.props.childKey]}`}
           />
         )

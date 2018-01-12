@@ -16,7 +16,7 @@ class LabelCluster extends React.PureComponent {
               key={nodeID}
               x={this.props.finalPositions[nodeID].x + 8}
               y={this.props.finalPositions[nodeID].y}
-              fill={this.props.graphStyle.labelColor}
+              fill={this.props.labelColor}
               labelText={node[this.props.labelKey]} />
           )
         }

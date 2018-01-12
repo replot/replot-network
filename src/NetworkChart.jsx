@@ -32,7 +32,7 @@ class NetworkChart extends React.PureComponent {
   componentWillMount() {
     let nodes = constructNodes(this.props.links, this.props.nodes, this.props.nodeKey,
       this.props.childKey, this.props.parentKey, this.props.groupKey,
-      this.props.labelKey, this.props.graphStyle.nodeRadius)
+      this.props.labelKey, this.props.nodeRadius)
 
     let initPositions = {}
     for (let node of nodes) {
@@ -93,16 +93,19 @@ class NetworkChart extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.didDataChange(nextProps, this.props)) {
+    if (nextProps.attractionFactor !== this.props.attractionFactor
+      || nextProps.width !== this.props.width
+      || nextProps.height !== this.props.height
+      || this.didDataChange(nextProps, this.props)) {
       let nodes = constructNodes(nextProps.links, nextProps.nodes, nextProps.nodeKey,
         nextProps.childKey, nextProps.parentKey, nextProps.groupKey,
-        nextProps.labelKey, nextProps.graphStyle.nodeRadius)
+        nextProps.labelKey, nextProps.nodeRadius)
 
       let initPositions = {}
       for (let node of nodes) {
-        let xPos = Math.floor(Math.random()*(this.props.width))
-        let yPos = Math.floor(Math.random()*(this.props.height))
-        initPositions[node[this.props.nodeKey]] = {x: xPos, y: yPos}
+        let xPos = Math.floor(Math.random()*(nextProps.width))
+        let yPos = Math.floor(Math.random()*(nextProps.height))
+        initPositions[node[nextProps.nodeKey]] = {x: xPos, y: yPos}
       }
       this.setState({
         initPositions: initPositions,
@@ -125,13 +128,15 @@ class NetworkChart extends React.PureComponent {
           weightedLinks={this.props.weightedLinks}
           linkKey={this.props.linkKey}
           maxWidth={this.props.maxWidth}
-          graphStyle={this.props.graphStyle}
+          lineWidth={this.props.lineWidth}
+          lineColor={this.props.lineColor}
+          lineOpacity={this.props.lineOpacity}
           parentKey={this.props.parentKey}
           childKey={this.props.childKey} />
         <NodeCluster nodes={this.state.nodes.toList()}
           initPositions={this.state.initPositions}
           finalPositions={this.state.finalPositions}
-          graphStyle={this.props.graphStyle}
+          nodeRadius={this.props.nodeRadius}
           nodeKey={this.props.nodeKey}
           groupKey={this.props.groupKey}
           color={this.props.color}
@@ -142,7 +147,7 @@ class NetworkChart extends React.PureComponent {
           pointsRest={this.pointsRest} />
         <LabelCluster nodes={this.state.nodes.toList()}
           finalPositions={this.state.finalPositions}
-          graphStyle={this.props.graphStyle}
+          labelColor={this.props.labelColor}
           showLabels={this.props.showLabels}
           labelKey={this.props.labelKey}
           nodeKey={this.props.nodeKey}
@@ -161,18 +166,14 @@ NetworkChart.defaultProps = {
   childKey: "child",
   labelKey: "label",
   color: defaultPalette,
-  graphStyle: {
-    nodeRadius: 5,
-    lineWidth: "1px",
-    lineColor: "#1b1b1b",
-    lineOpacity: 0.25,
-    labelColor: "#1b1b1b",
-  },
+  nodeRadius: 5,
+  lineWidth: 1,
+  lineColor: "#1b1b1b",
+  lineOpacity: 0.25,
+  labelColor: "#1b1b1b",
   weightedLinks: false,
-  linkKey: null,
   maxRadius: 10,
   maxWidth: 10,
-  zoomScale: 2,
   showLabels: false,
   attractionFactor: 1,
 }
@@ -194,9 +195,14 @@ NetworkChart.propTypes = {
     PropTypes.func,
     PropTypes.array
   ]),
-  graphStyle: PropTypes.object,
-  zoomScale: PropTypes.number,
+  nodeRadius: PropTypes.number,
+  lineWidth: PropTypes.number,
+  lineColor: PropTypes.string,
+  lineOpacity: PropTypes.number,
+  labelColor: PropTypes.string,
+  weightedLinks: PropTypes.bool,
   showLabels: PropTypes.bool,
+  attractionFactor: PropTypes.number,
 }
 
 export default NetworkChart
