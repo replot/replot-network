@@ -1,10 +1,11 @@
-module.exports = function() {
+module.exports = function () {
   return {
-    entry: "./index.jsx",
+    entry: "./examples.jsx",
     output: {
       path: __dirname + "/static",
       filename: "bundle.js"
     },
+    devtool: "source-map",
     module: {
       loaders: [
         {
@@ -17,4 +18,4 @@ module.exports = function() {
       ]
     }
   }
-};
+}
