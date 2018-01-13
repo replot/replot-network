@@ -192,6 +192,7 @@ NetworkChart.propTypes = {
   nodeKey: PropTypes.string,
   parentKey: PropTypes.string,
   childKey: PropTypes.string,
+  groupKey: PropTypes.string,
   linkKey: PropTypes.string,
   weightedLinks: PropTypes.bool,
   nodeWeightKey: PropTypes.string,
