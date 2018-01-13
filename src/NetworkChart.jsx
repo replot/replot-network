@@ -73,15 +73,15 @@ class NetworkChart extends React.PureComponent {
       return true
     }
 
-    if (newProps.data.length != oldProps.data.length) {
+    if (newProps.links.length != oldProps.links.length) {
       return true
     }
-    const oldLinks = ImmutableSet(oldProps.data.map(
+    const oldLinks = ImmutableSet(oldProps.links.map(
       (e) => {
         return e[this.props.parentKey] + "." + e[this.props.childKey]
       }
     ))
-    const newLinks = ImmutableSet(newProps.data.map(
+    const newLinks = ImmutableSet(newProps.links.map(
       (e) => {
         return e[this.props.parentKey] + "." + e[this.props.childKey]
       }
@@ -93,13 +93,14 @@ class NetworkChart extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
+    let nodes = constructNodes(nextProps.links, nextProps.nodes, nextProps.nodeKey,
+      nextProps.childKey, nextProps.parentKey, nextProps.groupKey,
+      nextProps.labelKey, nextProps.nodeRadius)
+
     if (nextProps.attractionFactor !== this.props.attractionFactor
       || nextProps.width !== this.props.width
       || nextProps.height !== this.props.height
       || this.didDataChange(nextProps, this.props)) {
-      let nodes = constructNodes(nextProps.links, nextProps.nodes, nextProps.nodeKey,
-        nextProps.childKey, nextProps.parentKey, nextProps.groupKey,
-        nextProps.labelKey, nextProps.nodeRadius)
 
       let initPositions = {}
       for (let node of nodes) {
@@ -114,6 +115,11 @@ class NetworkChart extends React.PureComponent {
         nextProps.width, nextProps.height, nextProps.nodeKey,
         nextProps.maxRadius, nextProps.attractionFactor,
         nextProps.parentKey, nextProps.childKey),
+        nodes: ImmutableSet(nodes)
+      })
+
+    } else if (!this.state.nodes.equals(ImmutableSet(nodes))) {
+      this.setState({
         nodes: ImmutableSet(nodes)
       })
     }
@@ -164,7 +170,6 @@ NetworkChart.defaultProps = {
   nodeKey: "id",
   parentKey: "parent",
   childKey: "child",
-  labelKey: "label",
   color: defaultPalette,
   nodeRadius: 5,
   lineWidth: 1,

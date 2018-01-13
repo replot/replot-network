@@ -16,8 +16,6 @@ const constructNodes = (links, nodes, nodeKey, childKey, parentKey, groupKey, la
         }
         let newNode = {}
         newNode[nodeKey] = linkNode
-        newNode[labelKey] = linkNode
-        newNode["radius"] = pointRadius
         if (groupKey) {
           newNode[groupKey] = null
         }

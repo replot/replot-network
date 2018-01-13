@@ -136,9 +136,9 @@ class ComponentContainer extends React.Component {
     return updateFunc
   }
 
-  updateDataGen(titles, weight) {
+  updateDataGen(titles, weight, dataName) {
     let updateData = function (mutatedObject) {
-      let mutatedData = JSON.parse(JSON.stringify(this.state.options.data))
+      let mutatedData = JSON.parse(JSON.stringify(this.state.options[dataName]))
       let chosenIndex = -1
       for (let index=0; index < mutatedData.length; index++) {
         let match = true
@@ -155,7 +155,7 @@ class ComponentContainer extends React.Component {
       if (chosenIndex > -1) {
         mutatedData[chosenIndex][weight] = parseInt(mutatedObject[weight])
         let newOptions = this.state.options
-        newOptions.data = mutatedData
+        newOptions[dataName] = mutatedData
         this.setState({options: newOptions})
       }
     }
@@ -237,8 +237,8 @@ class ComponentContainer extends React.Component {
       }
       else if (option.optionType === "data"){
         dataTable = (
-          <DataTable data={this.state.options.data}
-            updateData={this.updateDataGen(option.keyList, option.weightKey).bind(this)}
+          <DataTable data={this.state.options[option.optionName]}
+            updateData={this.updateDataGen(option.keyList, option.weightKey, option.optionName).bind(this)}
             keyList={option.keyList} weightKey={option.weightKey}
             palette={this.props.palette}/>
         )
