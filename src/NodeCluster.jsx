@@ -45,7 +45,7 @@ class NodeCluster extends React.PureComponent {
       points.push(
         <Node key={nodeID} raw={node}
           x={this.props.finalPositions[nodeID].x} y={this.props.finalPositions[nodeID].y}
-          radius={this.props.nodeWeightKey ? node.radius
+          radius={this.props.nodeWeightKey && node.radius ? node.radius
           : this.props.nodeRadius}
           zoomScale={this.props.zoomScale} fill={color}
           initX={this.props.initPositions[nodeID].x}

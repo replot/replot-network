@@ -83,7 +83,7 @@ class NetworkExampleLinks extends React.Component {
     }
     return(
       <div className="container" style={style.container}>
-        <h1 style={style.title}> Top 30 Bilateral Trades (2013) </h1>
+        <h1 style={style.title}> Bilateral Trades </h1>
         <br />
         <ComponentContainer optionList={this.state.optionList}
           palette={this.props.palette}>
