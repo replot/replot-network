@@ -80,29 +80,9 @@ render() {
 :-------------------------:|:-------------------------:|:-------------------------:
 ![ScreenshotDefaultDimensions](img/dim_default.png) | ![ScreenshotWidth600pxHeight450px](img/w600_h450.png) | ![ScreenshotWidth50%Height450px](img/w50_percent.png)
 
-### Attraction Factor
-Users may pass in a number to the `attractionFactor` prop to specify the density of network nodes.
-
-```javascript
-render() {
-  return(
-    <NetworkChart 
-        data={trades} parentKey="exporter" childKey="importer"
-        attractionFactor={5}
-    />
-  )
-}
-```
-- `attractionFactor` defaults to `1`
-
- Default                   | attractionFactors={5}         
-:-------------------------:|:-------------------------:
-![ScreenshotDefault](img/default.png) | ![ScreenshotAttractionFactors5](img/attractionFactors_5.png)
-
 ### Link Styles
-
 #### Link Color
-Users may pass in a hex color string to the `lineColor` prop to specify the color of network links.
+Link color may be specified by passing in `lineColor` prop with a hex string.
 
 ```javascript
 render() {
@@ -117,7 +97,7 @@ render() {
 - `lineColor` defaults to `"#1b1b1b"`
 
 #### Link Opacity
-Users may pass in a number between 0-1 to the `lineOpacity` prop to specify the opacity of network links.
+Link opacity may be specified by passing in `lineOpacity` prop with a number between 0 to 1.
 
 ```javascript
 render() {
@@ -132,7 +112,7 @@ render() {
 - `lineOpacity` defaults to `0.25`
 
 #### Link Width
-Users may pass in a number to the `lineWidth` prop to specify the width of network links in pixels.
+Link width may be specified by passing in `lineWidth` prop with a number in the unit of pixels.
 
 ```javascript
 render() {
@@ -150,11 +130,20 @@ lineColor="#52b3d9"        | lineOpacity={1}           | lineWidth={5}
 :-------------------------:|:-------------------------:|:-------------------------:
 ![ScreenshotLinkColor52b3d9](img/link_52b3d9.png) | ![ScreenshotLinkOpacity1](img/link_op1.png) | ![ScreenshotLinkWidth5px](img/link_5px.png)
 
-#### Weighted Links
-Link widths may be weighted when the `weightedLinks` prop is set to `true`. You may also supply the key of link weights to the `linkKey`props and the maximum link width in pixels to the `maxWidth` prop. Link widths will range between widths defined by the `lineWidth` and `maxWidth` props.
+### Weighted Links
+Link width may be weighted by setting the `weightedLinks` prop to `true`. Optionally, supply the `linkKey` prop with the key of link weights and/or to the `maxWidth` prop with the maximum link width in the unit of pixels.
+
+Weighted link widths will range between `lineWidth` and `maxWidth`.
 
 ```javascript
 render() {
+  let nodes = [
+    {region: "America", country: "Canada", exports: 402400},
+    {region: "Europe", country: "Belgium", exports: 250800},
+    {region: "Asia", country: "China", exports: 2011000},
+    ...
+  ]
+  
   return(
     <NetworkChart 
         data={trades} nodes={nodes} parentKey="exporter" childKey="importer"
@@ -169,69 +158,48 @@ render() {
 - `linkKey` defaults to `null`
 - `maxWidth` defaults to `10`
 
-If `weightedLinks` is set to `true`, but no `linkKey` is supplied, link widths are weighted by how many times the same link appears in the data.
+If `weightedLinks` is `true`, but no `linkKey` is supplied, link width is weighted by how many times the same link appears in data.
 
- Default                   | weightedLinks={true} linkKey="volume" | weightedLinks={true} linkKey="volume" maxWidth={15}       
+ Default                   | linkKey="volume" | linkKey="volume" maxWidth={15}       
 :-------------------------:|:-------------------------:|:-------------------------:
 ![ScreenshotDefault](img/default.png) | ![ScreenshotWeightedLinks](img/weighted_links.png) | ![ScreenshotMaxWidth15px](img/maxwidth_15.png)
 
-### Node Labels
-Node labels are hidden by default. Users may choose to display the labels and optionally specify the keys for labels. 
-
-```javascript
-render() {
-  return(
-    <NetworkChart 
-        data={trades} nodes={nodes} parentKey="exporter" childKey="importer"
-        showLabels={true}
-        labelKey="country"
-    />
-  )
-}
-```
-- `showLabels` defaults to `false`, `true` displays the labels
-- `labelKey` defaults to `null`
-
-If no `nodes` or no `labelKey` is supplied, the labels display their IDs.
-
-#### Node Label Color
-Users may pass in a hex color string to the `labelColor` prop to specify the color of node labels.
-
-```javascript
-render() {
-  return(
-    <NetworkChart 
-        data={trades} nodes={nodes} parentKey="exporter" childKey="importer"
-        showLabels={true}
-        labelColor="#52b3d9"
-    />
-  )
-}
-```
-- `labelColor` defaults to `"#1b1b1b"`
-
-showLabels={true} | showLabels={true} labelKey="country" | showLabels={true} labelColor="#52b3d9"    
-:-------------------------:|:-------------------------:|:-------------------------:
-![ScreenshotShowLabels](img/show_labels.png) | ![ScreenshotShowLabelsLabelKey](img/show_labels_key.png) | ![ScreenshotShowLabelsLabelColor](img/label_color.png)
-
-### Node Styles
-
-#### Node Color
+### Node Color
 Node color may be specified through 2 different mechanisms, both through a `color` prop.
-If none of the mechanisms are specified, NetworkChart defaults to a built in
+If none of the mechanisms are specified, NetworkChart defaults to a built-in
 color palette.
 
-##### Group Color
-Users may supply the `nodes`, `nodeKey`, and `groupKey` props to color nodes by groups. `nodeKey` is the key of node IDs and `groupKey` is the key of node groups.
+#### Group Color
+Users can supply the `nodes`, `nodeKey`, and `groupKey` props to color nodes by groups. `nodeKey` is the key of node IDs and `groupKey` is the key of node groups.
 
 ```
-GROUP COLORING CODE
+render() {
+  let nodes = [
+    {region: "America", country: "Canada", exports: 402400},
+    {region: "Europe", country: "Belgium", exports: 250800},
+    {region: "Asia", country: "China", exports: 2011000},
+    ...
+  ]
+  
+  return(
+    <NetworkChart 
+        data={trades} parentKey="exporter" childKey="importer"
+        nodes={nodes}
+        nodeKey="country"
+        groupKey="region"
+    />
+  )
+}
 ```
 - `nodes` defaults to `null`
 - `nodeKey` defaults to `id`
 - `groupKey` defaults to `null`
 
-##### User-provided Color Palette
+Default | groupKey="region"    
+:-------------------------:|:-------------------------:
+![ScreenshotDefault](img/default.png) | ![ScreenshotGroupKey](img/group_key.png)
+
+#### User-provided Color Palette
 Users can specify a list of colors to use as a palette, passed to the `color` prop.
 
 ```javascript
@@ -243,15 +211,20 @@ render() {
 
   return(
     <NetworkChart 
-        data={trades} nodes={nodes} parentKey="exporter" childKey="importer" groupKey="region"
+        data={trades} parentKey="exporter" childKey="importer"
+        nodes={nodes} nodeKey="country" groupKey="region"
         color={colors}
     />
   )
 }
 ```
 
-##### User-provided Color Function
-Users can also specify a function to assign colors to different data series. Expected arguments to the function are the index of the data series (from 0) and the title of the data series (if it exists).
+color={colors} | color={colors} groupKey="region"    
+:-------------------------:|:-------------------------:
+![ScreenshotColor](img/color.png) | ![ScreenshotColorGroupKey](img/color_group_key.png)
+
+#### User-provided Color Function
+Users can also specify a function to assign colors to different data series. Expected arguments to the function is the data of node.
 
 ```javascript
 colorMe(data) {
@@ -265,25 +238,24 @@ colorMe(data) {
 render() {
   return(
     <NetworkChart 
-        data={trades} nodes={nodes} parentKey="exporter" childKey="importer" groupKey="region"
+        data={trades} parentKey="exporter" childKey="importer"
+        nodes={nodes} nodeKey="country"
         color={this.colorMe}
     />
   )
 }
 ```
 
-Default                    | color={colors}            | color={this.colorMe}    
-:-------------------------:|:-------------------------:|:-------------------------:
-![ScreenshotDefaultGroup](img/default_group.png) | ![ScreenshotGroupColorArray](img/color_array.png) | ![ScreenshotGroupColorFunction](img/color_function.png)
+![ScreenshotColorFunction](img/color_function.png)
 
-#### Node Radius
-Users may pass in a number to the `nodeRadius` prop to specify the radius of network nodes in pixels.
+### Node Radius
+Node radius may be specified by passing in `nodeRadius` prop with a number in the unit of pixels.
 
 ```javascript
 render() {
   return(
     <NetworkChart 
-        data={trades} nodes={nodes} parentKey="exporter" childKey="importer"
+        data={trades} parentKey="exporter" childKey="importer"
         nodeRadius={10}
     />
   )
@@ -295,18 +267,27 @@ render() {
 :-------------------------:|:-------------------------:
 ![ScreenshotDefault](img/default.png) | ![ScreenshotNodeRadius10](img/radius_10.png)
 
-#### Weighted Nodes
-Node radiuses may be weighted when the `nodes`, `nodeKey`, and `nodeWeightKey` props are supplied. `nodeKey` is the key of node IDs and `nodeWeightKey` is the key of node weights. Node radiuses will range between radiuses defined by the `nodeRadius` and `maxRadius` props.
+### Weighted Nodes
+Node radius may be weighted by supplying `nodes`, `nodeKey`, and `nodeWeightKey` props. `nodeKey` is the key of node IDs and `nodeWeightKey` is the key of node weights. 
+
+Optionally, supply the `maxRadius` prop with the maximum node radius in the unit of pixels. Weighted node radius will range between `nodeRadius` and `maxRadius`.
 
 ```javascript
 render() {
+  let nodes = [
+    {region: "America", country: "Canada", exports: 402400},
+    {region: "Europe", country: "Belgium", exports: 250800},
+    {region: "Asia", country: "China", exports: 2011000},
+    ...
+  ]
+
   return(
     <NetworkChart 
         data={trades} parentKey="exporter" childKey="importer"
         nodes={nodes}
         nodeKey="country"
         nodeWeightKey="exports"
-        maxWidth={20}
+        maxRadius={20}
     />
   )
 }
@@ -319,6 +300,90 @@ render() {
  Default                   | nodeWeightKey="exports"   | nodeWeightKey="exports" maxWidth={20}
 :-------------------------:|:-------------------------:|:-------------------------:
 ![ScreenshotDefault](img/default.png) | ![ScreenshotWeightedNodes](img/weighted_nodes.png) | ![ScreenshotMaxRadius20px](img/maxradius_20.png)
+
+### Node Labels
+Node labels may be switched on by setting the `showLabels` prop to `true`.
+
+```javascript
+render() {
+  return(
+    <NetworkChart 
+        data={trades} parentKey="exporter" childKey="importer"
+        showLabels={true}
+    />
+  )
+}
+```
+- `showLabels` defaults to `false`, `true` displays the labels
+
+Node labels display their IDs by default when switched on.
+
+#### Node Label Color
+Node label color may be specified by passing in `labelColor` prop with a hex string.
+
+```javascript
+render() {
+  return(
+    <NetworkChart 
+        data={trades} parentKey="exporter" childKey="importer"
+        showLabels={true}
+        labelColor="#52b3d9"
+    />
+  )
+}
+```
+- `labelColor` defaults to `"#1b1b1b"`
+
+showLabels={true} | showLabels={true} labelColor="#52b3d9"    
+:-------------------------:|:-------------------------:
+![ScreenshotShowLabels](img/show_labels.png) | ![ScreenshotShowLabelsLabelColor](img/label_color.png)
+
+Optionally, supply the the `nodes`, `nodeKey`, and `labelKey` props to specify the label contents. `nodeKey` is the key of node IDs and `groupKey` is the key of node labels.
+
+```
+render() {
+  let nodes = [
+    {region: "America", country: "Canada", exports: 402400},
+    {region: "Europe", country: "Belgium", exports: 250800},
+    {region: "Asia", country: "China", exports: 2011000},
+    ...
+  ]
+
+  return(
+    <NetworkChart 
+        data={trades} parentKey="exporter" childKey="importer"
+        showLabels={true}
+        nodes={nodes}
+        nodeKey="country"
+        labelKey="region"
+    />
+  )
+}
+```
+- `nodes` defaults to `null`
+- `nodeKey` defaults to `id`
+- `labelKey` defaults to `null`
+
+![ScreenshotNetworkShowLabelsLabelKey](img/label_key.png)
+
+### Attraction Factor
+Density of nodes may be specified by passing in `attractionFactor` prop with a number.
+
+```javascript
+render() {
+  return(
+    <NetworkChart 
+        data={trades} parentKey="exporter" childKey="importer"
+        attractionFactor={5}
+    />
+  )
+}
+```
+- `attractionFactor` defaults to `1`
+
+ Default                   | attractionFactors={5}         
+:-------------------------:|:-------------------------:
+![ScreenshotDefault](img/default.png) | ![ScreenshotAttractionFactors5](img/attractionFactors_5.png)
 
 ### Tooltip
 Tooltips can display more specific information about a data series.
