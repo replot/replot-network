@@ -137,19 +137,12 @@ Weighted link widths will range between `lineWidth` and `maxWidth`.
 
 ```javascript
 render() {
-  let nodes = [
-    {region: "America", country: "Canada", exports: 402400},
-    {region: "Europe", country: "Belgium", exports: 250800},
-    {region: "Asia", country: "China", exports: 2011000},
-    ...
-  ]
-  
   return(
     <NetworkChart 
-        data={trades} nodes={nodes} parentKey="exporter" childKey="importer"
+        data={trades} parentKey="exporter" childKey="importer"
         weightedLinks={true}
         linkKey="volume"
-        maxWidth={15}
+        maxWidth={20}
     />
   )
 }
@@ -160,9 +153,9 @@ render() {
 
 If `weightedLinks` is `true`, but no `linkKey` is supplied, link width is weighted by how many times the same link appears in data.
 
- Default                   | linkKey="volume" | linkKey="volume" maxWidth={15}       
+ Default                   | linkKey="volume" | linkKey="volume" maxWidth={20}       
 :-------------------------:|:-------------------------:|:-------------------------:
-![ScreenshotDefault](img/default.png) | ![ScreenshotWeightedLinks](img/weighted_links.png) | ![ScreenshotMaxWidth15px](img/maxwidth_15.png)
+![ScreenshotDefault](img/default.png) | ![ScreenshotWeightedLinks](img/weighted_links.png) | ![ScreenshotMaxWidth20px](img/maxwidth_20.png)
 
 ### Node Color
 Node color may be specified through 2 different mechanisms, both through a `color` prop.
@@ -204,10 +197,7 @@ Users can specify a list of colors to use as a palette, passed to the `color` pr
 
 ```javascript
 render() {
-  let colors = [
-    "#fea9ac", "#fc858f", "#f46b72", "#de836e",
-    "#caa56f", "#adcc6f", "#8ebc57", "#799b3f"
-  ]
+  let colors = ["#fea9ac", "#f46b72", "#caa56f", "#8ebc57"]
 
   return(
     <NetworkChart 
@@ -222,31 +212,6 @@ render() {
 color={colors} | color={colors} groupKey="region"    
 :-------------------------:|:-------------------------:
 ![ScreenshotColor](img/color.png) | ![ScreenshotColorGroupKey](img/color_group_key.png)
-
-#### User-provided Color Function
-Users can also specify a function to assign colors to different data series. Expected arguments to the function is the data of node.
-
-```javascript
-colorMe(data) {
-  if (data.region === "Europe"){
-    return "green"
-  } else {
-    return "blue"
-  }
-}
-
-render() {
-  return(
-    <NetworkChart 
-        data={trades} parentKey="exporter" childKey="importer"
-        nodes={nodes} nodeKey="country"
-        color={this.colorMe}
-    />
-  )
-}
-```
-
-![ScreenshotColorFunction](img/color_function.png)
 
 ### Node Radius
 Node radius may be specified by passing in `nodeRadius` prop with a number in the unit of pixels.
@@ -423,6 +388,8 @@ render() {
   return(
     <NetworkChart 
         data={trades} parentKey="exporter" childKey="importer"
+        tooltip={true}
+        tooltipColor="dark"
         tooltipContents={this.fillTooltip}
     />
   )
