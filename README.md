@@ -262,7 +262,7 @@ render() {
 - `nodeWeightKey` defaults to `null`
 - `maxRadius` defaults to `10`
 
- Default                   | nodeWeightKey="exports"   | nodeWeightKey="exports" maxWidth={20}
+ Default                   | nodeWeightKey="exports"   | nodeWeightKey="exports" maxRadius={20}
 :-------------------------:|:-------------------------:|:-------------------------:
 ![ScreenshotDefault](img/default.png) | ![ScreenshotWeightedNodes](img/weighted_nodes.png) | ![ScreenshotMaxRadius20px](img/maxradius_20.png)
 
