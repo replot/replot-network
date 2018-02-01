@@ -1,0 +1,167 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Oswald" rel="stylesheet">
+    <title>Replot Networks</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-size: 120%;
+        font-family: "Open Sans", sans-serif;
+        margin: 0px;
+        padding: 20px 0px;
+        background-color: #333;
+        color: #eee;
+      }
+      #page-container {
+        margin: 0 auto;
+        width: 80%;
+        max-width: 800px;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        font-family: "Oswald", sans-serif;
+        font-weight: bold;
+        text-align: center;
+        padding: 20px;
+      }
+      p {
+        padding: 20px 0px;
+        color: #aaa;
+      }
+      .example {
+        font-size: 1rem
+      }
+    </style>
+  </head>
+  <body>
+    <div id="page-container">
+      <h1> Replot Network: Examples</h1>
+      <div>
+        <h3 style={{textAlign: "center"}}> Basic Example </h3>
+        <p>
+          In this example, we rely completely on Replot's smart defaults
+          - simply plug in the data - and allow Replot to do the rest.
+          We get a beautiful interactive network chart with just a few lines of code.
+        </p>
+        <div id="basic-example" class="example"></div>
+      </div>
+      <!-- <div>
+        <h3 style={{textAlign: "center"}}> Advanced Example </h3>
+        <p>
+        </p>
+        <div id="advanced-example" class="example"></div>
+      </div> -->
+      <div>
+        <h3 style={{textAlign: "center"}}> Custom Dimensions </h3>
+        <p>
+          The map can be displayed in custom dimensions using
+          the height and width props.
+        </p>
+        <div id="dimensions-example" class="example"></div>
+      </div>
+      <div>
+        <h3 style={{textAlign: "center"}}> Link Styles </h3>
+        <p>
+          Link color can be customized using the lineColor prop.
+        </p>
+        <div id="line-color-example" class="example"></div>
+        <p>
+          Link opacity can be customized using the lineOpacity prop.
+        </p>
+        <div id="line-opacity-example" class="example"></div>
+        <p>
+          Link width can be customized using the lineWidth prop.
+        </p>
+        <div id="line-width-example" class="example"></div>
+      </div>
+      <div>
+        <h3 style={{textAlign: "center"}}> Weighted Links </h3>
+        <p>
+          Link width can be weighted using the weightedLinks and linkKey
+          props. If weightedLinks is specified, but linkKey is not,
+          link width will be weighted by how many times the same link appears
+          in the data.
+        </p>
+        <div id="weighted-links-example" class="example"></div>
+        <p>
+          Weighted links can be displayed in a custom range of width using
+          the lineWidth and maxWidth props.
+        </p>
+        <div id="max-width-example" class="example"></div>
+      </div>
+      <div>
+        <h3 style={{textAlign: "center"}}> Node Colors </h3>
+        <p>
+          Nodes can be colored by groups using the nodes, nodeKey, and groupKey props.
+        </p>
+        <div id="group-default-example" class="example"></div>
+        <p>
+          Nodes can be colored with a custom palette using the color prop.
+        </p>
+        <div id="custom-color-example" class="example"></div>
+      </div>
+      <div>
+        <h3 style={{textAlign: "center"}}> Node Radius </h3>
+        <p>
+          Node radius can be customized using the nodeRadius prop.
+        </p>
+        <div id="node-radius-example" class="example"></div>
+      </div>
+      <div>
+        <h3 style={{textAlign: "center"}}> Weighted Nodes </h3>
+        <p>
+          Node radius can be weighted using the nodes, nodeKey, and nodeWeightKey props.
+        </p>
+        <div id="weighted-nodes-example" class="example"></div>
+        <p>
+          Weighted nodes can be displayed in a custom range of radius using
+          the nodeRadius and maxRadius props.
+        </p>
+        <div id="max-radius-example" class="example"></div>
+      </div>
+      <div>
+        <h3 style={{textAlign: "center"}}> Node Labels </h3>
+        <p>
+          Node labels can be switched on or off using the showLabels prop.
+        </p>
+        <div id="show-labels-example" class="example"></div>
+        <p>
+          Node labels can be displayed in a custom color using
+          the labelColor prop.
+        </p>
+        <div id="label-color-example" class="example"></div>
+        <p>
+          Node labels can display custom contents using the the nodes,
+          nodeKey, and labelKey props.
+        </p>
+        <div id="label-key-example" class="example"></div>
+      </div>
+      <div>
+        <h3 style={{textAlign: "center"}}> Attraction Factors </h3>
+        <p>
+          Density of nodes can be customized using the attractionFactor prop.
+        </p>
+        <div id="attraction-factor-example" class="example"></div>
+      </div>
+      <div>
+        <h3 style={{textAlign: "center"}}> Tooltip Features </h3>
+        <p>
+          The tooltip color can be switched between light and dark using
+          the tooltipColor prop.
+        </p>
+        <div id="tooltip-dark-example" class="example"></div>
+        <p>
+          The tooltip can be switched on or off using the tooltip prop.
+        </p>
+        <div id="tooltip-off-example" class="example"></div>
+        <p>
+          The tooltip can display custom contents using the tooltipContent prop.
+        </p>
+        <div id="tooltip-custom-example" class="example"></div>
+      </div>
+    </div>
+    <script src="static/bundle.js" type="text/javascript"></script>
+  </body>
+</html>
