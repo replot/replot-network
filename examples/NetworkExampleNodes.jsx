@@ -1,7 +1,6 @@
 import React from "react"
-import NetworkChart from "../../../index.js"
-import ComponentContainer from "../CompContainer/ComponentContainer.jsx"
-import colors from "../../colors"
+import NetworkChart from "../index.js"
+import {ComponentContainer, ColorTheme} from "replot-helpers"
 
 const links = [
   {exporter: "Germany", importer: "European Union", volume: 1468990},
@@ -86,13 +85,13 @@ class NetworkExampleNodes extends React.Component {
         {optionName: "nodeRadius", name: "Node Radius", optionType: "field", input: "number", initialValue: 5},
         {optionName: "maxRadius", name: "Max Node Radius", optionType: "field", input: "number", initialValue: 10},
         {optionName: "attractionFactor", name: "Attraction Factor", optionType: "field", input: "number", initialValue: 0.5},
-        {optionName: "lineColor", name: "Edge Color", optionType: "field", input: "string", initialValue: colors[this.props.palette].axisColor},
+        {optionName: "lineColor", name: "Edge Color", optionType: "field", input: "string", initialValue: ColorTheme[this.props.palette].axisColor},
         {optionName: "lineOpacity", name: "Edge Opacity", optionType: "field", input: "number", initialValue: 0.25},
         {optionName: "lineWidth", name: "Edge Width", optionType: "field", input: "number", initialValue: 1},
         {optionName: "weightedLinks", name: "Weighted Edges", optionType: "bool", initialValue: true},
         {optionName: "maxWidth", name: "Max Edge Width", optionType: "field", input: "number", initialValue: 10},
         {optionName: "showLabels", name: "Show Labels", optionType: "bool", initialValue: false},
-        {optionName: "labelColor", name: "Label Color", optionType: "field", input: "string", initialValue: colors[this.props.palette].axisColor},
+        {optionName: "labelColor", name: "Label Color", optionType: "field", input: "string", initialValue: ColorTheme[this.props.palette].axisColor},
         {optionName: "tooltip", name: "Tooltip", optionType: "bool", initialValue: true},
         {optionName: "tooltipColor", name: "Tooltip Color", optionType: "state", states:["dark","light"], initialValue: "dark"},
         {optionName: "nodeKey", name: "Node", optionType: "hidden", initialValue: "country"},
@@ -110,7 +109,7 @@ class NetworkExampleNodes extends React.Component {
     let style = {
       title: {
         fontSize: "45px",
-        color: colors[this.props.palette].body.text,
+        color: ColorTheme[this.props.palette].body.text,
         padding: 15,
       },
       container: {

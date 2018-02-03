@@ -1,7 +1,7 @@
 import React from "react"
-import SectionContainer from "./SectionContainer.jsx"
-import NetworkExampleLinks from "./examples/NetworkExampleLinks.jsx"
-import NetworkExampleNodes from "./examples/NetworkExampleNodes.jsx"
+import {SectionContainer} from "replot-helpers"
+import NetworkExampleLinks from "./NetworkExampleLinks.jsx"
+import NetworkExampleNodes from "./NetworkExampleNodes.jsx"
 
 class ExamplesSection extends React.Component {
 
