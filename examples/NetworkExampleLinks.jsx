@@ -1,7 +1,6 @@
 import React from "react"
-import NetworkChart from "../../../index.js"
-import ComponentContainer from "../CompContainer/ComponentContainer.jsx"
-import colors from "../../colors"
+import NetworkChart from "../index.js"
+import {ComponentContainer, ColorTheme} from "replot-helpers"
 
 class NetworkExampleLinks extends React.Component {
 
@@ -54,13 +53,13 @@ class NetworkExampleLinks extends React.Component {
         {optionName: "height", name: "Height", optionType: "field", input: "number", initialValue: 450},
         {optionName: "nodeRadius", name: "Node Radius", optionType: "field", input: "number", initialValue: 5},
         {optionName: "attractionFactor", name: "Attraction Factor", optionType: "field", input: "number", initialValue: 0.5},
-        {optionName: "lineColor", name: "Edge Color", optionType: "field", input: "string", initialValue: colors[this.props.palette].axisColor},
+        {optionName: "lineColor", name: "Edge Color", optionType: "field", input: "string", initialValue: ColorTheme[this.props.palette].axisColor},
         {optionName: "lineOpacity", name: "Edge Opacity", optionType: "field", input: "number", initialValue: 0.25},
         {optionName: "lineWidth", name: "Edge Width", optionType: "field", input: "number", initialValue: 1},
         {optionName: "weightedLinks", name: "Weighted Edges", optionType: "bool", initialValue: true},
         {optionName: "maxWidth", name: "Max Edge Width", optionType: "field", input: "number", initialValue: 10},
         {optionName: "showLabels", name: "Show Labels", optionType: "bool", initialValue: false},
-        {optionName: "labelColor", name: "Label Color", optionType: "field", input: "string", initialValue: colors[this.props.palette].axisColor},
+        {optionName: "labelColor", name: "Label Color", optionType: "field", input: "string", initialValue: ColorTheme[this.props.palette].axisColor},
         {optionName: "tooltip", name: "Tooltip", optionType: "bool", initialValue: true},
         {optionName: "tooltipColor", name: "Tooltip Color", optionType: "state", states:["dark","light"], initialValue: "dark"},
         {optionName: "parentKey", name: "Parent", optionType: "hidden", initialValue: "exporter"},
@@ -74,7 +73,7 @@ class NetworkExampleLinks extends React.Component {
     let style = {
       title: {
         fontSize: "45px",
-        color: colors[this.props.palette].body.text,
+        color: ColorTheme[this.props.palette].body.text,
         padding: 15,
       },
       container: {

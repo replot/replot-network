@@ -38,6 +38,8 @@
     "webpack": "^2.2.1"
   },
   "devDependencies": {
-    "replot-core": "git+ssh://git@github.com/MacroConnections/replot-core.git"
+    "replot-core": "git+ssh://git@github.com/MacroConnections/replot-core.git",
+    "replot-helpers": "git+ssh://git@github.com/MacroConnections/replot-helpers.git",
+    "radium": "^0.19.6"
   }
 }
