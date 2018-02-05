@@ -1,36 +1,27 @@
-const getNodeSizes = (data, nodeWeightKey, maxRadius, nodeRadius) => {
+const getNodeSizes = (data, nodeWeightKey, maxRadius, minRadius) => {
   let smallestWeight = Infinity
   let largestWeight = 0
 
   for (let member of data) {
-    if (member[nodeWeightKey] < smallestWeight && member[nodeWeightKey] !== null) {
-      smallestWeight = member[nodeWeightKey]
-    }
-    if (member[nodeWeightKey] > largestWeight && member[nodeWeightKey] !== null) {
-      largestWeight = member[nodeWeightKey]
+    if (member[nodeWeightKey]) {
+      if (member[nodeWeightKey] < smallestWeight) {
+        smallestWeight = member[nodeWeightKey]
+      }
+      if (member[nodeWeightKey] > largestWeight) {
+        largestWeight = member[nodeWeightKey]
+      }
     }
   }
 
-  let newData = []
-  let radius
+  let newData = data.slice()
+  const slope = (maxRadius - minRadius) / (largestWeight - smallestWeight)
 
-  let stepSize = (maxRadius - nodeRadius) / (largestWeight - smallestWeight)
-
-  for (let member of data) {
-    if (member[nodeWeightKey] == smallestWeight) {
-      radius = nodeRadius //smallest weight has minRadius
-    } else if (member[nodeWeightKey] == largestWeight) {
-      radius = maxRadius //largest weight has maxRadius
+  for (let member of newData) {
+    if (member[nodeWeightKey]) {
+      member["radius"] = slope*(member[nodeWeightKey] - smallestWeight) + minRadius
     } else {
-      let ratio = member[nodeWeightKey] - smallestWeight
-      if (ratio > 0) {
-        radius = nodeRadius + (ratio * stepSize)
-      } else {
-        radius = 0 //ratio is negative = value was removed/zero
-      }
+      member["radius"] = minRadius
     }
-    member["radius"] = radius
-    newData.push(member)
   }
   return newData
 }
