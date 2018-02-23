@@ -80,7 +80,7 @@ class MaxWidthExample extends React.Component {
             childKey="importer"
             weightedLinks={true}
             linkKey="volume"
-            maxWidth={20}
+            maxLineWidth={20}
         />
       </div>
     )
