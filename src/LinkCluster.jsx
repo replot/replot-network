@@ -12,18 +12,21 @@ class LinkCluster extends React.PureComponent {
     let links = this.props.links
 
     if (this.props.weightedLinks) {
+      if (this.props.minLineWidth >= this.props.maxLineWidth) {
+        console.error("'minLineWidth' must be smaller than 'maxLineWidth'.")
+      }
       if (!this.props.linkKey) {
         let aggLinks = aggregateLinks(
           this.props.links, this.props.parentKey, this.props.childKey, "_linkWeight"
         )
         links = getLinkWeights(
           aggLinks, "_linkWeight",
-          this.props.maxLineWidth, this.props.lineWidth
+          this.props.maxLineWidth, this.props.minLineWidth
         )
       } else {
         links = getLinkWeights(
           this.props.links, this.props.linkKey,
-          this.props.maxLineWidth, this.props.lineWidth
+          this.props.maxLineWidth, this.props.minLineWidth
         )
       }
     }
