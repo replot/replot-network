@@ -28,9 +28,9 @@ render() {
       {exporter: "European Union", importer: "France", volume: 745931},
       ...
     ]
-    
+
     return(
-        <NetworkChart 
+        <NetworkChart
             data={trades}
             parentKey="exporter"
             childKey="importer"
@@ -53,7 +53,7 @@ render() {
     <NetworkChart
         data={trades} parentKey="exporter" childKey="importer"
         width={600}
-        height={450} 
+        height={450}
     />
   )
 }
@@ -67,10 +67,10 @@ will then be calculated as a proportion of the parent container.
 ```javascript
 render() {
   return(
-    <NetworkChart 
+    <NetworkChart
         data={trades} parentKey="exporter" childKey="importer"
         width="50%"
-        height={450} 
+        height={450}
     />
   )
 }
@@ -87,7 +87,7 @@ Link color may be specified by passing in `lineColor` prop with a hex string.
 ```javascript
 render() {
   return(
-    <NetworkChart 
+    <NetworkChart
         data={trades} parentKey="exporter" childKey="importer"
         lineColor="#52b3d9"
     />
@@ -102,7 +102,7 @@ Link opacity may be specified by passing in `lineOpacity` prop with a number bet
 ```javascript
 render() {
   return(
-    <NetworkChart 
+    <NetworkChart
         data={trades} parentKey="exporter" childKey="importer"
         lineOpacity={1}
     />
@@ -117,7 +117,7 @@ Link width may be specified by passing in `lineWidth` prop with a number in the 
 ```javascript
 render() {
   return(
-    <NetworkChart 
+    <NetworkChart
         data={trades} parentKey="exporter" childKey="importer"
         lineWidth={5}
     />
@@ -131,29 +131,29 @@ lineColor="#52b3d9"        | lineOpacity={1}           | lineWidth={5}
 ![ScreenshotLinkColor52b3d9](img/link_52b3d9.png) | ![ScreenshotLinkOpacity1](img/link_op1.png) | ![ScreenshotLinkWidth5px](img/link_5px.png)
 
 ### Weighted Links
-Link width may be weighted by setting the `weightedLinks` prop to `true`. Optionally, supply the `linkKey` prop with the key of link weights and/or to the `maxWidth` prop with the maximum link width in the unit of pixels.
+Link width may be weighted by setting the `weightedLinks` prop to `true`. Optionally, supply the `linkKey` prop with the key of link weights and/or to the `maxLineWidth` prop with the maximum link width in the unit of pixels.
 
-Weighted link widths will range between `lineWidth` and `maxWidth`.
+Weighted link widths will range between `lineWidth` and `maxLineWidth`.
 
 ```javascript
 render() {
   return(
-    <NetworkChart 
+    <NetworkChart
         data={trades} parentKey="exporter" childKey="importer"
         weightedLinks={true}
         linkKey="volume"
-        maxWidth={20}
+        maxLineWidth={20}
     />
   )
 }
 ```
 - `weightedLinks` defaults to `false`
 - `linkKey` defaults to `null`
-- `maxWidth` defaults to `10`
+- `maxLineWidth` defaults to `10`
 
 If `weightedLinks` is `true`, but no `linkKey` is supplied, link width is weighted by how many times the same link appears in data.
 
- Default                   | linkKey="volume" | linkKey="volume" maxWidth={20}       
+ Default                   | linkKey="volume" | linkKey="volume" maxLineWidth={20}
 :-------------------------:|:-------------------------:|:-------------------------:
 ![ScreenshotDefault](img/default.png) | ![ScreenshotWeightedLinks](img/weighted_links.png) | ![ScreenshotMaxWidth20px](img/maxwidth_20.png)
 
@@ -173,9 +173,9 @@ render() {
     {region: "Asia", country: "China", exports: 2011000},
     ...
   ]
-  
+
   return(
-    <NetworkChart 
+    <NetworkChart
         data={trades} parentKey="exporter" childKey="importer"
         nodes={nodes}
         nodeKey="country"
@@ -200,7 +200,7 @@ render() {
   let colors = ["#fea9ac", "#f46b72", "#caa56f", "#8ebc57"]
 
   return(
-    <NetworkChart 
+    <NetworkChart
         data={trades} parentKey="exporter" childKey="importer"
         nodes={nodes} nodeKey="country" groupKey="region"
         color={colors}
@@ -219,7 +219,7 @@ Node radius may be specified by passing in `nodeRadius` prop with a number in th
 ```javascript
 render() {
   return(
-    <NetworkChart 
+    <NetworkChart
         data={trades} parentKey="exporter" childKey="importer"
         nodeRadius={10}
     />
@@ -233,7 +233,7 @@ render() {
 ![ScreenshotDefault](img/default.png) | ![ScreenshotNodeRadius10](img/radius_10.png)
 
 ### Weighted Nodes
-Node radius may be weighted by supplying `nodes`, `nodeKey`, and `nodeWeightKey` props. `nodeKey` is the key of node IDs and `nodeWeightKey` is the key of node weights. 
+Node radius may be weighted by supplying `nodes`, `nodeKey`, and `nodeWeightKey` props. `nodeKey` is the key of node IDs and `nodeWeightKey` is the key of node weights.
 
 Optionally, supply the `maxRadius` prop with the maximum node radius in the unit of pixels. Weighted node radius will range between `nodeRadius` and `maxRadius`.
 
@@ -247,7 +247,7 @@ render() {
   ]
 
   return(
-    <NetworkChart 
+    <NetworkChart
         data={trades} parentKey="exporter" childKey="importer"
         nodes={nodes}
         nodeKey="country"
@@ -272,7 +272,7 @@ Node labels may be switched on by setting the `showLabels` prop to `true`.
 ```javascript
 render() {
   return(
-    <NetworkChart 
+    <NetworkChart
         data={trades} parentKey="exporter" childKey="importer"
         showLabels={true}
     />
@@ -289,7 +289,7 @@ Node label color may be specified by passing in `labelColor` prop with a hex str
 ```javascript
 render() {
   return(
-    <NetworkChart 
+    <NetworkChart
         data={trades} parentKey="exporter" childKey="importer"
         showLabels={true}
         labelColor="#52b3d9"
@@ -315,7 +315,7 @@ render() {
   ]
 
   return(
-    <NetworkChart 
+    <NetworkChart
         data={trades} parentKey="exporter" childKey="importer"
         showLabels={true}
         nodes={nodes}
@@ -337,7 +337,7 @@ Density of nodes may be specified by passing in `attractionFactor` prop with a n
 ```javascript
 render() {
   return(
-    <NetworkChart 
+    <NetworkChart
         data={trades} parentKey="exporter" childKey="importer"
         attractionFactor={5}
     />
@@ -356,7 +356,7 @@ Tooltips can display more specific information about a data series.
 ```javascript
 render() {
   return(
-    <NetworkChart 
+    <NetworkChart
         data={trades} parentKey="exporter" childKey="importer"
         tooltip={true}
         tooltipColor="light"
@@ -386,7 +386,7 @@ fillTooltip(data){
 
 render() {
   return(
-    <NetworkChart 
+    <NetworkChart
         data={trades} parentKey="exporter" childKey="importer"
         tooltip={true}
         tooltipColor="dark"

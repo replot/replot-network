@@ -93,7 +93,7 @@ NetworkChartTooltip.defaultProps = {
   tooltip: true,
 }
 
-NetworkChartTooltip.PropTypes = {
+NetworkChartTooltip.propTypes = {
   tooltip: PropTypes.bool,
   tooltipColor: PropTypes.string,
   tooltipContents: PropTypes.func,

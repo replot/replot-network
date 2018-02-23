@@ -1,4 +1,4 @@
-const getLinkWeights = (data, linkKey, maxWidth, lineWidth) => {
+const getLinkWeights = (data, linkKey, maxLineWidth, lineWidth) => {
   let smallestWeight = Infinity
   let largestWeight = 0
 
@@ -12,13 +12,13 @@ const getLinkWeights = (data, linkKey, maxWidth, lineWidth) => {
   }
 
   let newData = []
-  let stepSize = (maxWidth - lineWidth)/(largestWeight - smallestWeight)
+  let stepSize = (maxLineWidth - lineWidth)/(largestWeight - smallestWeight)
 
   for (let member of data) {
     if (member[linkKey] == smallestWeight) {
       member["width"] = lineWidth //smallest weight has lineWidth
     } else if (member[linkKey] == largestWeight) {
-      member["width"] = maxWidth //largest weight has maxWidth
+      member["width"] = maxLineWidth //largest weight has maxLineWidth
     } else {
       let ratio = member[linkKey] - smallestWeight
       if (ratio > 0) {

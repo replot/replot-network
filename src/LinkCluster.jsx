@@ -18,12 +18,12 @@ class LinkCluster extends React.PureComponent {
         )
         links = getLinkWeights(
           aggLinks, "_linkWeight",
-          this.props.maxWidth, this.props.lineWidth
+          this.props.maxLineWidth, this.props.lineWidth
         )
       } else {
         links = getLinkWeights(
           this.props.links, this.props.linkKey,
-          this.props.maxWidth, this.props.lineWidth
+          this.props.maxLineWidth, this.props.lineWidth
         )
       }
     }

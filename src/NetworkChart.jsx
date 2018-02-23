@@ -133,7 +133,7 @@ class NetworkChart extends React.PureComponent {
           linksVisible={this.state.linksVisible}
           weightedLinks={this.props.weightedLinks}
           linkKey={this.props.linkKey}
-          maxWidth={this.props.maxWidth}
+          maxLineWidth={this.props.maxLineWidth}
           lineWidth={this.props.lineWidth}
           lineColor={this.props.lineColor}
           lineOpacity={this.props.lineOpacity}
@@ -178,7 +178,7 @@ NetworkChart.defaultProps = {
   labelColor: "#AAA",
   weightedLinks: false,
   maxRadius: 10,
-  maxWidth: 10,
+  maxLineWidth: 10,
   showLabels: false,
   attractionFactor: 1,
 }
@@ -196,7 +196,7 @@ NetworkChart.propTypes = {
   linkKey: PropTypes.string,
   weightedLinks: PropTypes.bool,
   nodeWeightKey: PropTypes.string,
-  maxWidth: PropTypes.number,
+  maxLineWidth: PropTypes.number,
   color: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.array

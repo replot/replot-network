@@ -89,7 +89,7 @@ class NetworkExampleNodes extends React.Component {
         {optionName: "lineOpacity", name: "Edge Opacity", optionType: "field", input: "number", initialValue: 0.25},
         {optionName: "lineWidth", name: "Edge Width", optionType: "field", input: "number", initialValue: 1},
         {optionName: "weightedLinks", name: "Weighted Edges", optionType: "bool", initialValue: true},
-        {optionName: "maxWidth", name: "Max Edge Width", optionType: "field", input: "number", initialValue: 10},
+        {optionName: "maxLineWidth", name: "Max Edge Width", optionType: "field", input: "number", initialValue: 10},
         {optionName: "showLabels", name: "Show Labels", optionType: "bool", initialValue: false},
         {optionName: "labelColor", name: "Label Color", optionType: "field", input: "string", initialValue: ColorTheme[this.props.palette].axisColor},
         {optionName: "tooltip", name: "Tooltip", optionType: "bool", initialValue: true},
