@@ -93,6 +93,8 @@ class NetworkExampleNodes extends React.Component {
         {optionName: "maxLineWidth", name: "Max Edge Width", optionType: "field", input: "number", initialValue: 10},
         {optionName: "showLabels", name: "Show Labels", optionType: "bool", initialValue: false},
         {optionName: "labelColor", name: "Label Color", optionType: "field", input: "string", initialValue: ColorTheme[this.props.palette].axisColor},
+        {optionName: "labelFontSize", name: "Label Font Size", optionType: "field", input: "number", initialValue: 12},
+        {optionName: "labelFontFamily", name: "Label Font Family", optionType: "field", input: "string", initialValue: "Open Sans"},
         {optionName: "tooltip", name: "Tooltip", optionType: "bool", initialValue: true},
         {optionName: "tooltipColor", name: "Tooltip Color", optionType: "state", states:["dark","light"], initialValue: "dark"},
         {optionName: "nodeKey", name: "Node", optionType: "hidden", initialValue: "country"},

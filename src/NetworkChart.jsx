@@ -156,6 +156,8 @@ class NetworkChart extends React.PureComponent {
         <LabelCluster nodes={this.state.nodes.toList()}
           finalPositions={this.state.finalPositions}
           labelColor={this.props.labelColor}
+          labelFontSize={this.props.labelFontSize}
+          labelFontFamily={this.props.labelFontFamily}
           showLabels={this.props.showLabels}
           labelKey={this.props.labelKey}
           nodeKey={this.props.nodeKey}
@@ -213,6 +215,8 @@ NetworkChart.propTypes = {
   lineColor: PropTypes.string,
   lineOpacity: PropTypes.number,
   labelColor: PropTypes.string,
+  labelFontSize: PropTypes.number,
+  labelFontFamily: PropTypes.string,
   weightedLinks: PropTypes.bool,
   showLabels: PropTypes.bool,
   attractionFactor: PropTypes.number,
