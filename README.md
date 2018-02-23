@@ -131,9 +131,9 @@ lineColor="#52b3d9"        | lineOpacity={1}           | lineWidth={5}
 ![ScreenshotLinkColor52b3d9](img/link_52b3d9.png) | ![ScreenshotLinkOpacity1](img/link_op1.png) | ![ScreenshotLinkWidth5px](img/link_5px.png)
 
 ### Weighted Links
-Link width may be weighted by setting the `weightedLinks` prop to `true`. Optionally, supply the `linkKey` prop with the key of link weights and/or to the `maxLineWidth` prop with the maximum link width in the unit of pixels.
+Link width may be weighted by setting the `weightedLinks` prop to `true`. Optionally, supply the `linkKey` prop with the key of link weights and/or to the `minLineWidth` and `maxLineWidth` props with the minimum and maximum link widths in the unit of pixels.
 
-Weighted link widths will range between `lineWidth` and `maxLineWidth`.
+Weighted link widths will range between `minLineWidth` and `maxLineWidth`.
 
 ```javascript
 render() {
@@ -142,6 +142,7 @@ render() {
         data={trades} parentKey="exporter" childKey="importer"
         weightedLinks={true}
         linkKey="volume"
+        minLineWidth={1}
         maxLineWidth={20}
     />
   )
@@ -149,6 +150,7 @@ render() {
 ```
 - `weightedLinks` defaults to `false`
 - `linkKey` defaults to `null`
+- `minLineWidth` defaults to `1`
 - `maxLineWidth` defaults to `10`
 
 If `weightedLinks` is `true`, but no `linkKey` is supplied, link width is weighted by how many times the same link appears in data.
@@ -235,7 +237,7 @@ render() {
 ### Weighted Nodes
 Node radius may be weighted by supplying `nodes`, `nodeKey`, and `nodeWeightKey` props. `nodeKey` is the key of node IDs and `nodeWeightKey` is the key of node weights.
 
-Optionally, supply the `maxRadius` prop with the maximum node radius in the unit of pixels. Weighted node radius will range between `nodeRadius` and `maxRadius`.
+Optionally, supply the `minRadius` and `maxRadius` props with the minimum and maximum node radiuses in the unit of pixels. Weighted node radius will range between `minRadius` and `maxRadius`.
 
 ```javascript
 render() {
@@ -252,6 +254,7 @@ render() {
         nodes={nodes}
         nodeKey="country"
         nodeWeightKey="exports"
+        minRadius={5}
         maxRadius={20}
     />
   )
@@ -260,6 +263,7 @@ render() {
 - `nodes` defaults to `null`
 - `nodeKey` defaults to `id`
 - `nodeWeightKey` defaults to `null`
+- `minRadius` defaults to `5`
 - `maxRadius` defaults to `10`
 
  Default                   | nodeWeightKey="exports"   | nodeWeightKey="exports" maxRadius={20}
