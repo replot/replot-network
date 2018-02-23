@@ -94,7 +94,7 @@ render() {
   )
 }
 ```
-- `lineColor` defaults to `"#1b1b1b"`
+- `lineColor` defaults to `"#AAA"`
 
 #### Link Opacity
 Link opacity may be specified by passing in `lineOpacity` prop with a number between 0 to 1.
@@ -301,11 +301,51 @@ render() {
   )
 }
 ```
-- `labelColor` defaults to `"#1b1b1b"`
+- `labelColor` defaults to `"#AAA"`
 
 showLabels={true} | showLabels={true} labelColor="#52b3d9"    
 :-------------------------:|:-------------------------:
 ![ScreenshotShowLabels](img/show_labels.png) | ![ScreenshotShowLabelsLabelColor](img/label_color.png)
+
+#### Node Label Font Size
+Node label font size may be specified by passing in `labelFontSize` prop with a number.
+
+```javascript
+render() {
+  return(
+    <NetworkChart
+        data={trades} parentKey="exporter" childKey="importer"
+        showLabels={true}
+        labelFontSize={20}
+    />
+  )
+}
+```
+- `labelFontSize` defaults to `null`
+
+If `labelFontSize` is not specified, labels are displayed in medium fonts.
+
+#### Node Label Font Family
+Node label font family may be specified by passing in `labelFontFamily` prop with a string.
+
+```javascript
+render() {
+  return(
+    <NetworkChart
+        data={trades} parentKey="exporter" childKey="importer"
+        showLabels={true}
+        labelFontFamily="Courier"
+    />
+  )
+}
+```
+- `labelFontFamily` defaults to `null`
+
+If `labelFontFamily` is not specified, labels inherit font family.
+
+labelFontSize={20} | labelFontFamily="Courier"
+:-------------------------:|:-------------------------:
+![ScreenshotLabelFontSize](img/label_font_size.png) | ![ScreenshotLabelFontFamily](img/label_font_family.png)
 
 Optionally, supply the the `nodes`, `nodeKey`, and `labelKey` props to specify the label contents. `nodeKey` is the key of node IDs and `groupKey` is the key of node labels.
 

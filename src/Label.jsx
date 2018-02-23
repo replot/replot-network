@@ -23,6 +23,7 @@ class Label extends React.PureComponent {
               <text
                 x={this.props.x} y={this.props.y} style={{pointerEvents:"none"}}
                 alignmentBaseline="middle" textAnchor={textAnchor}
+                fontSize={this.props.fontSize} fontFamily={this.props.fontFamily}
                 fill={this.props.fill}>
                   {this.props.labelText}
               </text>
