@@ -22,9 +22,12 @@ class NodeCluster extends React.PureComponent {
 
     let nodes = this.props.nodes
     if (this.props.nodeWeightKey) {
+      if (this.props.minRadius >= this.props.maxRadius) {
+        console.error("'minRadius' must be smaller than 'maxRadius'.")
+      }
       nodes = getNodeSizes(
         this.props.nodes, this.props.nodeWeightKey,
-        this.props.maxRadius, this.props.nodeRadius
+        this.props.maxRadius, this.props.minRadius
       )
     }
 

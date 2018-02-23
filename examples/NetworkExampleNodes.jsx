@@ -82,7 +82,7 @@ class NetworkExampleNodes extends React.Component {
         ]},
         {optionName: "width", name: "Width", optionType: "field", input: "string", initialValue: "98%"},
         {optionName: "height", name: "Height", optionType: "field", input: "number", initialValue: 450},
-        {optionName: "nodeRadius", name: "Node Radius", optionType: "field", input: "number", initialValue: 5},
+        {optionName: "minRadius", name: "Min Node Radius", optionType: "field", input: "number", initialValue: 5},
         {optionName: "maxRadius", name: "Max Node Radius", optionType: "field", input: "number", initialValue: 10},
         {optionName: "attractionFactor", name: "Attraction Factor", optionType: "field", input: "number", initialValue: 0.5},
         {optionName: "lineColor", name: "Edge Color", optionType: "field", input: "string", initialValue: ColorTheme[this.props.palette].axisColor},

@@ -147,6 +147,7 @@ class NetworkChart extends React.PureComponent {
           groupKey={this.props.groupKey}
           color={this.props.color}
           nodeWeightKey={this.props.nodeWeightKey}
+          minRadius={this.props.minRadius}
           maxRadius={this.props.maxRadius}
           activateTooltip={this.props.activateTooltip}
           deactivateTooltip={this.props.deactivateTooltip}
@@ -177,6 +178,7 @@ NetworkChart.defaultProps = {
   lineOpacity: 0.25,
   labelColor: "#AAA",
   weightedLinks: false,
+  minRadius: 5,
   maxRadius: 10,
   maxLineWidth: 10,
   showLabels: false,
@@ -201,6 +203,8 @@ NetworkChart.propTypes = {
     PropTypes.func,
     PropTypes.array
   ]),
+  minRadius: PropTypes.number,
+  maxRadius: PropTypes.number,
   nodeRadius: PropTypes.number,
   lineWidth: PropTypes.number,
   lineColor: PropTypes.string,
