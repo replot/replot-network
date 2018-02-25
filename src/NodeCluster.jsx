@@ -16,9 +16,10 @@ class NodeCluster extends React.PureComponent {
       }
     }
 
-    let palette = getPalette(
-      this.props.color, Object.keys(groupColor).length
-    )
+    let palette
+    if (this.props.color instanceof Array) {
+      palette = getPalette(this.props.color, Object.keys(groupColor).length)
+    }
 
     let nodes = this.props.nodes
     if (this.props.nodeWeightKey) {
@@ -35,7 +36,9 @@ class NodeCluster extends React.PureComponent {
       let nodeID = node[this.props.nodeKey]
 
       let color
-      if (this.props.groupKey) {
+      if (this.props.color instanceof Function) {
+        color = this.props.color(node)
+      } else if (this.props.groupKey) {
         if (groupColor[node[this.props.groupKey]]) {
           color = groupColor[node[this.props.groupKey]]
         } else {
