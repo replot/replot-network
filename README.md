@@ -215,6 +215,32 @@ color={colors} | color={colors} groupKey="region"
 :-------------------------:|:-------------------------:
 ![ScreenshotColor](img/color.png) | ![ScreenshotColorGroupKey](img/color_group_key.png)
 
+#### User-provided Color function
+When `node` and `nodeKey` are supplied, users can also specify a function to assign colors to different nodes. Expected argument to the function is the data for each node.
+
+```javascript
+
+colorByExports(node) {
+  if (node['exports'] > 1000000){
+    return "red"
+  } else {
+    return "black"
+  }
+}
+
+render() {
+  return(
+    <NetworkChart
+        data={trades} parentKey="exporter" childKey="importer"
+        nodes={nodes} nodeKey="country"
+        color={this.colorByExports}
+    />
+  )
+}
+```
+
+![ScreenshotColorFunction](img/color_function.png)
+
 ### Node Radius
 Node radius may be specified by passing in `nodeRadius` prop with a number in the unit of pixels.
 
