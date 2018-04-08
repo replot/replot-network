@@ -1,5 +1,4 @@
 import React from "react"
-import PropTypes from "prop-types"
 import getLinkWeights from "./getLinkWeights.js"
 import aggregateLinks from "./aggregateLinks.js"
 import Link from "./Link.jsx"
@@ -28,27 +27,25 @@ class LinkCluster extends React.PureComponent {
       }
     }
 
-    if (this.props.linksVisible) {
-      let linkIndex = 0
-      for (let link of links) {
-        linkIndex += 1
-        let parentPos = this.props.finalPositions[link[this.props.parentKey]]
-        let childPos = this.props.finalPositions[link[this.props.childKey]]
-        lines.push(
-          <Link x1={parentPos.x} y1={parentPos.y}
-            x2={childPos.x} y2={childPos.y}
-            strokeWidth={this.props.weightedLinks ? link.width
-            : this.props.lineWidth}
-            stroke={this.props.lineColor}
-            opacity={this.props.lineOpacity}
-            key={`${linkIndex}.${link[this.props.parentKey]}.${link[this.props.childKey]}`}
-          />
-        )
-      }
+    let linkIndex = 0
+    for (let link of links) {
+      linkIndex += 1
+      let parentPos = this.props.finalPositions[link[this.props.parentKey]]
+      let childPos = this.props.finalPositions[link[this.props.childKey]]
+      lines.push(
+        <Link x1={parentPos.x} y1={parentPos.y}
+          x2={childPos.x} y2={childPos.y}
+          strokeWidth={this.props.weightedLinks ? link.width
+          : this.props.lineWidth}
+          stroke={this.props.lineColor}
+          opacity={this.props.lineOpacity}
+          key={`${linkIndex}.${link[this.props.parentKey]}.${link[this.props.childKey]}`}
+        />
+      )
     }
 
     return (
-      <g>
+      <g style={{opacity: this.props.linksVisible? 1: 0, transition: "opacity 1s"}}>
         {lines}
       </g>
     )
