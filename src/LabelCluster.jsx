@@ -24,7 +24,7 @@ class LabelCluster extends React.PureComponent {
     }
 
     return (
-      <g>
+      <g style={{opacity: this.props.linksVisible? 1: 0, transition: "opacity 1s"}}>
         {labels}
       </g>
     )

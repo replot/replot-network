@@ -1,5 +1,4 @@
 import React from "react"
-import {Motion, spring} from "react-motion"
 
 
 class Label extends React.PureComponent {
@@ -11,25 +10,15 @@ class Label extends React.PureComponent {
       textAnchor = "end"
     }
     return (
-      <Motion
-        defaultStyle={{opacity: 0}}
-        style={{
-          opacity: spring(1, {stiffness: 120, damping: 50})
-        }}
-      >
-        {
-          interpolatingStyles =>
-            <g opacity={interpolatingStyles.opacity}>
-              <text
-                x={this.props.x} y={this.props.y} style={{pointerEvents:"none"}}
-                alignmentBaseline="middle" textAnchor={textAnchor}
-                fontSize={this.props.fontSize} fontFamily={this.props.fontFamily}
-                fill={this.props.fill}>
-                  {this.props.labelText}
-              </text>
-            </g>
-        }
-      </Motion>
+      <g>
+        <text
+          x={this.props.x} y={this.props.y} style={{pointerEvents:"none"}}
+          alignmentBaseline="middle" textAnchor={textAnchor}
+          fontSize={this.props.fontSize} fontFamily={this.props.fontFamily}
+          fill={this.props.fill}>
+            {this.props.labelText}
+        </text>
+      </g>
     )
   }
 }
