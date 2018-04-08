@@ -12,12 +12,10 @@ class NetworkChartTooltip extends React.PureComponent {
       mouseOver: false,
       mouseX: null,
       mouseY: null,
-      pointsMoving: true
     }
     this.updateMousePosition = this.updateMousePosition.bind(this)
     this.activateTooltip = this.activateTooltip.bind(this)
     this.deactivateTooltip = this.deactivateTooltip.bind(this)
-    this.pointsRest = this.pointsRest.bind(this)
   }
 
   activateTooltip(data) {
@@ -53,16 +51,12 @@ class NetworkChartTooltip extends React.PureComponent {
   }
 
   updateMousePosition(e) {
-    if (this.props.tooltip && !this.state.pointsMoving) {
+    if (this.props.tooltip) {
       this.setState({
         mouseX: e.pageX,
         mouseY: e.pageY - 10
       })
     }
-  }
-
-  pointsRest(){
-    this.setState({pointsMoving: false})
   }
 
   render() {
@@ -73,7 +67,6 @@ class NetworkChartTooltip extends React.PureComponent {
           links={this.props.data}
           activateTooltip={this.activateTooltip}
           deactivateTooltip={this.deactivateTooltip}
-          pointsRest={this.pointsRest}
         />
         {this.props.tooltip &&
           <Tooltip

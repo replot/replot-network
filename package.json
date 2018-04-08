@@ -43,7 +43,6 @@
   },
   "dependencies": {
     "immutable": "^3.8.2",
-    "prop-types": "^15.6.0",
-    "react-motion": "^0.5.2"
+    "prop-types": "^15.6.0"
   }
 }

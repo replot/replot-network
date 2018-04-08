@@ -1,32 +1,28 @@
 import React from "react"
-import {spring, Motion} from "react-motion"
 
 class Node extends React.PureComponent {
 
-  constructor(props) {
-    super(props)
-  }
-
   render () {
+    let cx = this.props.x
+    let cy = this.props.y
+    let animatedStyle = {}
+    if (this.props.animate) {
+      cx = this.props.initX
+      cy = this.props.initY
+      animatedStyle = {
+        transition: "transform 1.5s",
+        transform: `translate(${this.props.x - this.props.initX}px,${this.props.y - this.props.initY}px)`
+      }
+    }
     return (
-      <Motion
-        defaultStyle={{ x: this.props.initX, y: this.props.initY}}
-        style={{
-          x: spring(this.props.x, {stiffness: 120, damping: 50}),
-          y: spring(this.props.y, {stiffness: 120, damping: 50}),
-        }}
-        onRest={this.props.pointsRest}
-      >
-        {
-          style =>
-          <circle
-            cx={style.x} cy={style.y} r={this.props.radius}
-            stroke={this.props.color} fill={this.props.fill}
-            onMouseOver={this.props.activateTooltip(this.props.raw)}
-            onMouseOut={this.props.deactivateTooltip}>
-          </circle>
-        }
-      </Motion>
+      <circle
+        cx={cx} cy={cy} r={this.props.radius}
+        stroke={this.props.color} fill={this.props.fill}
+        onMouseOver={this.props.activateTooltip(this.props.raw)}
+        onMouseOut={this.props.deactivateTooltip}
+        style={animatedStyle}
+        >
+      </circle>
     )
   }
 }

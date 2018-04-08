@@ -5,6 +5,15 @@ import Link from "./Link.jsx"
 
 class LinkCluster extends React.PureComponent {
 
+  constructor(props) {
+    super(props)
+    this.state = {opacity: 0}
+  }
+
+  componentDidMount() {
+    this.setState({opacity: 1})
+  }
+
   render() {
 
     let lines = []
@@ -44,8 +53,14 @@ class LinkCluster extends React.PureComponent {
       )
     }
 
+    let animatedStyle = {opacity: 1}
+
+    if (this.props.animate) {
+      animatedStyle = {opacity: this.state.opacity, transition: "opacity 1s 1.5s"}
+    }
+
     return (
-      <g style={{opacity: this.props.linksVisible? 1: 0, transition: "opacity 1s"}}>
+      <g style={animatedStyle}>
         {lines}
       </g>
     )
