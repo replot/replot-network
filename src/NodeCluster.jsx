@@ -55,7 +55,7 @@ class NodeCluster extends React.PureComponent {
           initY={this.props.initPositions[nodeID].y}
           activateTooltip={this.props.activateTooltip}
           deactivateTooltip={this.props.deactivateTooltip}
-          pointsRest={this.props.pointsRest} />
+          animate={this.props.animate} />
       )
 
     }

@@ -14,19 +14,10 @@ class NetworkChart extends React.PureComponent {
     super(props)
 
     this.state = {
-      linksVisible: false,
-      labelsVisible: false,
       initPositions: null,
       finalPositions: null,
       nodes: null,
     }
-
-    this.pointsRest = this.pointsRest.bind(this)
-  }
-
-  pointsRest() {
-    this.setState({linksVisible: true, labelsVisible: true})
-    this.props.pointsRest()
   }
 
   componentWillMount() {
@@ -130,7 +121,6 @@ class NetworkChart extends React.PureComponent {
       <svg width={this.props.width} height={this.props.height}>
         <LinkCluster links={this.props.links}
           finalPositions={this.state.finalPositions}
-          linksVisible={this.state.linksVisible}
           weightedLinks={this.props.weightedLinks}
           linkKey={this.props.linkKey}
           minLineWidth={this.props.minLineWidth}
@@ -139,7 +129,8 @@ class NetworkChart extends React.PureComponent {
           lineColor={this.props.lineColor}
           lineOpacity={this.props.lineOpacity}
           parentKey={this.props.parentKey}
-          childKey={this.props.childKey} />
+          childKey={this.props.childKey}
+          animate={this.props.animate} />
         <NodeCluster nodes={this.state.nodes.toList()}
           initPositions={this.state.initPositions}
           finalPositions={this.state.finalPositions}
@@ -152,7 +143,7 @@ class NetworkChart extends React.PureComponent {
           maxRadius={this.props.maxRadius}
           activateTooltip={this.props.activateTooltip}
           deactivateTooltip={this.props.deactivateTooltip}
-          pointsRest={this.pointsRest} />
+          animate={this.props.animate} />
         <LabelCluster nodes={this.state.nodes.toList()}
           finalPositions={this.state.finalPositions}
           labelColor={this.props.labelColor}
@@ -161,7 +152,7 @@ class NetworkChart extends React.PureComponent {
           showLabels={this.props.showLabels}
           labelKey={this.props.labelKey}
           nodeKey={this.props.nodeKey}
-          labelsVisible={this.state.labelsVisible} />
+          animate={this.props.animate} />
       </svg>
     )
   }
@@ -206,6 +197,7 @@ NetworkChart.defaultProps = {
   maxLineWidth: 10,
   showLabels: false,
   attractionFactor: 1,
+  animate: true,
 }
 
 NetworkChart.propTypes = {
@@ -238,6 +230,7 @@ NetworkChart.propTypes = {
   labelFontFamily: PropTypes.string,
   showLabels: PropTypes.bool,
   attractionFactor: PropTypes.number,
+  animate: PropTypes.bool,
 }
 
 export default NetworkChart
