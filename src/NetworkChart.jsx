@@ -167,23 +167,21 @@ class NetworkChart extends React.PureComponent {
   }
 }
 
-function validateMinRadius(props, propName, componentName) {
-  componentName = componentName || 'ANONYMOUS'
-  if (typeof props['minRadius'] !== 'number') {
+function validateMinRadius(props) {
+  if (typeof props["minRadius"] !== "number") {
     return new Error("minRadius must be a number.")
   }
-  if (props['minRadius'] >= props['maxRadius']) {
+  if (props["minRadius"] >= props["maxRadius"]) {
     return new Error("minRadius must be smaller than maxRadius.")
   }
   return null
 }
 
-function validateMinLineWidth(props, propName, componentName) {
-  componentName = componentName || 'ANONYMOUS'
-  if (typeof props['minLineWidth'] !== 'number') {
+function validateMinLineWidth(props) {
+  if (typeof props["minLineWidth"] !== "number") {
     return new Error("minLineWidth must be a number.")
   }
-  if (props['minLineWidth'] >= props['maxLineWidth']) {
+  if (props["minLineWidth"] >= props["maxLineWidth"]) {
     return new Error("minLineWidth must be smaller than maxLineWidth.")
   }
   return null
@@ -238,7 +236,6 @@ NetworkChart.propTypes = {
   labelColor: PropTypes.string,
   labelFontSize: PropTypes.number,
   labelFontFamily: PropTypes.string,
-  weightedLinks: PropTypes.bool,
   showLabels: PropTypes.bool,
   attractionFactor: PropTypes.number,
 }
