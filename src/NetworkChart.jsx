@@ -117,44 +117,50 @@ class NetworkChart extends React.PureComponent {
   }
 
   render() {
-    return (
-      <svg width={this.props.width} height={this.props.height}>
-        <LinkCluster links={this.props.links}
-          finalPositions={this.state.finalPositions}
-          weightedLinks={this.props.weightedLinks}
-          linkKey={this.props.linkKey}
-          minLineWidth={this.props.minLineWidth}
-          maxLineWidth={this.props.maxLineWidth}
-          lineWidth={this.props.lineWidth}
-          lineColor={this.props.lineColor}
-          lineOpacity={this.props.lineOpacity}
-          parentKey={this.props.parentKey}
-          childKey={this.props.childKey}
-          animate={this.props.animate} />
-        <NodeCluster nodes={this.state.nodes.toList()}
-          initPositions={this.state.initPositions}
-          finalPositions={this.state.finalPositions}
-          nodeRadius={this.props.nodeRadius}
-          nodeKey={this.props.nodeKey}
-          groupKey={this.props.groupKey}
-          color={this.props.color}
-          nodeWeightKey={this.props.nodeWeightKey}
-          minRadius={this.props.minRadius}
-          maxRadius={this.props.maxRadius}
-          activateTooltip={this.props.activateTooltip}
-          deactivateTooltip={this.props.deactivateTooltip}
-          animate={this.props.animate} />
-        <LabelCluster nodes={this.state.nodes.toList()}
-          finalPositions={this.state.finalPositions}
-          labelColor={this.props.labelColor}
-          labelFontSize={this.props.labelFontSize}
-          labelFontFamily={this.props.labelFontFamily}
-          showLabels={this.props.showLabels}
-          labelKey={this.props.labelKey}
-          nodeKey={this.props.nodeKey}
-          animate={this.props.animate} />
-      </svg>
-    )
+    if (this.state.finalPositions) {
+      return (
+        <svg width={this.props.width} height={this.props.height}>
+          <LinkCluster links={this.props.links}
+            finalPositions={this.state.finalPositions}
+            weightedLinks={this.props.weightedLinks}
+            linkKey={this.props.linkKey}
+            minLineWidth={this.props.minLineWidth}
+            maxLineWidth={this.props.maxLineWidth}
+            lineWidth={this.props.lineWidth}
+            lineColor={this.props.lineColor}
+            lineOpacity={this.props.lineOpacity}
+            parentKey={this.props.parentKey}
+            childKey={this.props.childKey}
+            animate={this.props.animate} />
+          <NodeCluster nodes={this.state.nodes.toList()}
+            initPositions={this.state.initPositions}
+            finalPositions={this.state.finalPositions}
+            nodeRadius={this.props.nodeRadius}
+            nodeKey={this.props.nodeKey}
+            groupKey={this.props.groupKey}
+            color={this.props.color}
+            nodeWeightKey={this.props.nodeWeightKey}
+            minRadius={this.props.minRadius}
+            maxRadius={this.props.maxRadius}
+            activateTooltip={this.props.activateTooltip}
+            deactivateTooltip={this.props.deactivateTooltip}
+            animate={this.props.animate} />
+          <LabelCluster nodes={this.state.nodes.toList()}
+            finalPositions={this.state.finalPositions}
+            labelColor={this.props.labelColor}
+            labelFontSize={this.props.labelFontSize}
+            labelFontFamily={this.props.labelFontFamily}
+            showLabels={this.props.showLabels}
+            labelKey={this.props.labelKey}
+            nodeKey={this.props.nodeKey}
+            animate={this.props.animate} />
+        </svg>
+      )
+    } else {
+      return (
+        <svg width={this.props.width} height={this.props.height}></svg>
+      )
+    }
   }
 }
 
