@@ -42,7 +42,7 @@ render() {
 - `parentKey` defaults to `"parent"`
 - `childKey` defaults to `"child"`
 
-![ScreenshotNetworkDefault](https://github.com/replot/replot-network/blob/master/img/default.png)
+![ScreenshotNetworkDefault](https://github.com/replot/replot-network/raw/master/img/default.png)
 
 ### Dimensions
 Dimensions may be specified by passing in `width` and `height` props with numbers, in the unit of pixels.
@@ -78,7 +78,7 @@ render() {
 
  Default                   | width={600} height={450}  | width="50%" height={450}        
 :-------------------------:|:-------------------------:|:-------------------------:
-![ScreenshotDefaultDimensions](https://github.com/replot/replot-network/blob/master/img/dim_default.png) | ![ScreenshotWidth600pxHeight450px](https://github.com/replot/replot-network/blob/master/img/w600_h450.png) | ![ScreenshotWidth50%Height450px](https://github.com/replot/replot-network/blob/master/img/w50_percent.png)
+![ScreenshotDefaultDimensions](https://github.com/replot/replot-network/raw/master/img/dim_default.png) | ![ScreenshotWidth600pxHeight450px](https://github.com/replot/replot-network/raw/master/img/w600_h450.png) | ![ScreenshotWidth50%Height450px](https://github.com/replot/replot-network/raw/master/img/w50_percent.png)
 
 ### Link Styles
 #### Link Color
@@ -128,7 +128,7 @@ render() {
 
 lineColor="#52b3d9"        | lineOpacity={1}           | lineWidth={5}        
 :-------------------------:|:-------------------------:|:-------------------------:
-![ScreenshotLinkColor52b3d9](https://github.com/replot/replot-network/blob/master/img/link_52b3d9.png) | ![ScreenshotLinkOpacity1](https://github.com/replot/replot-network/blob/master/img/link_op1.png) | ![ScreenshotLinkWidth5px](https://github.com/replot/replot-network/blob/master/img/link_5px.png)
+![ScreenshotLinkColor52b3d9](https://github.com/replot/replot-network/raw/master/img/link_52b3d9.png) | ![ScreenshotLinkOpacity1](https://github.com/replot/replot-network/raw/master/img/link_op1.png) | ![ScreenshotLinkWidth5px](https://github.com/replot/replot-network/raw/master/img/link_5px.png)
 
 ### Weighted Links
 Link width may be weighted by setting the `weightedLinks` prop to `true`. Optionally, supply the `linkKey` prop with the key of link weights and/or to the `minLineWidth` and `maxLineWidth` props with the minimum and maximum link widths in the unit of pixels.
@@ -157,7 +157,7 @@ If `weightedLinks` is `true`, but no `linkKey` is supplied, link width is weight
 
  Default                   | linkKey="volume" | linkKey="volume" maxLineWidth={20}
 :-------------------------:|:-------------------------:|:-------------------------:
-![ScreenshotDefault](https://github.com/replot/replot-network/blob/master/img/default.png) | ![ScreenshotWeightedLinks](https://github.com/replot/replot-network/blob/master/img/weighted_links.png) | ![ScreenshotMaxWidth20px](https://github.com/replot/replot-network/blob/master/img/maxwidth_20.png)
+![ScreenshotDefault](https://github.com/replot/replot-network/raw/master/img/default.png) | ![ScreenshotWeightedLinks](https://github.com/replot/replot-network/raw/master/img/weighted_links.png) | ![ScreenshotMaxWidth20px](https://github.com/replot/replot-network/raw/master/img/maxwidth_20.png)
 
 ### Node Color
 Node color may be specified through 2 different mechanisms, both through a `color` prop.
@@ -192,7 +192,7 @@ render() {
 
 Default | groupKey="region"    
 :-------------------------:|:-------------------------:
-![ScreenshotDefault](https://github.com/replot/replot-network/blob/master/img/default.png) | ![ScreenshotGroupKey](https://github.com/replot/replot-network/blob/master/img/group_key.png)
+![ScreenshotDefault](https://github.com/replot/replot-network/raw/master/img/default.png) | ![ScreenshotGroupKey](https://github.com/replot/replot-network/raw/master/img/group_key.png)
 
 #### User-provided Color Palette
 Users can specify a list of colors to use as a palette, passed to the `color` prop.
@@ -213,7 +213,7 @@ render() {
 
 color={colors} | color={colors} groupKey="region"    
 :-------------------------:|:-------------------------:
-![ScreenshotColor](https://github.com/replot/replot-network/blob/master/img/color.png) | ![ScreenshotColorGroupKey](https://github.com/replot/replot-network/blob/master/img/color_group_key.png)
+![ScreenshotColor](https://github.com/replot/replot-network/raw/master/img/color.png) | ![ScreenshotColorGroupKey](https://github.com/replot/replot-network/raw/master/img/color_group_key.png)
 
 #### User-provided Color function
 When `node` and `nodeKey` are supplied, users can also specify a function to assign colors to different nodes. Expected argument to the function is the data for each node.
@@ -239,7 +239,7 @@ render() {
 }
 ```
 
-![ScreenshotColorFunction](https://github.com/replot/replot-network/blob/master/img/color_function.png)
+![ScreenshotColorFunction](https://github.com/replot/replot-network/raw/master/img/color_function.png)
 
 ### Node Radius
 Node radius may be specified by passing in `nodeRadius` prop with a number in the unit of pixels.
@@ -258,7 +258,7 @@ render() {
 
  Default                   | nodeRadius={10}         
 :-------------------------:|:-------------------------:
-![ScreenshotDefault](https://github.com/replot/replot-network/blob/master/img/default.png) | ![ScreenshotNodeRadius10](https://github.com/replot/replot-network/blob/master/img/radius_10.png)
+![ScreenshotDefault](https://github.com/replot/replot-network/raw/master/img/default.png) | ![ScreenshotNodeRadius10](https://github.com/replot/replot-network/raw/master/img/radius_10.png)
 
 ### Weighted Nodes
 Node radius may be weighted by supplying `nodes`, `nodeKey`, and `nodeWeightKey` props. `nodeKey` is the key of node IDs and `nodeWeightKey` is the key of node weights.
@@ -294,7 +294,7 @@ render() {
 
  Default                   | nodeWeightKey="exports"   | nodeWeightKey="exports" maxRadius={20}
 :-------------------------:|:-------------------------:|:-------------------------:
-![ScreenshotDefault](https://github.com/replot/replot-network/blob/master/img/default.png) | ![ScreenshotWeightedNodes](https://github.com/replot/replot-network/blob/master/img/weighted_nodes.png) | ![ScreenshotMaxRadius20px](https://github.com/replot/replot-network/blob/master/img/maxradius_20.png)
+![ScreenshotDefault](https://github.com/replot/replot-network/raw/master/img/default.png) | ![ScreenshotWeightedNodes](https://github.com/replot/replot-network/raw/master/img/weighted_nodes.png) | ![ScreenshotMaxRadius20px](https://github.com/replot/replot-network/raw/master/img/maxradius_20.png)
 
 ### Node Labels
 Node labels may be switched on by setting the `showLabels` prop to `true`.
@@ -331,7 +331,7 @@ render() {
 
 showLabels={true} | showLabels={true} labelColor="#52b3d9"    
 :-------------------------:|:-------------------------:
-![ScreenshotShowLabels](https://github.com/replot/replot-network/blob/master/img/show_labels.png) | ![ScreenshotShowLabelsLabelColor](https://github.com/replot/replot-network/blob/master/img/label_color.png)
+![ScreenshotShowLabels](https://github.com/replot/replot-network/raw/master/img/show_labels.png) | ![ScreenshotShowLabelsLabelColor](https://github.com/replot/replot-network/raw/master/img/label_color.png)
 
 #### Node Label Font Size
 Node label font size may be specified by passing in `labelFontSize` prop with a number.
@@ -371,7 +371,7 @@ If `labelFontFamily` is not specified, labels inherit font family.
 
 labelFontSize={20} | labelFontFamily="Courier"
 :-------------------------:|:-------------------------:
-![ScreenshotLabelFontSize](https://github.com/replot/replot-network/blob/master/img/label_font_size.png) | ![ScreenshotLabelFontFamily](https://github.com/replot/replot-network/blob/master/img/label_font_family.png)
+![ScreenshotLabelFontSize](https://github.com/replot/replot-network/raw/master/img/label_font_size.png) | ![ScreenshotLabelFontFamily](https://github.com/replot/replot-network/raw/master/img/label_font_family.png)
 
 Optionally, supply the the `nodes`, `nodeKey`, and `labelKey` props to specify the label contents. `nodeKey` is the key of node IDs and `groupKey` is the key of node labels.
 
@@ -399,7 +399,7 @@ render() {
 - `nodeKey` defaults to `id`
 - `labelKey` defaults to `null`
 
-![ScreenshotNetworkShowLabelsLabelKey](https://github.com/replot/replot-network/blob/master/img/label_key.png)
+![ScreenshotNetworkShowLabelsLabelKey](https://github.com/replot/replot-network/raw/master/img/label_key.png)
 
 ### Attraction Factor
 Density of nodes may be specified by passing in `attractionFactor` prop with a number.
@@ -418,7 +418,7 @@ render() {
 
  Default                   | attractionFactors={5}         
 :-------------------------:|:-------------------------:
-![ScreenshotDefault](https://github.com/replot/replot-network/blob/master/img/default.png) | ![ScreenshotAttractionFactors5](https://github.com/replot/replot-network/blob/master/img/attractionFactors_5.png)
+![ScreenshotDefault](https://github.com/replot/replot-network/raw/master/img/default.png) | ![ScreenshotAttractionFactors5](https://github.com/replot/replot-network/raw/master/img/attractionFactors_5.png)
 
 ### Tooltip
 Tooltips can display more specific information about a data series.
@@ -440,7 +440,7 @@ render() {
 
 Default (tooltipColor="light")|tooltipColor="dark"|tooltip={false}   
 :-------------------------:|:-------------------------:|:-------------------------:
-![ScreenshotDefaultTooltip](https://github.com/replot/replot-network/blob/master/img/tooltip_light.png) | ![ScreenshotTooltipDark](https://github.com/replot/replot-network/blob/master/img/tooltip_dark.png) | ![ScreenshotTooltipOff](https://github.com/replot/replot-network/blob/master/img/tooltip_off.png)
+![ScreenshotDefaultTooltip](https://github.com/replot/replot-network/raw/master/img/tooltip_light.png) | ![ScreenshotTooltipDark](https://github.com/replot/replot-network/raw/master/img/tooltip_dark.png) | ![ScreenshotTooltipOff](https://github.com/replot/replot-network/raw/master/img/tooltip_off.png)
 
 #### User-provided Tooltip Function
 Users can customize what is displayed inside the tooltip with a function. Expected arguments to the function are the title of the location and the data for the specific location hovered over. The function should return JSX.
@@ -466,4 +466,9 @@ render() {
 }
 ```
 
-![ScreenshotTooltipCustom](https://github.com/replot/replot-network/blob/master/img/tooltip_custom.png)
+![ScreenshotTooltipCustom](https://github.com/replot/replot-network/raw/master/img/tooltip_custom.png)
+
+### Animation
+Users can control the initial animation of the network chart, nodes falling into their positions.
+
+- `animate` defaults to `true`, `false` turns off the animation.
