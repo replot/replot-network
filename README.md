@@ -13,11 +13,11 @@ Then with a module bundler like webpack/browserify that supports CommonJS/ES2015
 import {NetworkChart} from 'replot-network'
 ```
 
-## API
+## Quick Start
+
 replot-network is designed to create beautiful network charts right out of the box.
 The only *required* input is properly formatted data.
 
-### Basic Usage
 In the simplest case, just supply data and specify the keys for parents and childs of links:
 
 ``` javascript
@@ -43,6 +43,8 @@ render() {
 - `childKey` defaults to `"child"`
 
 ![ScreenshotNetworkDefault](https://github.com/replot/replot-network/raw/master/img/default.png)
+
+## API
 
 ### Dimensions
 Dimensions may be specified by passing in `width` and `height` props with numbers, in the unit of pixels.
